@@ -1,30 +1,25 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div>
+    <nav-bar fixedNav="fixed"></nav-bar>
+  </div>
+  <div class="flex row">
+    <div class="flex col w-2/12 z-40">
+      <SideBar fixedNav="fixed"></SideBar>
+    </div>
+    <div class="flex col w-10/12 "><router-view /></div>
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+import NavBar from "./components/NavBar.vue";
+import SideBar from "./components/SideBar.vue";
+export default {
+  components: {
+    NavBar,
+    SideBar,
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+};
+</script>
