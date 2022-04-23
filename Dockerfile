@@ -1,9 +1,9 @@
 FROM node:14.16-alpine3.10  as build-stage
 WORKDIR /app
 COPY package*.json ./
-RUN yarn install
 COPY ./ .
-RUN yarn build
+RUN ["yarn", "install"]
+RUN ["yarn", "build"]
 
 FROM nginx as production-stage
 RUN mkdir /app
