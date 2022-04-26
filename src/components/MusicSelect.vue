@@ -7,22 +7,25 @@
       <div class="flex mt-5 rounded-full relative">
         <img src="../assets/ImgTmp1.png" class="rounded-xl" width="250px" />
         <div
-          class="rotate-360 h-8 bg-yellow-300 rounded-l-xl absolute w-6"
+          class="rotate-360 h-8 bg-yellow-200 rounded-l-xl absolute w-6 "
           style="height: 100%"
         >
-          <p class="absolute transform -rotate-90 w-max -ml-20 mt-24 text-md">
+          <p class="absolute transform -rotate-90 w-60 pt-3 pl-1 -ml-28 mt-28 text-md text-center text-sm">
             IU(아이유) _ BBIBBI(삐삐)
           </p>
-          <div class="flex flex-col sm:flex-row m-2 absolute ml-52 mt-52">
-          <button
-            class="flex items-center justify-center w-14 h-14 px-4 ml-auto text-sm font-medium bg-yellow-300 rounded-full hover:bg-white"
-          >
-            <i class="material-icons hover:text-yellow-300 " style="font-size: 48px">play_arrow</i>
-          </button>
-        </div>
+          <div class="flex flex-col sm:flex-row m-2 absolute ml-52 mt-52 fixed">
+            <button
+              class="item-center w-14 h-14 px-4 ml-auto text-sm font-medium bg-yellow-200 rounded-full hover:bg-white"
+            >
+              <i
+                class="material-icons hover:text-yellow-300"
+                style="font-size: 48px"
+                >play_arrow</i
+              >
+            </button>
+          </div>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -30,4 +33,3 @@
 <script>
 export default {};
 </script>
-
