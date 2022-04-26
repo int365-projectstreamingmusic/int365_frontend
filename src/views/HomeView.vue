@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen w-full mt-16">
+  <div class="h-screen w-full mt-12 pt-2">
     <SlideShow class="w-full"></SlideShow>
     <div class="flex flex-row w-full ">
       <div class="flex-col w-4/6 h-96">
