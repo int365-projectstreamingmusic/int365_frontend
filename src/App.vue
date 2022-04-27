@@ -3,10 +3,10 @@
     <nav-bar fixedNav="fixed"></nav-bar>
   </div>
   <div class="flex row">
-    <div class="flex col w-2/12 z-40">
+    <div class="flex col w-2/12 z-40 ">
       <SideBar fixedNav="fixed"></SideBar>
     </div>
-    <div class="flex col w-10/12 "><router-view /></div>
+    <div class="flex col w-10/12 " ><router-view /></div>
   </div>
 </template>
 <script>

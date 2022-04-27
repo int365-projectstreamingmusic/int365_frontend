@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.head-title-for-bar {
+    @apply flex justify-start text-sm font-bold;
+}
+
+.head-name-music-bar {
+    @apply text-ss font-bold text-center;
+}
+
+.head-name-music-bar-List {
+    @apply text-ss mt-2 px-2 py-1 rounded-lg shadow-lg;
+}
+
+.head-name-botton-bar {
+    @apply ml-2 text-sm;
+}
+
+.item-center {
+    @apply flex justify-center items-center;
+}
+
+.align-item-center {
+    @apply flex justify-center;
+}
