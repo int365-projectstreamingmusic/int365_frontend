@@ -234,8 +234,9 @@ export default {
         // sound = audio.howl
       }else{
       // state.audioPlaying[index.value] = false;   
+      console.log("เข้า")
       sound.value = new Howl({
-      src:["http://localhost:8080/audiovideo/audios/audio1.mp3"],
+      src:["http://20.213.128.1:8086/api/trackstreaming/getcontent/testmusic115.mp3"],
       // src: ["http://localhost:8086/api/trackstreaming/getcontent/testmusic113.mp3"],
       html5: true,
       onplay: function () {
@@ -254,7 +255,7 @@ export default {
          window.requestAnimationFrame(stepFunction.bind(this));
       },
     });}
-
+      console.log(sound.value.play())
       sound.value.play();
       // state.audioPlaying[index.value] = true;
     }
