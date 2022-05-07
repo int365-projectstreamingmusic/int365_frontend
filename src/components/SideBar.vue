@@ -3,7 +3,7 @@
     <div class="align-item-center mt-2 mb-2">
       <div class="w-5/6">
         <div class="my-2 pr-2 item-center">
-          <h1 class="sm:text-2xl lg:text-4xl font-bold">KAKOA</h1>
+          <h1 class="sm:text-2xl lg:text-4xl font-bold">Test</h1>
         </div>
         <hr class="bg-gray-500 h-0.5" />
         <div class="item-center mt-2">
