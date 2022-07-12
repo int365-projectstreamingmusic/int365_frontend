@@ -3,6 +3,13 @@ module.exports = {
     presets: [],
     darkMode: 'media', // or 'class'
     theme: {
+        textShadow: {
+            'default': '0 2px 0 #000',
+            'md': '0 2px 2px #000',
+            'h2': '0 0 3px #FF0000, 0 0 5px #0000FF',
+            'h1': '0 0 3px rgba(0, 0, 0, .8), 0 0 5px rgba(0, 0, 0, .9)',
+            'xl': '0px 4px 4px rgb(0 0 0 / 25%)'
+         },
         screens: {
             sm: '640px',
             md: '768px',
@@ -38,6 +45,10 @@ module.exports = {
             fuchsia: colors.fuchsia,
             pink: colors.pink,
             rose: colors.rose,
+            whiteghost: '#322C37',
+            blackcoal: '#4B4B4B',
+            violetlight: '#9786FF',
+            violetdark: '#6F57FF'
         }),
         columns: {
             auto: 'auto',
@@ -101,8 +112,10 @@ module.exports = {
             60: '15rem',
             64: '16rem',
             72: '18rem',
+            75: '19rem',
             80: '20rem',
             96: '24rem',
+            '1/6': '16.666667%'
         },
         animation: {
             none: 'none',
@@ -375,6 +388,10 @@ module.exports = {
                 '"Courier New"',
                 'monospace',
             ],
+            'sansation-light':["sansation-light"],
+            'sansation-bold':["sansation-bold"],
+            'sansation-regular':["sansation-regular"],
+
         },
         fontSize: {
             xs: ['0.75rem', { lineHeight: '0.75rem' }],
@@ -391,6 +408,7 @@ module.exports = {
             '7xl': ['4.5rem', { lineHeight: '1' }],
             '8xl': ['6rem', { lineHeight: '1' }],
             '9xl': ['8rem', { lineHeight: '1' }],
+            logo: '2.6rem'
         },
         fontWeight: {
             thin: '100',
@@ -952,5 +970,5 @@ module.exports = {
         'active',
         'disabled',
     ],
-    plugins: [],
+    plugins: [require('tailwindcss-textshadow')],
 }
