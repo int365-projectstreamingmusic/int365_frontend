@@ -93,25 +93,25 @@
         </div>
       </div>
       <div class="px-10 tracking-wide space-y-1 cursor-pointer">
-        <div class="flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" @click="next(index)">
+        <div class="flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
           <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
             <div>{{index+1}}</div>
-            <div class="truncate w-48 ">{{value.name}}</div>
-            <span class="material-icons text-sm text-neutral-50 hover:text-red-500">close</span>
+            <div class="truncate w-48 " @click="next(index)">{{value.name}}</div>
+            <span class="material-icons text-sm text-neutral-50 hover:text-red-500"  @click="deleteMusic(index)">close</span>
           </div>
           <div v-else class="flex flex-row space-x-2" >
             <div>{{index+1}}</div>
-            <div class="truncate w-48">{{value.name}}</div>
-            <span class="material-icons text-sm text-neutral-50 hover:text-red-500">close</span>
+            <div class="truncate w-48" @click="next(index)">{{value.name}}</div>
+            <span class="material-icons text-sm text-neutral-50 hover:text-red-500" @click="deleteMusic(index)">close</span>
           </div>
         </div>
       </div>
-      <div>{{music}}</div>
+      <!-- <div>{{music}}</div> -->
     </div>
     <div v-else>
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
       <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Drag music And Drop here!</div>
-      <div>{{url}}</div>
+      <!-- <div>{{url}}</div> -->
     </div>
  </div>
  
@@ -173,7 +173,7 @@ export default {
                   ],
       showVolBar:false,
       mediaPlayer:false,
-      url:process.env.VUE_APP_URL
+      // url:process.env.VUE_APP_URL
       // playApi:[],
       // playNow:''
     }
@@ -359,6 +359,10 @@ export default {
       // console.log(oldPlay)
     }
 
+    function deleteMusic(index){
+      playApi.value = playApi.value.filter((m) => m != playApi.value[index])
+    }
+
     function previous(){
       if(played.value.length != 0){
           // console.log(played.value)
@@ -426,7 +430,7 @@ export default {
       }
     }
     const posx = ref(null)
-    function test(event){
+    function test(){
       // console.log(event.clientX,event.clientY,event.clientWidth);
       posx.value =  posx.value+ 1;
     }
@@ -455,7 +459,7 @@ export default {
     return { playTest,pause,duration,formatTime,audios,pauseTrack,
             timer,step,stepFunction,seek,progress
             ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
-            ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer
+            ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic
             // 
             };
   },    
