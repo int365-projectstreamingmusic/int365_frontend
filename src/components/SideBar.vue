@@ -1,165 +1,120 @@
+
 <template>
-  <div class="flex flex-col h-full bg-gray-200 text-black fixed w-1/6">
-    <div class="align-item-center mt-2 mb-2">
-      <div class="w-5/6">
-        <div class="my-2 pr-2 item-center">
-          <h1 class="sm:text-2xl lg:text-4xl font-bold">Test</h1>
-        </div>
-        <hr class="bg-gray-500 h-0.5" />
-        <div class="item-center mt-2">
-          <ul class="align-item-center flex-col w-5/6">
-            <li
-              class="icon-defult-outside hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              <span>
-                <i class="material-icons icon-defult-inside">home</i>
-              </span>
-              <a href="#" class="mt-1">
-                <span class="head-name-botton-bar">Home</span>
-              </a>
-            </li>
-            <li
-              class="icon-defult-outside hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              <span>
-                <i class="material-icons icon-defult-inside">playlist_play</i>
-              </span>
-              <a href="#" class="mt-1">
-                <span class="head-name-botton-bar">Playlist</span>
-              </a>
-            </li>
-            <li
-              class="icon-defult-outside hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              <span>
-                <i class="material-icons icon-defult-inside">favorite</i>
-              </span>
-              <a href="#" class="item-center">
-                <span class="head-name-botton-bar">Favorite</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <hr class="bg-gray-500 h-0.5" />
-        <div class="mt-3 ml-3 flex flex-col">
-          <div class="head-title-for-bar">
-            <p>Now Playing</p>
-          </div>
-          <div>
-            <div
-              class="item-center my-3 rounded-full relative"
-            >
-              <img
-                src="../assets/ImgTmp1.png"
-                class="rounded-full animate-spin"
-                width="100px"
-              />
-              <p class="w-5 h-5 bg-white rounded-full absolute"></p>
-            </div>
-            <div
-              class="item-center flex-col mt-6 rounded-full relative"
-            >
-              <p class="head-name-music-bar">
-                「その着せ替え人形は恋をする」その着せ替え人形は恋をする」
-              </p>
-              <p class="text-xs mt-3">My Dress-Up Darling</p>
-            </div>
+  <div class="bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  ">
+    <div class="sticky top-0 z-20">
+      <div class="font-sansation-light text-logo text-center bg-neutral-50 text-black pt-5 pb-0  sticky top-0">GARDEN</div>
+      <div class="h-8 bg-gradient-to-b from-neutral-50 dark:from-slate-900"></div>
+    </div>
+    <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">menu</div>
+    <div class="py-7">
+      <router-link to="/" @click="pathPage('/')">
+        <div class="mb-4 pl-10 border-x-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
+          <div class="flex flex-row space-x-2 "  >
+              <span class="material-icons" v-bind:class="(this.path == '/')?'text-violetlight':'text-blackcoal'">home</span>
+              <div class="font-sansation-regular grid content-center text-base" v-bind:class="(this.path == '/')?'text-violetlight ':'text-blackcoal'" >Home</div>
           </div>
         </div>
-
-        <div class="item-center flex-col my-3">
-          <div class="mt-1 relative w-full">
-
-            <div @click="seek($event)" ref="progress" class="h-1 bg-grey-dark cursor-pointer bg-gray-500 rounded-full">
-              <div class="flex w-full justify-end h-1 bg-gradient-to-r from-red-500 to-red-700 rounded-full relative " :style="{'width' : step + '%'}"></div>
-            </div>
-
-            <div class="flex w-full justify-start h-1 rounded-full relative" :style="{'width' : step + '%'}">
-              <span
-                id="progressButtonTimer"
-                class="w-3 h-3 md:w-4 md:h-4 bg-yellow-500 absolute pin-r pin-b -mt-2.5 rounded-full shadow"
-              ></span>
-            </div>
-
-            <div class="flex flex-row w-full mt-1">
-              <div
-                class=" text-ss text-gray-500 w-full font-semibold"
-              >
-                <p>{{ timer }}</p>
-                <!-- <p>0.00</p> -->
-              </div>
-              <div class="text-ss text-right text-gray-500 w-full font-semibold">
-                <p>{{ duration }}</p>
-                <!-- <p>4.36</p> -->
-              </div>
+      </router-link>
+      <router-link to="/playlist"  @click="pathPage('/playlist')">
+        <div class="mb-4 pl-10 border-x-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
+          <div class="flex flex-row space-x-2"  >
+              <span class="material-icons" v-bind:class="(this.path == '/playlist')?'text-violetlight':'text-blackcoal'">playlist_play</span>
+              <div class="font-sansation-regular grid content-center text-base" v-bind:class="(this.path == '/playlist')?'text-violetlight':'text-blackcoal'">Playlist</div>
           </div>
-          </div>
-
-          <div class="flex justify-between items-center w-full my-3">
-            <div>
-              <i class="material-icons icon-defult-inside">shuffle</i>
-            </div>
-            <div>
-              <i class="material-icons icon-defult-inside">fast_rewind</i>
-            </div>
-            <div @click="seek(-10)">
-              <i class="material-icons icon-defult-inside">replay_10</i>
-            </div>
-            <div
-              class="text-white w-10 h-10 item-center bg-gray-500 rounded-full shadow-lg"
-            >
-              <i  v-if="!pauseTrack" @click="playTest()" class="material-icons icon-defult-inside-play text-2xl"
-                >play_arrow</i
-              >
-              <i v-else @click="pause()" class="material-icons icon-defult-inside-play text-2xl"
-                >pause</i
-              >
-            </div>
-            <div @click="seek(10)">
-              <i class="material-icons icon-defult-inside">forward_10</i>
-            </div>
-            <div>
-              <i class="material-icons icon-defult-inside">fast_forward</i>
-            </div>
-            <div>
-              <i class="material-icons icon-defult-inside">all_inclusive</i>
-            </div>
-          </div>
-          
         </div>
-
-        <div class="mt-3 ml-3 flex flex-col">
-          <div class="head-title-for-bar">
-            <p>Next play</p>
+      </router-link>
+      <router-link to="/favorite"  @click="pathPage('/favorite')">
+        <div class=" pl-10 border-l-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
+          <div class="flex flex-row space-x-2"  >
+              <span class="material-icons" v-bind:class="(this.path == '/favorite')?'text-violetlight':'text-blackcoal'">grade</span>
+              <div class="font-sansation-regular grid content-center text-base" v-bind:class="(this.path == '/favorite')?'text-violetlight':'text-blackcoal'">Favorite</div>
           </div>
-
-          <!-- when call api show with loop -->
-          <div class="flex flex-col justify-start overflow-auto h-36 mb-5" >
-            <p
-              class="head-name-music-bar-List hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              1.ロクデナシ / Rokudenashi
-            </p>
-            <p
-              class="head-name-music-bar-List hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              2.BLACKPINK - '불장난
-            </p>
-             <p
-              class="head-name-music-bar-List hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              3.ロクデナシ / Rokudenashi
-            </p>
-            <p
-              class="head-name-music-bar-List hover:text-black hover:bg-yellow-200 hover:font-bold"
-            >
-              4.BLACKPINK - '불장난
-            </p>
+        </div>
+      </router-link>
+    </div>
+    <div v-if="mediaPlayer">
+      <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
+      <div class="flex flex-row justify-center py-8">
+        <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
+        <img src="../assets/ImgTmp1.png" class="rounded-full h-44 drop-shadow-xl animate-pulse" />
+      </div>
+      <div class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">『Lyrics MAD』 Violet Evergarden OP Full Sincerely ／ TRUE HD</div>
+      <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div>
+      <div class="px-7 w-75">
+        <div @click="seek($event)" ref="progress" class="h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-400">
+          <div class="flex w-full justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-700 rounded-full " :style="{'width' : step + '%'}"></div>
+        </div>
+        <div class="flex justify-end h-1 rounded-full ml-3" :style="{'width' : step + '%'}">
+          <span class="w-4 h-4 bg-gradient-to-r from-violet-500 to-violet-700 absolute -mt-2.5 rounded-full shadow"></span>
+        </div>
+      </div>
+      <div class="flex justify-between px-7 py-2 font-sansation-regular text-sm text-black">
+        <div>
+          <p>{{timer}}</p>
+        </div>    
+        <div>
+          <p>{{duration}}</p>
+        </div>
+      </div>
+      <div class="flex flex-row justify-between items-center px-9 text-blackcoal cursor-pointer select-none">
+        <span @click="shuffle()" class="material-icons hover:text-violetdark transition delay-75">shuffle</span>
+        <div class="item-center">
+          <span v-if="emptyPlayed" class="material-icons text-gray-400 cursor-not-allowed">fast_rewind</span>
+          <span v-else @click="previous()" class="material-icons hover:text-violetdark transition delay-75 ">fast_rewind</span>
+        </div>
+        <span @click="seek(-10)" class="material-icons hover:text-violetdark transition delay-75">replay_10</span>
+        <div class="text-white w-10 h-10 item-center bg-gray-500 rounded-full shadow-lg hover:bg-violetdark transition delay-75">
+          <span v-if="!pauseTrack" @click="playTest()" class="material-icons text-3xl">play_arrow</span>
+          <span v-else @click="pause()" class="material-icons text-3xl">pause</span>
+        </div>
+        <span @click="seek(10)" class="material-icons hover:text-violetdark transition delay-75">forward_10</span>
+        <span @click="next('NEXT')" class="material-icons hover:text-violetdark transition delay-75">fast_forward</span>
+        <div class="item-center w-6 place-content-center">
+          <span v-if="loopType == 'NOTLOOP' "  @click="loop('ONLYONE')" class="material-icons hover:text-violetdark transition delay-75">all_inclusive</span>
+          <span v-else-if="loopType == 'ONLYONE'" @click="loop('LOOPALL')" class="text-base place-items-center font-sansation-bold text-violetdark">one</span>
+          <span v-else-if="loopType == 'LOOPALL'" @click="loop('NOTLOOP')" class="text-base place-items-center font-sansation-bold text-violetdark">All</span>
+        </div>
+      </div>
+      <div class="flex flex-row items-center space-x-2">
+        <div class="font-sansation-bold text-zinc-500 pl-7 text-sm py-3">next play</div>
+        <div class="flex flex-row items-center space-x-2" @mouseover="showVolBar = true" @mouseleave="showVolBar = false">
+          <div class="cursor-pointer pt-2" @click="mute()">
+            <span v-if="mutePlayer" class="material-icons text-xl text-red-600" @mouseover="showVolBar = false">volume_mute</span>
+            <span v-else class="material-icons text-xl text-violet-600" >volume_up</span>
+          </div>
+          <div class="w-28" v-show="showVolBar" >
+            <div @click="volume($event)" ref="volBar" class=" mt-1 h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-500 relative" >
+              <div class="flex justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-600 rounded-full relative" :style="{'width' : volumeProgress + '%'}"></div>
+            </div>
+            <div class="flex justify-end h-1 mb-1 rounded-full -mt-2" :style="{'width' : volumeProgress + '%'}">
+              <span id="progressButtonVolume" class="w-3 h-3 bg-gradient-to-r from-violet-500 to-violet-600 absolute rounded-full shadow"></span>
+            </div>
           </div>
         </div>
       </div>
+      <div class="px-10 tracking-wide space-y-1 cursor-pointer">
+        <div class="flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
+          <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
+            <div>{{index+1}}</div>
+            <div class="truncate w-48 " @click="next(index)">{{value.name}}</div>
+            <span class="material-icons text-sm text-neutral-50 hover:text-red-500"  @click="deleteMusic(index)">close</span>
+          </div>
+          <div v-else class="flex flex-row space-x-2" >
+            <div>{{index+1}}</div>
+            <div class="truncate w-48" @click="next(index)">{{value.name}}</div>
+            <span class="material-icons text-sm text-neutral-50 hover:text-red-500" @click="deleteMusic(index)">close</span>
+          </div>
+        </div>
+      </div>
+      <!-- <div>{{music}}</div> -->
     </div>
-  </div>
+    <div v-else>
+      <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
+      <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Drag music And Drop here!</div>
+      <!-- <div>{{url}}</div> -->
+    </div>
+ </div>
+ 
 </template>
 
 <script>
@@ -171,16 +126,85 @@
 import {
   ref,
   // ,reactive
-  // // ,computed
+  // computed
 } from "vue";
-
+import {useRoute} from 'vue-router'
 import {
   Howl,
-  //  Howler
+  Howler
 } from "howler";
-
 export default {
+  props:{
+    music: {type:Object, required: false},
+    addQueue: {type:Object, required: false}
+  },
+  watch: { 
+    music: function(newVal) { // watch it
+      if(this.music != null){
+      // console.log(this.sound)
+      // this.sound == undefined ? console.log(this.sound) : this.sound.playing() ? this.sound.stop() : console.log('asd')
+      // this.sound.value.pause()
+      this.mediaPlayer = true
+      this.playApi.splice(0, 0,newVal)
+      // this.playApi.push(newVal)
+      this.fristPlayed = true
+      this.stopPlayer()
+      }
+    },
+    addQueue: function(newVal) { // watch it
+      if(this.checkPlayer()){
+        this.mediaPlayer = true
+        this.playApi.splice(0, 0,newVal)
+        this.fristPlayed = true
+        this.stopPlayer()
+      }else{
+        this.playApi.push(newVal)
+      }
+    }
+  },
+  data() {
+    return {
+      path:'',
+      playQueue:[{name:'Harutya 春茶 best cover playlist - Harutya 春茶 best songs of all time - Best cover of Harutya 春茶'}
+                  ,{name:'恋音と雨空 / AAA full covered by 春茶'}
+                  ,{name:'BOWKYLION - บานปลาย (best wishes)'}
+                  ,{name:'double take'}
+                  ],
+      showVolBar:false,
+      mediaPlayer:false,
+      // url:process.env.VUE_APP_URL
+      // playApi:[],
+      // playNow:''
+    }
+  },
+  methods:{
+    pathPage(path){
+      this.path = path
+    },
+    // nextTest(index){
+      // console.log(index)
+      // index == undefined ? console.log("true") : console.log("false")
+            // this.playNow = this.playApi[1].name
+            // this.next();
+    // }
+  },
+  mounted(){
+    const route=useRoute();
+    this.path = route.path
+    // console.log(this.music)
+    // if(this.music != null && this.music != undefined){
+    //   this.playApi.value.push(this.music)
+    // } 
+    
+    // var barWidth = (0.9 * 100) / 100;
+    // this.sliderBtnVol = (this.volBar.offsetWidth * barWidth + this.volBar.offsetWidth * 0.05 - 25);
+  },
+  created(){
+    // this.playApi.push({name:'audio1.mp3'},{name:'audio2.mp3'},{name:'audio3.mp3'})
+  },
   setup() {
+ 
+     
     // netstat -ano | findstr 8080
     // taskkill /F /PID 8080
     // const posx = ref(null);
@@ -189,24 +213,28 @@ export default {
         const prevButton = ref(true);
         // const random = ref(false);
         // const repeat = ref(false);
-        const index = ref(0);
+        // const index = ref(0);
         const duration = ref('00:00');
         const timer = ref('00:00');
         const pauseTrack = ref(false);
         const progress = ref(null);
         const sound = ref(null)
-        // const volBar = ref(null);
+        const volBar = ref(null);
         // const sliderBtn = ref(0);
-        // const sliderBtnVol = ref(null);
-        // const volumeProgress = ref(90);
-        // const mutePlayer = ref(false);
-
+        const sliderBtnVol = ref(null);
+        const volumeProgress = ref(100);
+        const mutePlayer = ref(false);
+        const playNow = ref(null)
+        const playApi = ref([])
+        const played = ref([])
+        const fristPlayed = ref(true)
+        const emptyPlayed = ref(true)
+        const loopType = ref('NOTLOOP')
         // const state = reactive({
         //     audioPlaying: []
         // })
         const audios = ref([]);
     // const sliderBtn = ref(0);
-
     function stepFunction() {
       var seek = sound.value.seek();
       timer.value = formatTime(Math.round(seek));
@@ -226,36 +254,73 @@ export default {
         seconds
       );
     }
+    function loop(param){
+      // console.log(param)
+      // console.log(loopType.value)
+      if(param == 'ONLYONE'){
+        loopType.value = 'ONLYONE'
+      } else if(param == 'LOOPALL'){
+        loopType.value = 'LOOPALL'
+      } else if(param == 'NOTLOOP'){
+        loopType.value = 'NOTLOOP'
+      }
+    }
+     
+    function checkPlayer(){
+      return sound.value == null ? true : false
+    }
+    function stopPlayer() {
+      if(sound.value != null){
+      sound.value.stop()
+      sound.value = null        
+      }
+      playTest()
+    }
     function playTest() {
       
-
-      var audio = audios.value[index.value];
-      if (audio) {
-        // sound = audio.howl
+      
+      // var audio = audios.value[index.value];
+      if (sound.value == null) {
+        if(fristPlayed.value == true && sound.value == null){
+          // console.log(`ใน play ${playApi.value.length}`) 
+          // console.log(playApi.value[0])
+          playNow.value = playApi.value[0].name ? playApi.value[0].name : ''
+          played.value.push(playApi.value[0])
+          playApi.value = playApi.value.filter((m) => m != playApi.value[0])
+          fristPlayed.value = false
+          played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
+          // console.log(playApi.value) 
+        }
+      // console.log(`ใน paly ${playNow.value}`) 
+        sound.value = new Howl({
+        src:[`http://localhost:8080/audiovideo/audios/${playNow.value}`],
+        html5: true,
+        onplay: function () {
+          pauseTrack.value = true;
+          nextButton.value = true;
+          prevButton.value = true;
+          //แค่นำมาเทสยังไม่ได้ประกอบร่าง
+          duration.value = formatTime(sound.value.duration());
+          window.requestAnimationFrame(stepFunction.bind(this));
+        },
+        onpause: function () {
+          pauseTrack.value = false;
+        },
+        onseek: function () {
+          sound.value.seek();
+          window.requestAnimationFrame(stepFunction.bind(this));
+        },
+        onend: function() {
+          next();
+        },
+        });
       }else{
       // state.audioPlaying[index.value] = false;   
-      console.log("เข้า")
-      sound.value = new Howl({
-      src:["http://20.213.128.1:8086/api/trackstreaming/getcontent/testmusic115.mp3"],
-      // src: ["http://localhost:8086/api/trackstreaming/getcontent/testmusic113.mp3"],
-      html5: true,
-      onplay: function () {
-        pauseTrack.value = true;
-        nextButton.value = true;
-        prevButton.value = true;
-        //แค่นำมาเทสยังไม่ได้ประกอบร่าง
-        duration.value = formatTime(sound.value.duration());
-        window.requestAnimationFrame(stepFunction.bind(this));
-      },
-      onpause: function () {
-        pauseTrack.value = false;
-      },
-      onseek: function () {
-        sound.value.seek();
-         window.requestAnimationFrame(stepFunction.bind(this));
-      },
-    });}
-      console.log(sound.value.play())
+      // http://localhost:8080/audiovideo/audios/audio1.mp3
+      // console.log("เข้า")
+      // console.log(`ใน playtest ${playApi.value.length}`) 
+      //  console.log(sound.value )
+      }
       sound.value.play();
       // state.audioPlaying[index.value] = true;
     }
@@ -266,61 +331,141 @@ export default {
         // state.audioPlaying[index.value] = false;   
       }
     }
+    
+    function shuffle(){
+      // console.log(playApi.value)
+      // playApi.value[Math.floor(Math.random()*items.length)]
+      var round = playApi.value.length
+      var oldPlay = playApi.value
+      var random = []
+      // console.log(oldPlay[Math.floor(Math.random()*oldPlay.length)])
+      for (let index = 0; index < round; index++) {
+        // console.log(oldPlay)
+        random.push(oldPlay[Math.floor(Math.random()*oldPlay.length)]) 
+        // playApi.value[index] = random 
+        // console.log(random)
+        oldPlay = oldPlay.filter((m) => m != random[index] )
+        // console.log(oldPlay)
+      }
+      playApi.value = random
+      // console.log(playApi.value)
+      // console.log(oldPlay)
+    }
+    function deleteMusic(index){
+      playApi.value = playApi.value.filter((m) => m != playApi.value[index])
+    }
+    function previous(){
+      if(played.value.length != 0){
+          // console.log(played.value)
+          playApi.value.splice(0, 0,{name:playNow.value})
+          playNow.value = played.value[played.value.length-2].name
+          played.value = played.value.filter((m) => m != played.value[played.value.length-1]  )
+        //  && m != played.value[played.value.length-2]
+          // console.log(playApi.value)
+          played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
+          loopType.value = 'NOTLOOP'
+          // next()
+        }
+      sound.value == null ? '' : sound.value.stop()
+      sound.value = null
+      playTest();
+    }
+    function next(index) {
+      if(index == 'NEXT'){
+        loopType.value = 'NOTLOOP'
+        next()
+      } else {
+        if(sound.value && index == undefined ){
+          if(playApi.value.length != 0){
+            if(loopType.value != 'ONLYONE'){
+              playNow.value = playApi.value[0].name
+              played.value.push(playApi.value[0])
+              playApi.value = playApi.value.filter((m) => m != playApi.value[0])
+            }
+          }else{
+            //loopall กำลังคิดยุว่ามีดีไหมหรือหมดกะหมุน auto
+            
+            loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
+            played.value = []
+            next()
+          }  
+        }else{
+          loopType.value = 'NOTLOOP'
+          playNow.value = playApi.value[index].name
+        }
+      }
+      sound.value == null ? '' : sound.value.stop()
+      sound.value = null
+      played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
+      playNow.value == null ? null : playTest();
+    }   
     function seek(event) {
       // var sound = audios.value[index.value].howl;
       if (sound.value) {
         var jumptime; 
         event.type == 'click'? 
-            jumptime = sound.value.duration() * (event.offsetX / progress.value.clientWidth) :
-            jumptime = sound.value.seek() + event;
-        console.log(jumptime);
+          jumptime = sound.value.duration() * (event.offsetX / progress.value.clientWidth) :
+          jumptime = sound.value.seek() + event;
+        // console.log(jumptime);
         if (sound.value.playing()) {
           sound.value.pause();
           jumptime <= 0 ? sound.value.seek(0) : sound.value.seek(jumptime);
-          jumptime >= sound.value.duration()
-            ? sound.value.seek(sound.value.duration()-1)
-            : sound.value.seek(jumptime);
+          jumptime >= sound.value.duration() ? sound.value.seek(sound.value.duration()-1) : sound.value.seek(jumptime);
           sound.value.play();
         } else {
           jumptime <= 0 ? sound.value.seek(0) : sound.value.seek(jumptime);
-          jumptime >= sound.value.duration()
-            ? sound.value.seek(sound.value.duration())
-            : sound.value.seek(jumptime);
+          jumptime >= sound.value.duration() ? sound.value.seek(sound.value.duration()) : sound.value.seek(jumptime);
         }
       }
     }
     const posx = ref(null)
-    function test(event){
-      console.log(event.clientX,event.clientY,event.clientWidth);
+    function test(){
+      // console.log(event.clientX,event.clientY,event.clientWidth);
       posx.value =  posx.value+ 1;
     }
     function move(event){
-      console.log(event.clientX,event.clientY)
+      // console.log(event.clientX,event.clientY)
       var cursor = document.getElementById('cursor')
       cursor.style.left = event.clientX + "px";
       cursor.style.top = event.clientY + "px";
      
     }
+    function volume(event){
+      var per = event.layerX / parseFloat(volBar.value.scrollWidth);
+      var barWidth = (per * 100) / 100;
+      volumeProgress.value = barWidth * 100;
+      sliderBtnVol.value = (volBar.value.offsetWidth * barWidth + volBar.value.offsetWidth * 0.05 - 25);
+      Howler.volume(per);
+    }
+    function mute() {
+      // console.log('mute')
+      var audio = sound.value;
+      if (audio) {
+      mutePlayer.value  = !mutePlayer.value;
+      mutePlayer.value ? audio.mute(true) : audio.mute(false)
+      }            
+    }
     return { playTest,pause,duration,formatTime,audios,pauseTrack,
             timer,step,stepFunction,seek,progress
-            ,test,posx,move
+            ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
+            ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic
+            // 
             };
   },    
 };
 </script>
 
 <style>
-#progressButtonTimer,
+/* #progressButtonTimer,
 #progressButtonVolume {
   margin-top: -9px;
   right: -8px;
 }
-
 @media screen and (max-width: 768px) {
   #progressButtonTimer,
   #progressButtonVolume {
     margin-top: -8px;
     right: -7px;
   }
-}
+} */
 </style>
