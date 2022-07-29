@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+// import HomeView from '../views/HomeView.vue'
 import HomeTest from '../views/HomeTest.vue'
 import Playlist from '../views/PlaylistPage.vue'
 import Favorite from '../views/FavoritePage.vue'
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: HomeView
+  // },
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/hometest',
     name: 'hometest',
     component: HomeTest
   },

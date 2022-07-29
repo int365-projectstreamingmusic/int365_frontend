@@ -8,7 +8,8 @@ module.exports = {
             'md': '0 2px 2px #000',
             'h2': '0 0 3px #FF0000, 0 0 5px #0000FF',
             'h1': '0 0 3px rgba(0, 0, 0, .8), 0 0 5px rgba(0, 0, 0, .9)',
-            'xl': '0px 4px 4px rgb(0 0 0 / 25%)'
+            'xl': '0px 4px 4px rgb(0 0 0 / 25%)',
+            '2xl': '0px 4px 3px rgb(0 0 0 / 100%)'
          },
         screens: {
             sm: '640px',
@@ -48,7 +49,9 @@ module.exports = {
             whiteghost: '#322C37',
             blackcoal: '#4B4B4B',
             violetlight: '#9786FF',
-            violetdark: '#6F57FF'
+            violetdark: '#6F57FF',
+            blackTopFive: '#373737',
+            scarlet:'#FF0000'
         }),
         columns: {
             auto: 'auto',
@@ -98,6 +101,7 @@ module.exports = {
             11: '2.75rem',
             12: '3rem',
             14: '3.5rem',
+            15: '3.75rem',
             16: '4rem',
             20: '5rem',
             24: '6rem',
@@ -112,9 +116,16 @@ module.exports = {
             60: '15rem',
             64: '16rem',
             72: '18rem',
+            74: '18.75rem',
             75: '19rem',
             80: '20rem',
+            81: '21.5rem',
             96: '24rem',
+            100: '26.25rem',
+            504:'31.5rem',
+            600: '37.5rem',
+            696: '43.5rem',
+            1200: '75rem',
             '1/6': '16.666667%'
         },
         animation: {
@@ -394,6 +405,7 @@ module.exports = {
 
         },
         fontSize: {
+            xxs: ['0.6rem', { lineHeight: '0.75rem' }],
             xs: ['0.75rem', { lineHeight: '0.75rem' }],
             ss: ['0.75rem', { lineHeight: '1rem' }],
             sm: ['0.875rem', { lineHeight: '1.25rem' }],
