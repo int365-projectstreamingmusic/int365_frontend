@@ -133,7 +133,6 @@ import {
   Howl,
   Howler
 } from "howler";
-
 export default {
   props:{
     music: {type:Object, required: false},
@@ -238,7 +237,6 @@ export default {
         // })
         const audios = ref([]);
     // const sliderBtn = ref(0);
-
     function stepFunction() {
       var seek = sound.value.seek();
       timer.value = formatTime(Math.round(seek));
@@ -258,7 +256,6 @@ export default {
         seconds
       );
     }
-
     function loop(param){
       // console.log(param)
       // console.log(loopType.value)
@@ -274,16 +271,13 @@ export default {
     function checkPlayer(){
       return sound.value == null ? true : false
     }
-
     function stopPlayer() {
       if(sound.value != null){
       sound.value.stop()
       sound.value = null        
       }
-
       playTest()
     }
-
     function playTest() {
       
       
@@ -332,7 +326,6 @@ export default {
       sound.value.play();
       // state.audioPlaying[index.value] = true;
     }
-
     function pause() {
       if (sound.value) {
         sound.value.pause();
@@ -360,11 +353,9 @@ export default {
       // console.log(playApi.value)
       // console.log(oldPlay)
     }
-
     function deleteMusic(index){
       playApi.value = playApi.value.filter((m) => m != playApi.value[index])
     }
-
     function previous(){
       if(played.value.length != 0){
           // console.log(played.value)
@@ -381,7 +372,6 @@ export default {
       sound.value = null
       playTest();
     }
-
     function next(index) {
       if(index == 'NEXT'){
         loopType.value = 'NOTLOOP'
@@ -411,7 +401,6 @@ export default {
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
       playNow.value == null ? null : playTest();
     }   
-
     function seek(event) {
       // var sound = audios.value[index.value].howl;
       if (sound.value) {
@@ -474,7 +463,6 @@ export default {
   margin-top: -9px;
   right: -8px;
 }
-
 @media screen and (max-width: 768px) {
   #progressButtonTimer,
   #progressButtonVolume {
