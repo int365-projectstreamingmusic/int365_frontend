@@ -5,7 +5,7 @@
         <!-- Top5music -->
         <div class="flex justify-center">
           <div>
-            <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-28">Top 5 Music</div>
+            <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3">Top 5 Music</div>
             <div class="mx-10">
               <div class="flex flex-row relative" >
                 <div class="absolute flex flex-row items-end z-10 justify-between " style="width: 780px;" @mouseover="topOne = true" @mouseleave="topOne = false">
@@ -48,7 +48,8 @@
                 Nisi, velit luctus ultrices in leo. Sit id interdum tempus, </div>
               <div @click="ClickMood()" v-if="!selectMood" class="w-2/6 text-right underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>  
             </div>
-            <div v-show="!selectMood" class="flex flex-row space-x-15">
+            <div v-show="!selectMood" class="flex flex-row space-x-3.6 ">
+              <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
@@ -71,7 +72,8 @@
                 <div class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim nulla lobortis posuere scelerisque. Ultricies varius risus vulputate libero nisl fames. Elementum amet massa sapien commodo sed eros vulputate massa.</div>
               </div>
             </div>
-            <div class="flex flex-row space-x-15 w-1200" >
+            <div class="flex flex-row space-x-3.6 w-1200" >
+              <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
@@ -96,33 +98,33 @@
                     <th class="w-20">Favorite</th>
                   </tr>
                   <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td><p class="mx-1">1</p></td>
-                    <td><p class="truncate w-96 mx-5">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td><p class="truncate w-24">『ユイカ』asdsadada</p></td>
+                    <td class=" w-9"><p >1</p></td>
+                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
+                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
                     <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
                   </tr>
                   <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td><p class="mx-1">1</p></td>
-                    <td><p class="truncate w-96 mx-5">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td><p class="truncate w-24">『ユイカ』asdsadada</p></td>
+                    <td class=" w-9"><p >1</p></td>
+                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
+                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
                     <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
                   </tr>
                   <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td><p class="mx-1">1</p></td>
-                    <td><p class="truncate w-96 mx-5">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td><p class="truncate w-24">『ユイカ』asdsadada</p></td>
+                    <td class=" w-9"><p >1</p></td>
+                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
+                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
                     <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
                   </tr>
                   <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td><p class="mx-1">1</p></td>
-                    <td><p class="truncate w-96 mx-5">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td><p class="truncate w-24">『ユイカ』asdsadada</p></td>
+                    <td class=" w-9"><p >1</p></td>
+                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
+                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
                     <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
                   </tr>
                   <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td><p class="mx-1">1</p></td>
-                    <td><p class="truncate w-96 mx-5">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td><p class="truncate w-24">『ユイカ』asdsadada</p></td>
+                    <td class=" w-9"><p >1</p></td>
+                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
+                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
                     <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
                   </tr>
                 </table>
@@ -131,12 +133,25 @@
               <div class="w-504">
                 <div class="ml-14">
                   <div class="font-sansation-bold text-4xl text-blackcoal ">Streaming</div>
-                  <div class=" bg-black w-full rounded-lg">sad</div>
+                  <div class="overflow-hidden w-448 rounded-lg h-56.5 "  @mouseover="streamingI = true" @mouseleave="streamingI = false">
+                    <div v-if="streamingI">
+                      <div class="z-20 h-56.5 w-448 font-sansation-bold flex justify-center items-center absolute text-whiteghost text-4xl tracking-wider">
+                        <div class="cursor-pointer flex flex-row justify-center items-center hover:text-white transition duration-300">
+                          <p>LET'S GO</p>
+                          <span class="material-icons text-5xl">chevron_right</span>
+                        </div>
+                      </div>
+                      <div class="z-10 h-56.5 w-448 opacity-40 bg-blackcoal absolute rounded-lg"></div>
+                    </div>                   
+                    <img src="../assets/yourname.png" v-bind:class="streamingI?'transition delay-95 duration-1000 scale-110':''" style="width:448px ; height: 232px; object-fit: cover;"/>
+                  </div>
+                  
                 </div>  
               </div> 
             </div>
           </div>
         </div> 
+        
         <!-- /recent releases -->
       <!-- </div> -->
     </div>
@@ -155,6 +170,7 @@ export default {
     return {
       topOne:false,
       selectMood:false,
+      streamingI:false
     }
   },
  methods:{

@@ -1,13 +1,13 @@
 <template>
-  <div class="overflow-hidden w-48 h-52 rounded-3xl  flex flex-row  items-end cursor-pointer" @mouseover="upHere = true" @mouseleave="upHere = false">
+  <div class="overflow-hidden w-44.5 h-52.5 rounded-3xl  flex flex-row  items-end cursor-pointer shadow-xl" @mouseover="upHere = true" @mouseleave="upHere = false">
     <transition name="fade">
-    <div v-if="!upHere" class=" absolute flex flex-row justify-center items-center text-shadow-2xl   text-center z-10 w-48 bg-blackcoal bg-opacity-60 h-16 text-white rounded-b-3xl">
+    <div v-if="!upHere" class=" absolute flex flex-row justify-center items-center text-shadow-2xl   text-center z-10 w-44.5 bg-blackcoal bg-opacity-60 h-16 text-white rounded-b-3xl">
       <div class="space-y-1 mx-6 mb-1">
         <div class=" w-40 font-sansation-light text-sm tracking-wider truncate"> Racing into the night</div>
         <div class="font-sansation-light text-xxs tracking-wider">BOWKYLION</div>     
       </div>
     </div>
-    <div v-else class="absolute h-52 w-48 bg-blackcoal bg-opacity-60 z-10 flex flex-row justify-center items-center rounded-3xl">
+    <div v-else class="absolute w-44.5 h-52.5 bg-blackcoal bg-opacity-60 z-10 flex flex-row justify-center items-center rounded-3xl">
       <div class="space-y-2 w-36">
         <div class="text-white ">
           <div class="font-sansation-light text-sm tracking-wider truncate"> Racing into the night asdasda</div>
