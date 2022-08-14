@@ -10,12 +10,9 @@
   </div> -->
   <nav-bar ></nav-bar>
   <router-view @music='acceptData' @musicQ='passMusicQeue'></router-view>
-  <div >
-    <div></div>
-    
-    <SideBar :music='music' :addQueue='addQueue'></SideBar>
+  <SideBar :music='music' :addQueue='addQueue'></SideBar>
     <!-- <div class="relative">asd</div> -->
-  </div>
+
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";

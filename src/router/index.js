@@ -1,17 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+// import HomeView from '../views/HomeView.vue'
 import HomeTest from '../views/HomeTest.vue'
 import Playlist from '../views/PlaylistPage.vue'
 import Favorite from '../views/FavoritePage.vue'
+import AllSong from '../views/AllSong.vue'
+import MyPlaylist  from '../views/MyPlaylist.vue'
+import OnePlaylist  from '../views/OnePlaylist.vue'
+import AccountProfile from '../views/AccountProfile.vue'
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   component: HomeView
+  // },
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/hometest',
     name: 'hometest',
     component: HomeTest
   },
@@ -24,6 +28,26 @@ const routes = [
     path: '/favorite',
     name: 'favorite',
     component: Favorite
+  },
+  {
+    path:'/accountprofile',
+    name:'accountprofile',
+    component: AccountProfile
+  },
+  {
+    path: '/allsong',
+    name: 'allsong',
+    component: AllSong    
+  },
+  {
+    path: '/myplaylist',
+    name: 'myplaylist',
+    component: MyPlaylist
+  },
+  {
+    path: '/oneplaylist',
+    name: 'onePlaylist',
+    component: OnePlaylist
   },
   {
     path: '/about',

@@ -11,5 +11,8 @@
 }
 
 .icon-navbar-outside {
-    @apply flex items-center justify-center h-8 w-8 px-4 ml-auto text-sm font-medium bg-white rounded-full
+    @apply flex items-center justify-center h-8 w-8 rounded-full bg-neutral-100 hover:text-violetlight hover:bg-blackcoal transition duration-300
+}
+.page-number-outside {
+    @apply flex text-lg items-center justify-center h-8 w-8 rounded-full bg-neutral-100 hover:text-violetlight hover:bg-blackcoal transition duration-300
 }
