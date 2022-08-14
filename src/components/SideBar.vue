@@ -1,6 +1,6 @@
 
 <template>
-  <div class="bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  ">
+  <div class="bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
     <div class="sticky top-0 z-20">
       <div class="font-sansation-light text-logo text-center bg-neutral-50 text-black pt-5 pb-0  sticky top-0">GARDEN</div>
       <div class="h-8 bg-gradient-to-b from-neutral-50 dark:from-slate-900"></div>
@@ -128,7 +128,7 @@ import {
   // ,reactive
   // computed
 } from "vue";
-import {useRoute} from 'vue-router'
+// import {useRoute} from 'vue-router'
 import {
   Howl,
   Howler
@@ -136,7 +136,8 @@ import {
 export default {
   props:{
     music: {type:Object, required: false},
-    addQueue: {type:Object, required: false}
+    addQueue: {type:Object, required: false},
+    // pathC:{type:String, required:false}
   },
   watch: { 
     music: function(newVal) { // watch it
@@ -189,9 +190,10 @@ export default {
     // }
   },
   mounted(){
-    const route=useRoute();
-    this.path = route.path
-    // console.log(this.music)
+    // const route=useRoute();
+    this.path = window.location.pathname
+    // console.log()
+    console.log(this.pathC)
     // if(this.music != null && this.music != undefined){
     //   this.playApi.value.push(this.music)
     // } 
