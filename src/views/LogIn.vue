@@ -196,7 +196,6 @@ export default {
       },
     async doRegister() {
       if(this.regisform.user_passcode=== this.confirmPass){
-        // console.log(this.regisform);
         // let formData = new FormData()
         let regisJson = JSON.stringify(this.regisform);
         // const regisBlob = new Blob([regisJson], {
