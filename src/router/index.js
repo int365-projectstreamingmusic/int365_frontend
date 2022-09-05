@@ -7,7 +7,7 @@ import AllSong from '../views/AllSong.vue'
 import MyPlaylist  from '../views/MyPlaylist.vue'
 import OnePlaylist  from '../views/OnePlaylist.vue'
 import AccountProfile from '../views/AccountProfile.vue'
-
+import LogIn from '../views/LogIn.vue'
 const routes = [
   // {
   //   path: '/',
@@ -48,6 +48,11 @@ const routes = [
     path: '/oneplaylist',
     name: 'onePlaylist',
     component: OnePlaylist
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LogIn
   },
   {
     path: '/about',
