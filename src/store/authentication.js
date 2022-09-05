@@ -34,8 +34,12 @@ export default {
             dispatch
         }, credeitials) {
             let response;
-            let regisJson = JSON.stringify(credeitials);
-            response = await axios.get(`http://20.213.128.1:8086/api/authen/login`, regisJson).then(response => {
+            let login = JSON.stringify(credeitials);
+            response = await axios.post(`http://localhost:8086/api/authen/login`, credeitials,{
+                headers: {
+                    'Content-Type': 'application/json',
+                  }
+            }).then(response => {
                 dispatch('attempt', response.data.accessToken);
                 return response;
             }).catch(error => {

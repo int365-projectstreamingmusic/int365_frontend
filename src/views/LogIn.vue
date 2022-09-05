@@ -203,15 +203,18 @@ export default {
         // })
         // formData.append('newUser', regisBlob)
         console.log(regisJson);
-        await axios.post(`http://20.213.128.1:8086/api/authen/signup`, regisJson, {
+        await axios.post(`http://localhost:8086/api/authen/signup`, regisJson, {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              'Content-Type': 'application/json',
             }
           })
         }else{
           
           console.log("password not match");
         }
+    },
+    async userAuthentication(){
+      let response = "";
     }
   },
 };
