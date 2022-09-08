@@ -43,7 +43,7 @@
               name="userName"
               placeholder="      USERNAME OR EMAIL "
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base "
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
             />
           </div>
           <div class="my-2">
@@ -54,8 +54,11 @@
               name="password"
               placeholder="      PASSWORD"
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base " 
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 text-xs md:text-base"
             />
+          </div>
+          <div v-if="this.validateLogin" class="text-red-500 text-sm font-mono">
+            Username or Password is incorrect
           </div>
           <div class="my-4 flex justify-center item-center">
             <button
@@ -113,6 +116,9 @@
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
             />
           </div>
+          <div class="text-red-500 text-sm font-mono">
+            {{ this.invalid.duplicated.errorMessage }}
+          </div>
           <div class="my-4 flex justify-center item-center">
             <button
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center"
@@ -128,7 +134,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import axios from "axios"
+import axios from "axios";
 
 export default {
   data() {
@@ -141,12 +147,18 @@ export default {
       },
       regisform: {
         username: "",
-        user_passcode:"",
+        user_passcode: "",
         email: "",
       },
       localbox: "",
       logIn: true,
       confirmPass: "",
+      invalid: {
+        duplicated: {
+          showErrorBox: false,
+          errorMessage: "",
+        },
+      },
     };
   },
   mounted() {
@@ -160,61 +172,76 @@ export default {
     click(active) {
       this.regisform = {
         username: "",
-        user_passcode:"",
+        user_passcode: "",
         email: "",
       };
-      this.confirmPass= "",
-      this.logform = {
-        userName: "",
-        password: "",
-      },
+      (this.confirmPass = ""),
+        (this.logform = {
+          userName: "",
+          password: "",
+        }),
         localStorage.setItem("logInActive", active);
       this.localbox = localStorage.getItem("logInActive");
       this.localbox == 1 ? (this.logIn = true) : (this.logIn = false);
     },
-   async doLogin() {
-        let response = await this.signIn(JSON.stringify(this.logform));
-        if (response.data.accessToken) {
-          this.invalid.badcredentials = false;
-          this.$router.replace({
-            name: 'Home'
-          })
-        } else if (response.data.exceptionCode == 3007) {
-          this.invalid.suspended = true;
-          setTimeout(() =>{
-              this.invalid.sus = true;
-            },1000)
-          // await setTimeout(() => {
-          //   this.invalid.suspended = false;
-          //   this.invalid.sus = false;
-          //   this.$router.replace({
-          //     name: 'ForbiddenSector'
-          //   })
-          // }, 2000);
-        } else {
-        }
-      },
-    async doRegister() {
-      if(this.regisform.user_passcode=== this.confirmPass){
-        // let formData = new FormData()
-        let regisJson = JSON.stringify(this.regisform);
-        // const regisBlob = new Blob([regisJson], {
-        //   type: 'application/json'
-        // })
-        // formData.append('newUser', regisBlob)
-        await axios.post(`http://20.213.128.1:8086/api/authen/signup`, regisJson, {
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          })
-        }else{
-          
-          console.log("password not match");
-        }
+    async doLogin() {
+      let response = await this.signIn(JSON.stringify(this.logform));
+      let checkRole;
+      if (response.data.roles != null) {
+        response.data.roles.forEach((element) => {
+          if (element === "admin") {
+            checkRole = true;
+          }
+        });
+      }
+      if (response.data.token && checkRole === true) {
+        this.$router.replace({
+          name: "managereport",
+        });
+      } else if (response.data.exceptionCode === 3001) {
+        this.validateLogin = true;
+      } else {
+        this.$router.replace({
+          name: "hometest",
+        });
+      }
     },
-    async userAuthentication(){
-      let response = "";
-    }
+    async doRegister() {
+      if (this.regisform.user_passcode === this.confirmPass) {
+        this.validatePassword = false;
+        let regisJson = JSON.stringify(this.regisform);
+        let errorCode = 0;
+        await axios
+          .post(`http://20.213.128.1:8086/api/authen/signup`, regisJson, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then(function () {
+            errorCode = 0;
+          })
+          .catch((error) => {
+            errorCode = error.response.data.exceptionCode;
+          });
+
+        switch (errorCode) {
+          case 3002:
+            this.invalid.duplicated.errorMessage =
+              "This username is taken by another user.";
+            break;
+          case 3009:
+            this.invalid.duplicated.errorMessage =
+              "This email is taken by another user.";
+            break;
+          default:
+            this.invalid.duplicated.errorMessage =
+              "An unknown error occures at API.";
+            break;
+        }
+      } else {
+        this.invalid.duplicated.errorMessage = "Passwords do NOT match.";
+      }
+    },
   },
 };
 </script>
