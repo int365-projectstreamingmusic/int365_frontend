@@ -43,7 +43,7 @@
               name="userName"
               placeholder="      USERNAME OR EMAIL "
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base "
             />
           </div>
           <div class="my-2">
@@ -54,7 +54,7 @@
               name="password"
               placeholder="      PASSWORD"
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base " 
             />
           </div>
           <div class="my-4 flex justify-center item-center">
@@ -78,7 +78,7 @@
               name="username"
               placeholder="      USERNAME OR EMAIL "
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
             />
           </div>
           <div class="my-2">
@@ -89,7 +89,7 @@
               name="email"
               placeholder="      EMAIL ADDRESS "
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
             />
           </div>
           <div class="my-2">
@@ -100,7 +100,7 @@
               name="user_passcode"
               placeholder="      PASSWORD"
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
             />
           </div>
           <div class="my-2">
@@ -110,7 +110,7 @@
               name="confirmPass"
               placeholder="      CONFIRM PASSWORD"
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
             />
           </div>
           <div class="my-4 flex justify-center item-center">
@@ -202,8 +202,7 @@ export default {
         //   type: 'application/json'
         // })
         // formData.append('newUser', regisBlob)
-        console.log(regisJson);
-        await axios.post(`http://localhost:8086/api/authen/signup`, regisJson, {
+        await axios.post(`http://20.213.128.1:8086/api/authen/signup`, regisJson, {
             headers: {
               'Content-Type': 'application/json',
             }

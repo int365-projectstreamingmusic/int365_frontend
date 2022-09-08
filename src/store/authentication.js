@@ -35,7 +35,7 @@ export default {
         }, credeitials) {
             let response;
             let login = JSON.stringify(credeitials);
-            response = await axios.post(`http://localhost:8086/api/authen/login`, credeitials,{
+            response = await axios.post(`http://20.213.128.1:8086/api/authen/login`, credeitials,{
                 headers: {
                     'Content-Type': 'application/json',
                   }
@@ -66,7 +66,7 @@ export default {
             // }
         },
         async singOut({ commit }) {
-            return await axios.get(`${process.env.VUE_APP_ROOT_API}/api/authen/logout`).then(() => {
+            return await axios.get(`http://20.213.128.1:8086/api/authen/logout`).then(() => {
                 commit('SET_TOKEN', null);
                 commit('SET_USER', null);
                 commit('SET_ROLENAME', null);
