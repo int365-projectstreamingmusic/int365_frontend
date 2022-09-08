@@ -194,7 +194,6 @@ export default {
           }
         });
       }
-      console.log("---->", response.data.exceptionCode);
       if (response.data.token && checkRole === true) {
         this.$router.replace({
           name: "managereport",
