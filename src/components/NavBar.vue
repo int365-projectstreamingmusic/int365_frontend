@@ -50,11 +50,11 @@
             </router-link>
           </div>
         </div>
-        <div class="flex flex-row items-center space-x-2 font-sansation-light text-base w-28.1">
-          <p class="cursor-pointer hover:text-violetlight transition duration-300">Log in </p>
+        <router-link to="/login"  class="flex flex-row items-center space-x-2 font-sansation-light text-base w-28.1">
+          <p @click="routerLogin('1')" class="cursor-pointer hover:text-violetlight transition duration-300">Log in </p>
           <p>| </p>
-          <p class="cursor-pointer hover:text-violetlight transition duration-300"> Register</p>
-        </div>
+          <p @click="routerLogin('2')" class="cursor-pointer hover:text-violetlight transition duration-300"> Register</p>
+        </router-link>
       </div>
     </div>
     <div class="flex justify-center ">
@@ -110,6 +110,9 @@ export default {
     pathPage(path){
       this.path = path
     },
+    routerLogin(active){
+       localStorage.setItem("logInActive", active);
+    }
   }
   }
 </script>

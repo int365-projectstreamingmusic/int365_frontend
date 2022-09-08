@@ -5,4 +5,8 @@ import store from './store'
 import './styles/tailwind.css'
 import './styles/icons.css'
 
-createApp(App).use(store).use(router).mount('#app')
+require('@/store/subscriber')
+
+store.dispatch('authentication/attempt',localStorage.getItem('accesstoken')).then(() =>{
+    createApp(App).use(store).use(router).mount('#app')
+})

@@ -51,7 +51,9 @@ module.exports = {
             violetlight: '#9786FF',
             violetdark: '#6F57FF',
             blackTopFive: '#373737',
-            scarlet:'#FF0000'
+            scarlet:'#FF0000',
+            passgreen: '#3DDB69',
+            deletered: '#FF4B4B'
         }),
         columns: {
             auto: 'auto',
