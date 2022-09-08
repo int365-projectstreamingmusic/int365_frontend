@@ -7,6 +7,8 @@ import AllSong from '../views/AllSong.vue'
 import MyPlaylist  from '../views/MyPlaylist.vue'
 import OnePlaylist  from '../views/OnePlaylist.vue'
 import AccountProfile from '../views/AccountProfile.vue'
+import ManageReport from '../views/ManageReport.vue'
+import LogIn from '../views/LogIn.vue'
 
 const routes = [
   // {
@@ -50,12 +52,23 @@ const routes = [
     component: OnePlaylist
   },
   {
+    path: '/login',
+    name: 'login',
+    component: LogIn
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/managereport',
+    name: 'managereport',
+    component: ManageReport
+
   }
 ]
 
