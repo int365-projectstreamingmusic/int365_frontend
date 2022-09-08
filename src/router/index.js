@@ -8,6 +8,7 @@ import MyPlaylist  from '../views/MyPlaylist.vue'
 import OnePlaylist  from '../views/OnePlaylist.vue'
 import AccountProfile from '../views/AccountProfile.vue'
 import ManageReport from '../views/ManageReport.vue'
+import LogIn from '../views/LogIn.vue'
 
 const routes = [
   // {
@@ -49,6 +50,11 @@ const routes = [
     path: '/oneplaylist',
     name: 'onePlaylist',
     component: OnePlaylist
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LogIn
   },
   {
     path: '/about',
