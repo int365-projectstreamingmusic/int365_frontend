@@ -36,9 +36,9 @@
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
       <div class="flex flex-row justify-center py-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
-        <img src="../assets/ImgTmp1.png" class="rounded-full h-44 drop-shadow-xl animate-pulse" />
+        <img :src="'http://20.213.128.1:8086/api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" />
       </div>
-      <div class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">『Lyrics MAD』 Violet Evergarden OP Full Sincerely ／ TRUE HD</div>
+      <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
       <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div>
       <div class="px-7 w-75">
         <div @click="seek($event)" ref="progress" class="h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-400">
@@ -92,16 +92,16 @@
           </div>
         </div>
       </div>
-      <div class="px-10 tracking-wide space-y-1 cursor-pointer">
-        <div class="flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
+      <div class="px-10 mb-10 tracking-wide space-y-1 cursor-pointer">
+        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
           <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
             <div>{{index+1}}</div>
-            <div class="truncate w-48 " @click="next(index)">{{value.name}}</div>
+            <div class="truncate w-48 " @click="next(index)">{{value.nameShow}}</div>
             <span class="material-icons text-sm text-neutral-50 hover:text-red-500"  @click="deleteMusic(index)">close</span>
           </div>
           <div v-else class="flex flex-row space-x-2" >
             <div>{{index+1}}</div>
-            <div class="truncate w-48" @click="next(index)">{{value.name}}</div>
+            <div class="truncate w-48" @click="next(index)">{{value.nameShow}}</div>
             <span class="material-icons text-sm text-neutral-50 hover:text-red-500" @click="deleteMusic(index)">close</span>
           </div>
         </div>
@@ -141,15 +141,26 @@ export default {
   },
   watch: { 
     music: function(newVal) { // watch it
-      if(this.music != null){
-      // console.log(this.sound)
-      // this.sound == undefined ? console.log(this.sound) : this.sound.playing() ? this.sound.stop() : console.log('asd')
-      // this.sound.value.pause()
-      this.mediaPlayer = true
-      this.playApi.splice(0, 0,newVal)
-      // this.playApi.push(newVal)
-      this.fristPlayed = true
-      this.stopPlayer()
+      // if(this.music != null){
+      // console.log("thsoundis.")
+      // // this.sound == undefined ? console.log(this.sound) : this.sound.playing() ? this.sound.stop() : console.log('asd')
+      // // this.sound.value.pause()
+      // this.mediaPlayer = true
+      // this.playApi.splice(0, 0,newVal)
+      // // this.playApi.push(newVal)
+      // this.fristPlayed = true
+      // this.stopPlayer()
+      // }
+      if(this.checkPlayer()){
+        
+        this.mediaPlayer = true
+        this.playApi.splice(0, 0,newVal)
+        this.fristPlayed = true
+        this.stopPlayer()
+        
+      }else{
+        this.playApi.push(newVal)
+        
       }
     },
     addQueue: function(newVal) { // watch it
@@ -166,11 +177,6 @@ export default {
   data() {
     return {
       path:'',
-      playQueue:[{name:'Harutya 春茶 best cover playlist - Harutya 春茶 best songs of all time - Best cover of Harutya 春茶'}
-                  ,{name:'恋音と雨空 / AAA full covered by 春茶'}
-                  ,{name:'BOWKYLION - บานปลาย (best wishes)'}
-                  ,{name:'double take'}
-                  ],
       showVolBar:false,
       mediaPlayer:false,
       // url:process.env.VUE_APP_URL
@@ -227,11 +233,13 @@ export default {
         const volumeProgress = ref(100);
         const mutePlayer = ref(false);
         const playNow = ref(null)
+        const playImage = ref(null)
         const playApi = ref([])
         const played = ref([])
         const fristPlayed = ref(true)
         const emptyPlayed = ref(true)
         const loopType = ref('NOTLOOP')
+        const nameMusic = ref([])
         // const state = reactive({
         //     audioPlaying: []
         // })
@@ -279,14 +287,16 @@ export default {
       playTest()
     }
     function playTest() {
-      
+      console.log(playApi.value)
       
       // var audio = audios.value[index.value];
       if (sound.value == null) {
         if(fristPlayed.value == true && sound.value == null){
           // console.log(`ใน play ${playApi.value.length}`) 
           // console.log(playApi.value[0])
+          nameMusic.value[0] = playApi.value[0].nameShow
           playNow.value = playApi.value[0].name ? playApi.value[0].name : ''
+          playImage.value = playApi.value[0].image
           played.value.push(playApi.value[0])
           playApi.value = playApi.value.filter((m) => m != playApi.value[0])
           fristPlayed.value = false
@@ -295,7 +305,7 @@ export default {
         }
       // console.log(`ใน paly ${playNow.value}`) 
         sound.value = new Howl({
-        src:[`http://localhost:8080/audiovideo/audios/${playNow.value}`],
+        src:[`http://20.213.128.1:8086/api/streaming/getContent/${playNow.value}`],
         html5: true,
         onplay: function () {
           pauseTrack.value = true;
@@ -358,9 +368,11 @@ export default {
     }
     function previous(){
       if(played.value.length != 0){
-          // console.log(played.value)
-          playApi.value.splice(0, 0,{name:playNow.value})
+          console.log(playNow.value)
+          playApi.value.splice(0, 0,{name:playNow.value,nameShow:played.value[played.value.length-2].nameShow,image:played.value[played.value.length-2].image})
           playNow.value = played.value[played.value.length-2].name
+          playImage.value = playApi.value[0].image
+          nameMusic.value[0] = played.value[played.value.length-2].nameShow
           played.value = played.value.filter((m) => m != played.value[played.value.length-1]  )
         //  && m != played.value[played.value.length-2]
           // console.log(playApi.value)
@@ -380,7 +392,9 @@ export default {
         if(sound.value && index == undefined ){
           if(playApi.value.length != 0){
             if(loopType.value != 'ONLYONE'){
+              nameMusic.value[0] = playApi.value[0].nameShow
               playNow.value = playApi.value[0].name
+              playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
@@ -393,7 +407,11 @@ export default {
           }  
         }else{
           loopType.value = 'NOTLOOP'
+          console.log(nameMusic.value[0])
+          nameMusic.value[0] = playApi.value[index].nameShow
+          console.log(nameMusic.value[0])
           playNow.value = playApi.value[index].name
+          playImage.value = playApi.value[0].image
         }
       }
       sound.value == null ? '' : sound.value.stop()
@@ -450,7 +468,7 @@ export default {
     return { playTest,pause,duration,formatTime,audios,pauseTrack,
             timer,step,stepFunction,seek,progress
             ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
-            ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic
+            ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic,nameMusic,playImage
             // 
             };
   },    
