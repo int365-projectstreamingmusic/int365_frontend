@@ -1,8 +1,8 @@
-name: front-end CICD
+name: front-end Production
 on:
   push:
     branches:
-      - main
+      - Production
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -28,12 +28,12 @@ jobs:
     steps:
     - uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOSTNAME }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.PRIVATEKEY }}
-        port: ${{ secrets.SERVERPORT }}
+        host: ${{ secrets.HOSTNAME_PRO }}
+        username: ${{ secrets.USERNAME_PRO }}
+        key: ${{ secrets.PRIVATEKEY_PRO }}
+        port: ${{ secrets.SERVERPORT_PRO }}
         script: | 
-          cd ./dev/front-end 
-          sudo docker-compose down && sudo docker-compose pull
+          cd ./sit-garden
+          sudo docker-compose pull
           sudo docker-compose up -d 
           sudo docker image prune -af
