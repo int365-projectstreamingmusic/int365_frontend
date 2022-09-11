@@ -17,7 +17,7 @@
                   </div> 
                 </div>          
                 <div class="overflow-hidden"  style="width:780px ; height: 350px;">
-                  <img :src="process.env.VUE_APP_MY_ENV_VARIABLE+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:780px ; height: 350px; object-fit: cover;"/>
+                  <img :src="`${process.env.VUE_APP_MY_ENV_VARIABLE}`+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:780px ; height: 350px; object-fit: cover;"/>
                 </div>
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
                   <div class="mb-6 ml-9 flex flex-col space-y-0.5">
