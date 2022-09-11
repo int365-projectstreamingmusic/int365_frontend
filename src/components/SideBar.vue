@@ -387,7 +387,7 @@ export default {
     }
     function next(index) {
       if(index == 'NEXT'){
-        loopType.value = 'NOTLOOP'
+        loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL': loopType.value = 'NOTLOOP'
         next()
       } else {
         if(sound.value && index == undefined ){
@@ -403,11 +403,11 @@ export default {
             //loopall กำลังคิดยุว่ามีดีไหมหรือหมดกะหมุน auto
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
             played.value = []
-            sound.value = null
-            next()
+            // sound.value = null
+            next(0)
           }  
         }else{
-          loopType.value = 'NOTLOOP'
+          loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
           console.log(nameMusic.value[0])
           nameMusic.value[0] = playApi.value[index].nameShow
           console.log(nameMusic.value[0])
@@ -415,6 +415,7 @@ export default {
           playImage.value = playApi.value[0].image
         }
       }
+      
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
