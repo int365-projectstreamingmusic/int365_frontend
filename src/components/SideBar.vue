@@ -110,7 +110,7 @@
     </div>
     <div v-else>
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
-      <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Drag music And Drop here!</div>
+      <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Click music And <br> i will play music for you! </div>
       <!-- <div>{{url}}</div> -->
     </div>
  </div>
