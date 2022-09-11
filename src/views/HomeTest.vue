@@ -1,11 +1,11 @@
 <template>
   <div class="hometest ml-75 h-screen">
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full ">
       <!-- <div class=" flex  " > -->
         <!-- Top5music -->
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-15">
           <div>
-            <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3">Top 5 Music</div>
+            <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music</div>
             <div class="mx-10">
               <!-- <Suspense> -->
               <div class="flex flex-row relative" >
@@ -17,7 +17,7 @@
                   </div> 
                 </div>          
                 <div class="overflow-hidden"  style="width:780px ; height: 350px;">
-                  <img :src="`${process.env.VUE_APP_MY_ENV_VARIABLE}`+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:780px ; height: 350px; object-fit: cover;"/>
+                  <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:780px ; height: 350px; object-fit: cover;"/>
                 </div>
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
                   <div class="mb-6 ml-9 flex flex-col space-y-0.5">
@@ -38,7 +38,6 @@
                 <div v-for="musics in topFive" :key="musics.id">
                   <ShowMusicTopFive :musicDes="musics" @music="acceptData"></ShowMusicTopFive>
                 </div> 
-
                 <!-- 
                 <ShowMusicTopFive :musicDes={} @music="acceptData"></ShowMusicTopFive>
                 <ShowMusicTopFive :musicDes={} @music="acceptData"></ShowMusicTopFive>
@@ -49,15 +48,15 @@
         </div>
         <!-- /Top5music style="height: 350px; width: 330px;"-->
         <!-- recommend -->
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-15">
           <div class="mx-10 w-1200">
-            <div class="font-sansation-bold text-4xl text-blackcoal ">Recommend</div>
-            <div class="flex flex-row items-end justify-between font-sansation-regular" >
+            <div class="font-sansation-bold text-4xl text-blackcoal mb-3">Recommend</div>
+            <div class="flex flex-row items-end justify-between font-sansation-regular mb-6" >
               <div class="w-4/6 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
                 Nisi, velit luctus ultrices in leo. Sit id interdum tempus, </div>
               <div @click="ClickMood()" v-if="!selectMood" class="w-2/6 text-right underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>  
             </div>
-            <div v-show="!selectMood" class="flex flex-row space-x-3.6 ">
+            <div v-if="!selectMood" class="flex flex-row space-x-3.6 ">
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
@@ -67,9 +66,9 @@
             </div>      
           </div>
         </div>       
-        <div v-show="selectMood" class="bg-blackcoal w-full flex flex-row justify-center" >
+        <div v-if="selectMood" class="bg-blackcoal w-full flex flex-row justify-center mb-15 -mt-14" >
           <div>
-            <div class="flex justify-end cursor-pointer " @click="ClickMood()">
+            <div class="flex justify-end cursor-pointer mt-6" @click="ClickMood()">
               <span class="material-icons text-scarlet hover:text-red-500 transition duration-500">close</span>
             </div>
             <div class="flex flex-row w-1200">
@@ -81,7 +80,7 @@
                 <div class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim nulla lobortis posuere scelerisque. Ultricies varius risus vulputate libero nisl fames. Elementum amet massa sapien commodo sed eros vulputate massa.</div>
               </div>
             </div>
-            <div class="flex flex-row space-x-3.6 w-1200" >
+            <div class="flex flex-row space-x-3.6 w-1200 mt-3 mb-12">
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
@@ -96,10 +95,10 @@
         <div class="flex justify-center">
           <div class="mx-10 w-1200">
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
-            <div class="flex flex-row">
+            <div class="flex flex-row mb-20">
               <div>
-                <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div>
-                <table class="w-696">
+                <div class="font-sansation-bold text-4xl text-blackcoal mb-6">Recent Releases</div>
+                <table class="w-696 h-60">
                   <tr class="h-8 font-sansation-light text-white bg-blackcoal antialiased text-sm tracking-wider ">
                     <th class="w-9">#</th>
                     <th class="w-96">Name</th>
@@ -141,7 +140,7 @@
               </div>
               <div class="w-504">
                 <div class="ml-14">
-                  <div class="font-sansation-bold text-4xl text-blackcoal ">Streaming</div>
+                  <div class="font-sansation-bold text-4xl text-blackcoal mb-6">Streaming</div>
                   <div class="overflow-hidden w-448 rounded-lg h-56.5 "  @mouseover="streamingI = true" @mouseleave="streamingI = false">
                     <div v-if="streamingI">
                       <div class="z-20 h-56.5 w-448 font-sansation-bold flex justify-center items-center absolute text-whiteghost text-4xl tracking-wider">
@@ -156,9 +155,7 @@
                   </div>
                   
                 </div>  
-                <!-- <div>{{topFrist}}</div> -->
               </div>
-              <!-- <div>{{topFive}}</div>  -->
             </div>
           </div>
         </div> 
@@ -190,7 +187,8 @@ export default {
       music: null,
       topOne:false,
       selectMood:false,
-      streamingI:false
+      streamingI:false,
+      url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
   },
  methods:{
