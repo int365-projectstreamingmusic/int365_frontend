@@ -29,9 +29,7 @@ export default {
   computed: {},
   methods: {
     acceptData(e) {
-      console.log(e);
       this.music = e;
-      console.log(this.music);
     },
     passMusicQeue(e) {
       this.addQueue = e;
