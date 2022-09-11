@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row overflow-hidden cursor-pointer relative" @mouseover="upHere = true" @mouseleave="upHere = false" >
-    <img :src="'http://20.213.128.1:8086/api/streaming/image/'+musicDes.trackThumbnail" v-bind:class="upHere?'transition delay-95 duration-700 scale-125':''" style="width:300px ; height: 150px; object-fit: cover;"/>
+    <img :src="url+'api/streaming/image/'+musicDes.trackThumbnail" v-bind:class="upHere?'transition delay-95 duration-700 scale-125':''" style="width:300px ; height: 150px; object-fit: cover;"/>
     <div class="grid">
       <transition name="fade"  >
         <div v-if="!upHere" class="absolute flex flex-row items-end justify-self-end justify-center ">
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       upHere : false,
-      pic:require('../assets/948523.png')
+      url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
   },
   methods:{

@@ -1,11 +1,8 @@
 <template>
-  <div v-if="$route.path != '/login'">
+  <div>
     <nav-bar></nav-bar>
     <router-view @music="acceptData" @musicQ="passMusicQeue"></router-view>
     <SideBar :music="music" :addQueue="addQueue"></SideBar>
-  </div>
-  <div v-if="$route.path == '/login'">
-    <LogIn></LogIn>
   </div>
 </template>
 <script>

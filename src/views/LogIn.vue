@@ -1,19 +1,9 @@
 <template>
   <div
-    class="h-screen w-screen flex justify-center item-center flex-col font-sansation-light"
+    class="h-screen ml-75 flex  item-center flex-col font-sansation-light "
   >
-    <div class="flex justify-start lg:w-2/6 my-3">
-      <router-link to="/" class="flex flex-row justify-center item-center">
-        <span class="material-icons text-2xl">chevron_left</span>
-        <p
-          class="underline underline-offset-1 text-black hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl"
-        >
-          Back to homepage
-        </p>
-      </router-link>
-    </div>
     <div
-      class="overflow-hidden lg:w-2/6 p-12 rounded-3xl bg-gray-100 shadow-xl flex flex-col justify-center item-center cursor-pointer transition duration-200"
+      class=" lg:w-2/6 h-5/6  p-12 flex flex-col justify-center item-center cursor-pointer transition duration-200"
     >
       <div class="flex flex-row items-center space-x-2 text-3xl">
         <div
@@ -23,7 +13,7 @@
           :class="this.localbox == 1 ? 'text-violetlight' : ''"
         >
           <p v-if="isChange">Reset Password</p>
-          <p v-else>Log in</p>
+          <p v-else>Sign in</p>
         </div>
         <p v-if="!isChange">|</p>
         <p v-if="!isChange"
