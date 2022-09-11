@@ -69,7 +69,7 @@
 
         <div
           class="flex flex-row justify-center cursor-pointer items-center font-sansation-light space-x-2 text-base w-42"
-          v-if="authenticated" 
+          v-if="authenticated"
         >
           <div
             class="bg-gray-700 rounded-full appearance-none border-2 h-8 w-full px-2 text-white font-sansation-light text-sm focus:outline-none focus:border-violetlight flex items-center flex-col"
@@ -98,17 +98,19 @@
               >
                 <router-link to="/accountprofile">Account</router-link>
               </div>
-              <div v-if="checkRole"
+              <div
+                v-if="checkRole"
                 class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
               >
                 <router-link to="/managereport">Manage Report</router-link>
               </div>
-              <div v-else
+              <div
+                v-else
                 class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
               >
                 <router-link to="/myplaylist">My playlist</router-link>
               </div>
-              
+
               <div
                 class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
                 @click="signOut"
@@ -149,13 +151,13 @@ export default {
     return {
       path: "",
       isOpen: false,
-
     };
   },
+
   methods: {
     pathPage(path) {
       this.path = path;
-      checkRole=false;
+      checkRole = false;
     },
     routerLogin(active) {
       localStorage.setItem("logInActive", active);
@@ -164,6 +166,7 @@ export default {
     ...mapActions({
       signOutAction: "authentication/singOut",
     }),
+
     signOut() {
       this.signOutAction().then(() => {
         this.$router.replace({
@@ -171,14 +174,6 @@ export default {
         });
       });
     },
-
-    checkRole(){
-      roles.forEach(element => {
-        if (element === "admin") {
-            checkRole = true;
-          }
-      });
-    }
   },
 
   computed: {
@@ -187,6 +182,14 @@ export default {
       UserName: "authentication/UserName",
       roles: "authentication/roles",
     }),
+  },
+  checkRole() {
+    roles.forEach((element) => {
+      console.log(element);
+      if (element === "admin") {
+        checkRole = true;
+      }
+    });
   },
 };
 </script>
