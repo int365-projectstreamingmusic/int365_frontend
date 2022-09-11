@@ -36,7 +36,7 @@
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
       <div class="flex flex-row justify-center py-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
-        <img :src="`${process.env.VUE_APP_MY_ENV_VARIABLE}`+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" />
+        <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" />
       </div>
       <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
       <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div>
@@ -179,6 +179,7 @@ export default {
       path:'',
       showVolBar:false,
       mediaPlayer:false,
+      url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
       // url:process.env.VUE_APP_URL
       // playApi:[],
       // playNow:''
@@ -187,7 +188,7 @@ export default {
   methods:{
     pathPage(path){
       this.path = path
-    },
+    }, 
     // nextTest(index){
       // console.log(index)
       // index == undefined ? console.log("true") : console.log("false")
