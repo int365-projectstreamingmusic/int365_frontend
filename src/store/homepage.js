@@ -5,6 +5,7 @@ export default {
   state: {
     topFrist:'',
     topFive: '',
+    mediaPlayer: false
   },
   mutations: {
     SET_TOPFRIST(state, topFrist){
@@ -13,8 +14,14 @@ export default {
     SET_TOPFIVE(state, topFive) {
       state.topFive = topFive;
     },
+    SET_MEDIAPLAYER(state,mediaPlayer){
+      state.mediaPlayer = mediaPlayer 
+    }
   },
   getters:{
+    mediaPlayer(state){
+      return state.mediaPlayer
+    },
     topFrist(state){
       return state.topFrist
     },
@@ -34,6 +41,10 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+    setMediaPlayer({ commit },boolean){
+      console.log(boolean)
+      commit("SET_MEDIAPLAYER",boolean)
     }
   }
 }
