@@ -2,7 +2,7 @@
   <!-- bg-gray-100  -->
   <div class="ml-75 text-gray-700 sticky top-0 z-50 h-full">
     <div class="flex justify-center pt-8 pb-5 bg-white">
-      <div class="w-1200 flex flex-row space-x-24">
+      <div class="w-1200 flex flex-row space-x-20">
         <div class="flex flex-row space-x-3">
           <div>
             <router-link to="/">
@@ -66,32 +66,57 @@
             </router-link>
           </div>
         </div>
+
         <div
           class="flex flex-row justify-center items-center font-sansation-light space-x-2 text-base w-42"
           v-if="authenticated"
         >
-          <router-link
-            to="/managereport"
-            class="flex flex-row space-x-2 cursor-pointer hover:text-violetlight transition duration-300"
+          <div
+            class="bg-gray-700 rounded-full appearance-none border-2 h-8 w-full px-2 text-white font-sansation-light text-sm focus:outline-none focus:border-violetlight flex items-center flex-col"
           >
-            <div class="flex justify-center items-center">
-              <span class="material-icons flex justify-center items-center">
-                account_circle
-              </span>
-            </div>
-            <div class="flex justify-center items-center">
+            <div
+              class="flex flex-row items-center justify-center focus:text-violetlight hover:text-violetlight"
+              @click="isOpen = !isOpen"
+            >
+              <img
+                src="../assets/ImgTmp1.png"
+                class="rounded-xl mt-1 mr-1"
+                style="width: 30px; height: 23px; object-fit: cover"
+              />
               {{ UserName }}
+              <span class="material-icons ml-2" v-if="isOpen">
+                expand_less
+              </span>
+              <span class="material-icons ml-2" v-else> expand_more </span>
             </div>
-          </router-link>
-
-          <p>|</p>
-
-          <span
-            @click="signOut"
-            class="cursor-pointer hover:text-violetlight transition duration-300 material-icons flex justify-center items-center"
-          >
-            logout
-          </span>
+            <div
+              class="text-gray-800 flex items-end flex-col w-full mt-2 bg-white"
+              v-if="isOpen"
+            >
+              <div
+                class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
+              >
+                <router-link to="/accountprofile">Account</router-link>
+              </div>
+              <div v-if="checkRole"
+                class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
+              >
+                <router-link to="/managereport">Manage Report</router-link>
+              </div>
+              <div v-else
+                class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
+              >
+                <router-link to="/myplaylist">My playlist</router-link>
+              </div>
+              
+              <div
+                class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1"
+                @click="signOut"
+              >
+                <p>Sign out</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <router-link
@@ -123,11 +148,14 @@ export default {
   data() {
     return {
       path: "",
+      isOpen: false,
+
     };
   },
   methods: {
     pathPage(path) {
       this.path = path;
+      checkRole=false;
     },
     routerLogin(active) {
       localStorage.setItem("logInActive", active);
@@ -143,6 +171,14 @@ export default {
         });
       });
     },
+
+    checkRole(){
+      roles.forEach(element => {
+        if (element === "admin") {
+            checkRole = true;
+          }
+      });
+    }
   },
 
   computed: {
