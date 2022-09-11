@@ -401,9 +401,9 @@ export default {
             }
           }else{
             //loopall กำลังคิดยุว่ามีดีไหมหรือหมดกะหมุน auto
-            
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
             played.value = []
+            sound.value = null
             next()
           }  
         }else{
