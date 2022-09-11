@@ -43,7 +43,10 @@
               name="userName"
               placeholder="      USERNAME OR EMAIL "
               required
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 text-xs md:text-base"
+              :class="
+                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              "
             />
           </div>
           <div class="my-2">
@@ -55,10 +58,13 @@
               placeholder="      PASSWORD"
               required
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 text-xs md:text-base"
+              :class="
+                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              "
             />
           </div>
-          <div v-if="this.validateLogin" class="text-red-500 text-sm font-mono">
-            Username or Password is incorrect
+          <div class="text-red-500 text-sm font-mono">
+            {{ this.invalid.duplicated.errorMessage }}
           </div>
           <div class="my-4 flex justify-center item-center">
             <button
@@ -82,6 +88,9 @@
               placeholder="      USERNAME OR EMAIL "
               required
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              :class="
+                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              "
             />
           </div>
           <div class="my-2">
@@ -93,6 +102,9 @@
               placeholder="      EMAIL ADDRESS "
               required
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              :class="
+                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              "
             />
           </div>
           <div class="my-2">
@@ -104,6 +116,9 @@
               placeholder="      PASSWORD"
               required
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              :class="
+                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              "
             />
           </div>
           <div class="my-2">
@@ -114,6 +129,9 @@
               placeholder="      CONFIRM PASSWORD"
               required
               class="w-full h-12 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              :class="
+                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              "
             />
           </div>
           <div class="text-red-500 text-sm font-mono">
@@ -180,6 +198,12 @@ export default {
           userName: "",
           password: "",
         }),
+        (this.invalid = {
+          duplicated: {
+            showErrorBox: false,
+            errorMessage: "",
+          },
+        }),
         localStorage.setItem("logInActive", active);
       this.localbox = localStorage.getItem("logInActive");
       this.localbox == 1 ? (this.logIn = true) : (this.logIn = false);
@@ -194,12 +218,15 @@ export default {
           }
         });
       }
+      
       if (response.data.token && checkRole === true) {
         this.$router.replace({
           name: "managereport",
         });
       } else if (response.data.exceptionCode === 3001) {
-        this.validateLogin = true;
+        this.invalid.duplicated.showErrorBox = true;
+        this.invalid.duplicated.errorMessage =
+          "Username or Password is incorrect.";
       } else {
         this.$router.replace({
           name: "hometest",
@@ -208,22 +235,25 @@ export default {
     },
     async doRegister() {
       if (this.regisform.user_passcode === this.confirmPass) {
-        this.validatePassword = false;
         let regisJson = JSON.stringify(this.regisform);
         let errorCode = 0;
         await axios
-          .post(`http://20.213.128.1:8086/api/authen/signup`, regisJson, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
+          .post(
+            `${process.env.VUE_APP_MY_ENV_VARIABLE}api/authen/signup`,
+            regisJson,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
           .then(function () {
             errorCode = 0;
           })
           .catch((error) => {
             errorCode = error.response.data.exceptionCode;
+            this.invalid.duplicated.showErrorBox = true;
           });
-
         switch (errorCode) {
           case 3002:
             this.invalid.duplicated.errorMessage =

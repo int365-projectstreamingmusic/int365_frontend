@@ -33,7 +33,7 @@ export default {
     async signIn({ dispatch }, credeitials) {
       let response;
       response = await axios
-        .post(`http://20.213.128.1:8086/api/authen/login`, credeitials, {
+        .post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/authen/login`, credeitials, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -57,13 +57,15 @@ export default {
       }
     },
     async singOut({ commit }) {
+      console.log(process.env.VUE_APP_ROOT_API);
       return await axios
-        .get(`http://20.213.128.1:8086/api/authen/logout`)
+        .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/authen/logout`)
         .then(() => {
           commit("SET_TOKEN", null);
           commit("SET_USERNAME", null);
           commit("SET_ROLES", null);
         });
+        
     },
   },
 };
