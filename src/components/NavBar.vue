@@ -68,8 +68,8 @@
         </div>
 
         <div
-          class="flex flex-row justify-center items-center font-sansation-light space-x-2 text-base w-42"
-          v-if="authenticated"
+          class="flex flex-row justify-center cursor-pointer items-center font-sansation-light space-x-2 text-base w-42"
+          v-if="authenticated" 
         >
           <div
             class="bg-gray-700 rounded-full appearance-none border-2 h-8 w-full px-2 text-white font-sansation-light text-sm focus:outline-none focus:border-violetlight flex items-center flex-col"

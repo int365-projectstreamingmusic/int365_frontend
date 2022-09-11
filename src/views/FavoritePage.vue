@@ -10,7 +10,6 @@ export default {
     mounted(){
     const route=useRoute();
     this.$emit('path',route.path)
-    console.log(this.$route.name)
   },
 }
 </script>
