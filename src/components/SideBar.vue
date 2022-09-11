@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="px-10 mb-10 tracking-wide space-y-1 cursor-pointer">
-        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
+        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="index" >
           <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
             <div>{{index+1}}</div>
             <div class="truncate w-48 " @click="next(index)">{{value.nameShow}}</div>
@@ -356,13 +356,15 @@ export default {
       var round = playApi.value.length
       var oldPlay = playApi.value
       var random = []
+      // var gap 
       // console.log(oldPlay[Math.floor(Math.random()*oldPlay.length)])
       for (let index = 0; index < round; index++) {
-        // console.log(oldPlay)
+        // gap = 
+        // console.log(gap)
         random.push(oldPlay[Math.floor(Math.random()*oldPlay.length)]) 
         // playApi.value[index] = random 
         // console.log(random)
-        oldPlay = oldPlay.filter((m) => m != random[index] )
+        oldPlay = oldPlay.filter((m) => m != random[index]  )
         // console.log(oldPlay)
       }
       playApi.value = random
