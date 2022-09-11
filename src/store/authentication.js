@@ -6,6 +6,7 @@ export default {
     token: null,
     roles: null,
     UserName: null,
+    data: null,
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -16,6 +17,9 @@ export default {
     },
     SET_ROLES(state, roles) {
       state.roles = roles;
+    },
+    SET_DATA(state, data) {
+      state.data = data;
     },
   },
   getters: {
@@ -28,18 +32,25 @@ export default {
     roles(state) {
       return state.roles;
     },
+    data(state) {
+      return state.data;
+    },
   },
   actions: {
     async signIn({ dispatch }, credeitials) {
       let response;
       response = await axios
-        .post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/authen/login`, credeitials, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        .post(
+          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/authen/login`,
+          credeitials,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
         .then((response) => {
-          dispatch("attempt", response);
+          dispatch("attempt", response.data.token);
           return response;
         })
         .catch((error) => {
@@ -47,17 +58,30 @@ export default {
         });
       return response;
     },
-    attempt({ commit }, response) {
-      if (response) {
-        localStorage.removeItem('accesstoken')
-          commit("SET_USERNAME", response.data.UserName);
-          commit("SET_ROLES", response.data.roles);
-          commit("SET_TOKEN", response.data.token);
-        
+    async attempt({ commit, state }, token) {
+      if (token) {
+        commit("SET_TOKEN", token);
+      }
+
+      if (!state.token) {
+        return;
+      }
+
+      try {
+        let response = await axios.get(
+          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/profile/myprofile`
+        );
+        commit("SET_USERNAME", response.data.username);
+        commit("SET_ROLES", response.data.roles);
+        commit("SET_DATA",response.data)
+      } catch (error) {
+        commit("SET_TOKEN", null);
+        commit("SET_USERNAME", null);
+        commit("SET_ROLES", null);
+        commit("SET_DATA", null);
       }
     },
     async singOut({ commit }) {
-      console.log(process.env.VUE_APP_ROOT_API);
       return await axios
         .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/authen/logout`)
         .then(() => {
@@ -65,7 +89,6 @@ export default {
           commit("SET_USERNAME", null);
           commit("SET_ROLES", null);
         });
-        
     },
   },
 };
