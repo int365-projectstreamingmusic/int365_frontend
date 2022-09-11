@@ -2,7 +2,7 @@ name: front-end Production
 on:
   push:
     branches:
-      - main
+      - Production
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -28,12 +28,12 @@ jobs:
     steps:
     - uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOSTNAME }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.PRIVATEKEY }}
+        host: ${{ secrets.HOSTNAME_PRO }}
+        username: ${{ secrets.USERNAME_PRO }}
+        key: ${{ secrets.PRIVATEKEY_PRO }}
         port: ${{ secrets.SERVERPORT }}
         script: | 
-          cd ./dev/front-end/
+          cd ./sit-garden
           sudo docker-compose pull
           sudo docker-compose up -d 
           sudo docker image prune -af
