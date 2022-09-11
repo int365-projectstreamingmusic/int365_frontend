@@ -4,13 +4,13 @@ services:
     image: ghcr.io/int365-projectstreamingmusic/int365_frontend:latest
     container_name: frontend-dev
     ports:
-        - 8080:80
-#     networks:
-#        int222:
-#           ipv4_address: 172.10.0.2
-# networks:
-#   default:
-#     external:
-#        name: int222
-#   int222:
-#     external: true
+        - 80:80
+    networks:
+       int372:
+          ipv4_address: 172.10.0.2
+networks:
+  default:
+    external:
+       name: int372
+  int372:
+    external: true

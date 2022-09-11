@@ -1,4 +1,4 @@
-name: front-end CICD
+name: front-end Production
 on:
   push:
     branches:
@@ -33,7 +33,7 @@ jobs:
         key: ${{ secrets.PRIVATEKEY }}
         port: ${{ secrets.SERVERPORT }}
         script: | 
-          cd ./dev/front-end 
-          sudo docker-compose down && sudo docker-compose pull
+          cd ./dev/front-end/
+          sudo docker-compose pull
           sudo docker-compose up -d 
           sudo docker image prune -af
