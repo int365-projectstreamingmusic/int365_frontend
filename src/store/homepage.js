@@ -24,7 +24,7 @@ export default {
   },
   actions: {
     async getTopFive({ commit }){
-      await axios.get(`http://20.213.128.1:8086/api/public/general/track`)
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/general/track`)
       .then((res) =>{
 
         commit("SET_TOPFRIST",res.data.content[0])
