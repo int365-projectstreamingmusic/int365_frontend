@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import authentication from "./authentication";
-
+import homepage from "./homepage";
 export default createStore({
   state: {},
   getters: {},
@@ -8,5 +8,6 @@ export default createStore({
   actions: {},
   modules: {
     authentication,
+    homepage
   },
 });
