@@ -32,7 +32,7 @@
         </div>
       </router-link>
     </div>
-    <div v-if="mediaPlayer">
+    <div v-show="mediaPlayer">
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
       <div class="flex flex-row justify-center py-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="px-10 mb-10 tracking-wide space-y-1 cursor-pointer">
-        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
+        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="index" >
           <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
             <div>{{index+1}}</div>
             <div class="truncate w-48 " @click="next(index)">{{value.nameShow}}</div>
@@ -108,7 +108,7 @@
       </div>
       <!-- <div>{{music}}</div> -->
     </div>
-    <div v-else>
+    <div v-show="!mediaPlayer">
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
       <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Click music And <br> i will play music for you! </div>
       <!-- <div>{{url}}</div> -->
@@ -123,6 +123,7 @@
 //             cursor.style.left = e.clientX + "px";
 //             cursor.style.top = e.clientX + "px";})
 //           ;
+import { mapGetters } from "vuex";
 import {
   ref,
   // ,reactive
@@ -152,8 +153,7 @@ export default {
       // this.stopPlayer()
       // }
       if(this.checkPlayer()){
-        
-        this.mediaPlayer = true
+        this.$store.dispatch('homepage/setMediaPlayer',true)
         this.playApi.splice(0, 0,newVal)
         this.fristPlayed = true
         this.stopPlayer()
@@ -165,7 +165,7 @@ export default {
     },
     addQueue: function(newVal) { // watch it
       if(this.checkPlayer()){
-        this.mediaPlayer = true
+        this.$store.dispatch('homepage/setMediaPlayer',true)
         this.playApi.splice(0, 0,newVal)
         this.fristPlayed = true
         this.stopPlayer()
@@ -174,11 +174,16 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      mediaPlayer: 'homepage/mediaPlayer',
+    })
+  },
   data() {
     return {
       path:'',
       showVolBar:false,
-      mediaPlayer:false,
+      // mediaPlayer:false,
       url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
       // url:process.env.VUE_APP_URL
       // playApi:[],
@@ -288,13 +293,13 @@ export default {
       playTest()
     }
     function playTest() {
-      console.log(playApi.value)
+      // console.log(playApi.value)
       
       // var audio = audios.value[index.value];
       if (sound.value == null) {
         if(fristPlayed.value == true && sound.value == null){
           // console.log(`ใน play ${playApi.value.length}`) 
-          // console.log(playApi.value[0])
+          // console.log('1sttime')
           nameMusic.value[0] = playApi.value[0].nameShow
           playNow.value = playApi.value[0].name ? playApi.value[0].name : ''
           playImage.value = playApi.value[0].image
@@ -351,13 +356,15 @@ export default {
       var round = playApi.value.length
       var oldPlay = playApi.value
       var random = []
+      // var gap 
       // console.log(oldPlay[Math.floor(Math.random()*oldPlay.length)])
       for (let index = 0; index < round; index++) {
-        // console.log(oldPlay)
+        // gap = 
+        // console.log(gap)
         random.push(oldPlay[Math.floor(Math.random()*oldPlay.length)]) 
         // playApi.value[index] = random 
         // console.log(random)
-        oldPlay = oldPlay.filter((m) => m != random[index] )
+        oldPlay = oldPlay.filter((m) => m != random[index]  )
         // console.log(oldPlay)
       }
       playApi.value = random
@@ -369,11 +376,14 @@ export default {
     }
     function previous(){
       if(played.value.length != 0){
-          console.log(playNow.value)
-          playApi.value.splice(0, 0,{name:playNow.value,nameShow:played.value[played.value.length-2].nameShow,image:played.value[played.value.length-2].image})
+          // console.log(played.value)
+          // console.log(played.value[played.value.length-1].nameShow)
+          // console.log(played.value[played.value.length-2].image)
+          playApi.value.splice(0, 0,{name:playNow.value,nameShow:played.value[played.value.length-1].nameShow,image:played.value[played.value.length-1].image})
           playNow.value = played.value[played.value.length-2].name
-          playImage.value = playApi.value[0].image
+          playImage.value = played.value[played.value.length-2].image
           nameMusic.value[0] = played.value[played.value.length-2].nameShow
+          console.log(playApi.value[0])
           played.value = played.value.filter((m) => m != played.value[played.value.length-1]  )
         //  && m != played.value[played.value.length-2]
           // console.log(playApi.value)
@@ -393,13 +403,16 @@ export default {
         if(sound.value && index == undefined ){
           if(playApi.value.length != 0){
             if(loopType.value != 'ONLYONE'){
+              // console.log('1')
               nameMusic.value[0] = playApi.value[0].nameShow
               playNow.value = playApi.value[0].name
               playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
+              console.log(played.value)
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
           }else{
+            // console.log('2')
             //loopall กำลังคิดยุว่ามีดีไหมหรือหมดกะหมุน auto
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
             played.value = []
@@ -407,15 +420,16 @@ export default {
             next(0)
           }  
         }else{
+          // console.log('3')
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
-          console.log(nameMusic.value[0])
+          // console.log(nameMusic.value[0])
           nameMusic.value[0] = playApi.value[index].nameShow
-          console.log(nameMusic.value[0])
+          // console.log(nameMusic.value[0])
           playNow.value = playApi.value[index].name
           playImage.value = playApi.value[0].image
         }
       }
-      
+      console.log('4')
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
