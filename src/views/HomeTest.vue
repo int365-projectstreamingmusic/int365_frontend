@@ -1,23 +1,24 @@
 <template>
-  <div class="hometest ml-75 h-screen">
+<!-- :class="sideBarShow ?'2xl:ml-75':''" -->
+  <div class="hometest h-screen" :class="sideBarShow ?'lg:ml-75':''" >
     <div class="flex flex-col w-full ">
       <!-- <div class=" flex  " > -->
         <!-- Top5music -->
-        <div class="flex justify-center mb-15">
+        <div v-if='!mobile' class="flex justify-center mb-15">
           <div>
             <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music</div>
-            <div class="mx-10">
+            <div class="mx-10 2xl:w-1200 w-962 ">
               <!-- <Suspense> -->
               <div class="flex flex-row relative" >
-                <div class="absolute flex flex-row items-end z-10 justify-between " style="width: 780px;" @mouseover="topOne = true" @mouseleave="topOne = false">
+                <div class="absolute flex flex-row items-end z-10 justify-between 2xl:w-780 xl:w-962 "  @mouseover="topOne = true" @mouseleave="topOne = false">
                   <div class="bg-blackTopFive opacity-80" style="height: 350px; width: 60px;"></div>
                   <div class="absolute  pl-4 pb-5 text-white text-8xl font-sansation-bold ">1</div>
                   <div v-if="topOne" class="absolute  bottom-0 right-0 mb-5 mr-4 cursor-pointer text-white w-14 h-14 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
                     <span class="material-icons text-4xl" @click="acceptData(topFrist)">play_arrow</span>
                   </div> 
                 </div>          
-                <div class="overflow-hidden"  style="width:780px ; height: 350px;">
-                  <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:780px ; height: 350px; object-fit: cover;"/>
+                <div class="overflow-hidden 2xl:w-780 xl:w-962"  style=" height: 350px;">
+                  <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110 2xl:w-780 xl:w-962':'2xl:w-780 xl:w-962'" style=" height: 350px; object-fit: cover;"/>
                 </div>
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
                   <div class="mb-6 ml-9 flex flex-col space-y-0.5">
@@ -34,21 +35,52 @@
               </template>
               </Suspense> -->
               <div class="flex flex-row">
-                <!--เปลี่ยนเป็น v-for -->
-                <div v-for="musics in topFive" :key="musics.id">
-                  <ShowMusicTopFive :musicDes="musics" @music="acceptData"></ShowMusicTopFive>
+                <div v-for="(musics,index) in topFive" :key="musics.id">
+                  <ShowMusicTopFive :musicDes="musics" :count="index" @music="acceptData"></ShowMusicTopFive>
                 </div> 
-                <!-- 
-                <ShowMusicTopFive :musicDes={} @music="acceptData"></ShowMusicTopFive>
-                <ShowMusicTopFive :musicDes={} @music="acceptData"></ShowMusicTopFive>
-                <ShowMusicTopFive :musicDes={} @music="acceptData"></ShowMusicTopFive> -->
               </div>
             </div>
           </div>
         </div>
+        <!-- mobile top5 -->
+        <div v-if='mobile' class="flex justify-center ">
+          <div>
+            <div class="font-sansation-bold text-2xl text-blackcoal   lg:mx-10 mt-3 mb-6 bg-white">Top 5 Music</div>
+            <div class="lg:mx-10 w-698 ">
+              <div class="flex flex-row relative" >
+                <div class="absolute flex flex-row items-end z-10 justify-between " style="width: 698px;" @mouseover="topOne = true" @mouseleave="topOne = false">
+                  <div class="bg-blackTopFive opacity-80" style="height: 300px; width: 60px;"></div>
+                  <div class="absolute  pl-5 pb-5 text-white text-6xl font-sansation-bold ">1</div>
+                  <div v-if="topOne" class="absolute  bottom-0  mb-6 ml-82 cursor-pointer text-white w-14 h-14 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
+                    <span class="material-icons text-4xl" @click="acceptData(topFrist)">play_arrow</span>
+                  </div> 
+                  <!-- v-if="!topOne" -->
+                </div>          
+                <div class="overflow-hidden"  style="width:780px ; height: 300px;">
+                  <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:698px ; height: 300px; object-fit: cover;"/>
+                </div>
+                <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
+                  <div class="mb-6 mx-4 flex flex-col space-y-0.5">
+                    <div>Name: {{topFrist.trackName}}</div>
+                    <div>Artist: {{topFrist.userAccountModel.username}}</div>
+                    <div>Album: you name</div>
+                    <div>Released: {{topFrist.timestamp}}</div>
+                    <div>View: 142,169,846</div>
+                  </div> 
+                </div>
+              </div>
+            </div>
+            <div v-for="(musics,index) in topFive" :key="musics.id">
+              <ShowMusicTopFive :musicDes="musics" :count="index" @music="acceptData"></ShowMusicTopFive>
+            </div> 
+
+           
+          </div>
+        </div>
+        <!-- /mobile top5 -->
         <!-- /Top5music style="height: 350px; width: 330px;"-->
         <!-- recommend -->
-        <div class="flex justify-center mb-15">
+        <div v-if='!mobile' class="flex justify-center mb-15">
           <div class="mx-10 w-1200">
             <div class="font-sansation-bold text-4xl text-blackcoal mb-3">Recommend</div>
             <div class="flex flex-row items-end justify-between font-sansation-regular mb-6" >
@@ -92,7 +124,7 @@
         </div>
         <!--/recommend -->
         <!-- recent releases -->    
-        <div class="flex justify-center">
+        <div v-if='!mobile' class="flex justify-center" >
           <div class="mx-10 w-1200">
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
             <div class="flex flex-row mb-20">
@@ -168,7 +200,7 @@
 <script>
 import ShowMusicTopFive from "../components/ShowMusicTopFive.vue";
 import MusicCard from "../components/MusicCard.vue";
-import { mapGetters } from "vuex";
+import { mapGetters,mapActions } from "vuex";
 
 export default {
   components: {
@@ -179,7 +211,9 @@ export default {
   computed: {
     ...mapGetters({
       topFive: 'homepage/topFive',
-      topFrist: 'homepage/topFrist'
+      topFrist: 'homepage/topFrist',
+      sideBarShow: 'homepage/sideBarShow',
+      mobile: 'homepage/mobile'
     })
   },
   data() {
@@ -192,10 +226,10 @@ export default {
     }
   },
  methods:{
-  // passMusic(e){
-  //     console.log(e)
-  //    this.$emit('music',{name:'audio1.mp3',image:'sadasd'})
-  // },
+    ...mapActions({
+      hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+      handleView: 'homepage/handleView'
+    }),
   acceptData(e) {
       console.log(e);
       // this.music = e;
@@ -211,6 +245,8 @@ export default {
  },
  async created() {
   await this.getContent();
+  this.handleView();
+  window.addEventListener("resize", this.handleView);
  }
 }
 </script>

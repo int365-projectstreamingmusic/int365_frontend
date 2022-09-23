@@ -1,9 +1,12 @@
 
 <template>
-  <div class="bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
+  <div v-show="sideBarShow" class=" bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll   z-50">
     <div class="sticky top-0 z-20">
-      <div class="font-sansation-light text-logo text-center bg-neutral-50 text-black pt-5 pb-0  sticky top-0">GARDEN</div>
-      <div class="h-8 bg-gradient-to-b from-neutral-50 dark:from-slate-900"></div>
+      <div class="flex flex-row items-center justify-center space-x-5">
+        <span @click="hideSideBar()" class="material-icons text-3xl mt-7 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+        <div class="font-sansation-light text-3xl text-center mt-7 bg-neutral-50 text-black  pb-0  sticky top-0">GARDEN</div>
+      </div>
+      <div class="h-8 bg-gradient-to-b from-neutral-50 "></div>
     </div>
     <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">menu</div>
     <div class="py-7">
@@ -114,6 +117,14 @@
       <!-- <div>{{url}}</div> -->
     </div>
  </div>
+ <!-- <div v-show="!sideBarShow" class="fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
+    <div class="sticky top-0 z-20">
+      <div class="flex flex-row items-center justify-center space-x-5">
+        <span @click="hideSideBar()" class="material-icons text-4xl mt-5 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+        <div class="font-sansation-light text-logo text-center text-black pt-5 pb-0  sticky top-0">GARDEN</div>
+      </div>
+    </div>
+ </div> -->
  
 </template>
 
@@ -123,7 +134,7 @@
 //             cursor.style.left = e.clientX + "px";
 //             cursor.style.top = e.clientX + "px";})
 //           ;
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import {
   ref,
   // ,reactive
@@ -177,6 +188,7 @@ export default {
   computed: {
     ...mapGetters({
       mediaPlayer: 'homepage/mediaPlayer',
+      sideBarShow: 'homepage/sideBarShow'
     })
   },
   data() {
@@ -191,15 +203,13 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      hideSideBar: 'homepage/hideSideBar' // map `this.add()` to `this.$store.dispatch('increment')`
+    }),
     pathPage(path){
       this.path = path
-    }, 
-    // nextTest(index){
-      // console.log(index)
-      // index == undefined ? console.log("true") : console.log("false")
-            // this.playNow = this.playApi[1].name
-            // this.next();
-    // }
+    }
+
   },
   mounted(){
     // const route=useRoute();
@@ -485,23 +495,12 @@ export default {
             timer,step,stepFunction,seek,progress
             ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
             ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic,nameMusic,playImage
-            // 
             };
-  },    
+  },
+
 };
 </script>
 
 <style>
-/* #progressButtonTimer,
-#progressButtonVolume {
-  margin-top: -9px;
-  right: -8px;
-}
-@media screen and (max-width: 768px) {
-  #progressButtonTimer,
-  #progressButtonVolume {
-    margin-top: -8px;
-    right: -7px;
-  }
-} */
+
 </style>
