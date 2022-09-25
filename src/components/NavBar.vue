@@ -1,22 +1,22 @@
 <template>
   <div  class="flex flex-row sticky top-0 z-50 bg-white  justify-center items-center">
-    <div v-show="!sideBarShow" class="2xl:w-75 z-50 bg-white md:mr-10 mr-2 mb-5 mt-7">
+    <div v-show="!sideBarShow" class="2xl:w-75 z-50 bg-white md:mr-10 mr-2  mb-5 mt-7 h-9 flex flex-row items-center">
       <div class="sticky top-0 z-20 ">
         <div class="flex flex-row items-center justify-center md:space-x-5 space-x-2 ">
-          <span @click="hideSideBar()" class="material-icons md:text-3xl text-xl   cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
-          <div class="font-sansation-light md:text-3xl text-xl text-center text-black   sticky top-0">GARDEN</div>
+          <span @click="hideSideBar()" class="material-icons md:text-3xl text-2xl   cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+          <div v-show="!logo" class="font-sansation-light md:text-3xl text-xl text-center text-black   sticky top-0">GARDEN</div>
         </div>
       </div>
     </div>
-    <div v-show="sideBarShow" class="bg-white md:w-52.1">
+    <div v-show="sideBarShow" class="bg-white md:w-52.1 ">
     </div> 
-    <div class="text-gray-700 z-50 ">
-      <div class="flex justify-center mt-7 mb-5 bg-white ">
-        <div class="2xl:w-1200 w-full flex flex-row 2xl:space-x-20 lg:space-x-10 md:space-x-4 space-x-2 2xl:justify-between justify-center ">
-          <div class="flex flex-row lg:space-x-3 space-x-2 2xl:ml-10 h-5 md:h-full items-center">
+    <div class="text-gray-700 z-50 mt-7 mb-5 h-9 flex flex-row items-center">
+      <div class="flex justify-center bg-white ">
+        <div class="2xl:w-1200 w-full flex flex-row 2xl:space-x-20 lg:space-x-10 md:space-x-4 sm:space-x-2 space-x-2 2xl:justify-between justify-center ">
+          <div class="flex flex-row lg:space-x-3 sm:space-x-2 space-x-1 2xl:ml-10 h-5 md:h-full items-center">
             <router-link to="/">
               <div class="icon-navbar-outside">
-                <span class="material-icons md:text-xl text-sm">home</span>
+                <span class="material-icons md:text-xl sm:text-sm text-xs">home</span>
               </div>
             </router-link>
             <router-link to="/">
@@ -29,21 +29,20 @@
                 <span class="material-icons md:text-2xl text-sm">chevron_right</span>
               </div>
             </router-link> 
-            <div class="cursor-pointer">
-              <input
+            <input
                 type="text"
-                class="bg-neutral-100 rounded-full appearance-none border-2 border-gray-100 md:h-8 h-5 2xl:w-504 lg:w-64 md:w-32 w-24 md:pl-6 pl-2 font-sansation-light md:text-sm sm:text-xs text-xxs focus:outline-none focus:bg-white focus:border-violetlight"
-                placeholder="Search here"
+                class="bg-neutral-100 rounded-full appearance-none border-2 border-gray-100 md:h-8 h-5 2xl:w-504 lg:w-64 md:w-32 sm:w-24 w-20 md:pl-6 sm:pl-2 pl-1 font-sansation-light md:text-sm text-xs  focus:outline-none focus:bg-white focus:border-violetlight"
+                placeholder="Search"
                 v-model="searchName"
-              />
-            </div>
+            />
             <router-link to="/allsong" @click="pathPage('/allsong')" >
               <div v-bind:class="this.path=='/allsong'?'bg-blackcoal text-violetlight':'bg-neutral-100'"
-                 class="flex items-center md:text-base sm:text-xs text-xxs justify-center hover:font-sansation-regular hover:text-violetlight  hover:bg-blackcoal transition duration-300 rounded-full 2xl:w-36 md:w-24 md:h-8 w-15 h-5">
+                 class="flex items-center md:text-base sm:text-xs text-mxs justify-center hover:font-sansation-regular hover:text-violetlight  hover:bg-blackcoal transition duration-300 rounded-full 2xl:w-36 md:w-24 md:h-8 sm:w-15 w-11 h-5">
                 <div class="font-sansation-light" v-bind:class="this.path == '/allsong' ? '' : ''">Song</div>
               </div>
             </router-link> 
           </div>
+          <!-- ยังไม่ได้ทำ responsive -->
           <div class="flex flex-row justify-center items-center font-sansation-light space-x-2 text-base w-42" v-if="authenticated">
             <div class="bg-gray-700 rounded-full appearance-none border-2 h-8 w-full px-2 text-white font-sansation-light text-sm focus:outline-none focus:border-violetlight flex items-center flex-col">
               <div class="flex flex-row items-center justify-center focus:text-violetlight hover:text-violetlight" @click="isOpen = !isOpen">
@@ -68,7 +67,8 @@
               </div>
             </div>
           </div>
-          <router-link v-else to="/login" class="flex flex-row items-center space-x-2 font-sansation-light md:text-base text-ss md:w-28.1 w-24 ">
+          <!-- ยังไม่ได้ทำ responsive -->
+          <router-link v-else to="/login" class="flex flex-row items-center sm:space-x-2 font-sansation-light md:text-base sm:text-ss text-xs md:w-28.1  w-24 space-x-1">
             <p @click="routerLogin('1')" class="cursor-pointer hover:text-violetlight transition duration-300"> Log in</p>
             <p>|</p>
             <p @click="routerLogin('2')" class="cursor-pointer hover:text-violetlight transition duration-300">Register</p>
@@ -117,13 +117,13 @@ export default {
       });
     }
   },
-
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
       UserName: "authentication/UserName",
       roles: "authentication/roles",
       sideBarShow: 'homepage/sideBarShow',
+      logo: 'homepage/logo'
     }),
   },
 };

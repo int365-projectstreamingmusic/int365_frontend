@@ -10,10 +10,10 @@
             <div class="mx-10 2xl:w-1200 w-962 ">
               <!-- <Suspense> -->
               <div class="flex flex-row relative" >
-                <div class="absolute flex flex-row items-end z-10 justify-between 2xl:w-780 xl:w-962 "  @mouseover="topOne = true" @mouseleave="topOne = false">
+                <div class="absolute flex flex-row items-end z-10 justify-between 2xl:w-780 xl:w-962 "  @mouseover="setTopOne(true)" @mouseleave="setTopOne(false)">
                   <div class="bg-blackTopFive opacity-80" style="height: 350px; width: 60px;"></div>
                   <div class="absolute  pl-4 pb-5 text-white text-8xl font-sansation-bold ">1</div>
-                  <div v-if="topOne" class="absolute  bottom-0 right-0 mb-5 mr-4 cursor-pointer text-white w-14 h-14 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
+                  <div v-if="topOne" class="absolute  2xl:bottom-0 right-0 mb-5 2xl:mr-4 mr-80 cursor-pointer text-white w-14 h-14 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
                     <span class="material-icons text-4xl" @click="acceptData(topFrist)">play_arrow</span>
                   </div> 
                 </div>          
@@ -21,7 +21,7 @@
                   <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110 2xl:w-780 xl:w-962':'2xl:w-780 xl:w-962'" style=" height: 350px; object-fit: cover;"/>
                 </div>
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
-                  <div class="mb-6 ml-9 flex flex-col space-y-0.5">
+                  <div class="mb-6 2xl:ml-9 ml-7 flex flex-col space-y-0.5">
                     <div>Name: {{topFrist.trackName}}</div>
                     <div>Artist: {{topFrist.userAccountModel.username}}</div>
                     <div>Album: you name</div>
@@ -45,26 +45,26 @@
         <!-- mobile top5 -->
         <div v-if='mobile' class="flex justify-center ">
           <div>
-            <div class="font-sansation-bold text-2xl text-blackcoal   lg:mx-10 mt-3 mb-6 bg-white">Top 5 Music</div>
-            <div class="lg:mx-10 w-698 ">
+            <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal lg:mx-10 mt-3 sm:mb-6 mb-3 bg-white">Top 5 Music</div>
+            <div class="lg:mx-10 md:w-698 sm:w-466 w-80">
               <div class="flex flex-row relative" >
-                <div class="absolute flex flex-row items-end z-10 justify-between " style="width: 698px;" @mouseover="topOne = true" @mouseleave="topOne = false">
-                  <div class="bg-blackTopFive opacity-80" style="height: 300px; width: 60px;"></div>
-                  <div class="absolute  pl-5 pb-5 text-white text-6xl font-sansation-bold ">1</div>
-                  <div v-if="topOne" class="absolute  bottom-0  mb-6 ml-82 cursor-pointer text-white w-14 h-14 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
-                    <span class="material-icons text-4xl" @click="acceptData(topFrist)">play_arrow</span>
+                <div class="absolute flex flex-row items-end z-10 justify-between  md:w-698 sm:w-466 w-80"  @mouseover="setTopOne(true)" @mouseleave="setTopOne(false)">
+                  <div class="bg-blackTopFive opacity-80 md:h-74 sm:h-60 h-44 md:w-15 sm:w-10 w-6" ></div>
+                  <div class="absolute  md:pl-5 sm:pl-4 pl-2 md:pb-5 pb-3 text-white md:text-6xl text-3xl font-sansation-bold ">1</div>
+                  <div v-if="topOne" class="absolute  bottom-0  md:mb-6 mb-4 md:ml-81 sm:ml-60 ml-32 cursor-pointer text-white md:w-14 md:h-14 sm:h-10 sm:w-10 w-8 h-8 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
+                    <span class="material-icons md:text-4xl text-3xl" @click="acceptData(topFrist)">play_arrow</span>
                   </div> 
                   <!-- v-if="!topOne" -->
                 </div>          
-                <div class="overflow-hidden"  style="width:780px ; height: 300px;">
-                  <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110':''" style="width:698px ; height: 300px; object-fit: cover;"/>
+                <div class="overflow-hidden md:w-698 sm:w-466 w-80 md:h-74 sm:h-60 h-44">
+                  <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110 md:h-74 sm:h-60 h-44 md:w-698 sm:w-466 w-60':'md:w-698 sm:w-466 w-60 md:h-74 sm:h-60 h-44'" style="object-fit: cover;"/>
                 </div>
-                <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
-                  <div class="mb-6 mx-4 flex flex-col space-y-0.5">
+                <div class="bg-blackTopFive  text-slate-50 font-sansation-light md:text-sm sm:text-xs text-xxs md:tracking-widest flex items-end md:w-100 w-64" >
+                  <div class="md:mb-6 mb-4 md:mx-4 ml-3 mr-2 flex flex-col space-y-0.5">
                     <div>Name: {{topFrist.trackName}}</div>
-                    <div>Artist: {{topFrist.userAccountModel.username}}</div>
-                    <div>Album: you name</div>
-                    <div>Released: {{topFrist.timestamp}}</div>
+                    <div v-show="!logo">Artist: {{topFrist.userAccountModel.username}}</div>
+                    <div v-show="!logo">Album: you name</div>
+                    <div v-show="!logo">Released: {{topFrist.timestamp}}</div>
                     <div>View: 142,169,846</div>
                   </div> 
                 </div>
@@ -213,13 +213,15 @@ export default {
       topFive: 'homepage/topFive',
       topFrist: 'homepage/topFrist',
       sideBarShow: 'homepage/sideBarShow',
-      mobile: 'homepage/mobile'
+      mobile: 'homepage/mobile',
+      logo: 'homepage/logo', 
+      topOne: 'homepage/topOne',
+
     })
   },
   data() {
     return {
       music: null,
-      topOne:false,
       selectMood:false,
       streamingI:false,
       url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
@@ -228,7 +230,8 @@ export default {
  methods:{
     ...mapActions({
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
-      handleView: 'homepage/handleView'
+      handleView: 'homepage/handleView',
+      setTopOne: 'homepage/setTopOne'
     }),
   acceptData(e) {
       console.log(e);

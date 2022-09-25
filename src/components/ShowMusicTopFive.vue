@@ -4,11 +4,11 @@
     <div class="grid">
       <transition name="fade"  >
         <div v-if="!upHere" class="absolute flex flex-row items-end justify-self-end justify-center ">
-          <div class="bg-blackTopFive opacity-80" style="height: 150px; width: 60px;"></div>
-          <div class="absolute pb-1 text-white text-7xl font-sansation-bold ">{{count+2}}</div>
+          <div class="bg-blackTopFive opacity-80 2xl:w-15 w-13" style="height: 150px; "></div>
+          <div class="absolute pb-1 text-white 2xl:text-7xl text-5xl font-sansation-bold ">{{count+2}}</div>
         </div>
-      <div v-else class="pl-6 pr-3 pb-4 bg-neutral-100 bg-opacity-80 absolute justify-self-end flex flex-row items-end justify-between " style="height: 150px; width: 300px; ">
-        <div class="w-56 flex flex-col font-sansation-regular text-sm tracking-widest text-blackcoal   opacity-100">
+      <div v-else class="2xL:pl-6 pl-2 2xl:pr-3 pr-2 pb-4 bg-neutral-100 bg-opacity-80 absolute justify-self-end flex flex-row items-end justify-between 2xl:w-74 w-full" style="height: 150px;  ">
+        <div class="2xl:w-56 w-44 flex flex-col font-sansation-regular text-sm 2xl:tracking-widest text-blackcoal opacity-100">
           <div><p class="truncate">Name: {{musicDes.trackName}}</p></div>
           <div>Artist: {{musicDes.userAccountModel.username}}</div>
           <div>Album: you name</div>
@@ -23,29 +23,29 @@
     </div>
   </div>
   <!-- mobile, tablet -->
-  <div v-if='mobile' class="flex flex-row overflow-hidden cursor-pointer relative w-698 lg:mx-10" @mouseover="upHere = true" @mouseleave="upHere = false">
+  <div v-if='mobile' class="flex flex-row overflow-hidden cursor-pointer relative md:w-698 sm:w-466 w-80 lg:mx-10" @mouseover="upHere = true" @mouseleave="upHere = false">
     
     <div class="grid ">
       <transition name="fade"  >
         <div v-if="!upHere" class="absolute flex flex-row items-end justify-self-start justify-center z-10">
-          <div class="bg-blackTopFive opacity-80" style="height: 70px; width: 60px;"></div>
-          <div class="absolute pb-3  text-white text-4xl font-sansation-bold ">{{count+2}}</div>
+          <div class="bg-blackTopFive opacity-80 md:w-15 sm:w-10 w-6 md:h-17 h-12" ></div>
+          <div class="absolute md:pb-4 pb-2  text-white md:text-4xl sm:text-2xl text-xl font-sansation-bold ">{{count+2}}</div>
         </div>
-      <div v-else class="pl-20 pr-3 pb-4 bg-neutral-100 bg-opacity-80 absolute justify-self-start z-10 flex flex-row items-end justify-between " style="height: 70px; width: 698px; ">
-        <div class="w-56 flex flex-col font-sansation-regular text-sm tracking-widest text-blackcoal   opacity-100">
+      <div v-else class="sm:pl-20 pl-6 pr-3 md:pb-3 pb-1 bg-neutral-100 bg-opacity-80 absolute justify-self-start z-10 flex flex-row md:items-end items-center justify-between  md:w-698 sm:w-466 w-80 md:h-15 h-12" >
+        <div class="w-56 flex flex-col font-sansation-regular sm:text-sm text-xs sm:tracking-widest text-blackcoal opacity-100">
           <div><p class="truncate">Name: {{musicDes.trackName}}</p></div>
           <!-- <div>Artist: {{musicDes.userAccountModel.username}}</div> -->
           <!-- <div>Album: you name</div> -->
           <!-- <div>Released: {{musicDes.timestamp}}</div> -->
           <div>View: 142,169,846</div>
         </div>  
-        <div class="mr-5 text-white w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
-          <span class="material-icons text-4xl" @click="passMusic(musicDes)">play_arrow</span>
+        <div class="mr-5 text-white md:w-10 md:h-10 sm:w-8 sm:h-8 w-6 h-6 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
+          <span class="material-icons md:text-4xl sm:text-2xl text-xl" @click="passMusic(musicDes)">play_arrow</span>
         </div>     
       </div>         
       </transition> 
     </div>
-    <img :src="'http://20.213.128.1:8086/api/streaming/image/'+musicDes.trackThumbnail" v-bind:class="upHere?'transition delay-95 duration-700 scale-125 z-0':''" style="width:698px ; height: 70px; object-fit: cover;"/>
+    <img :src="'http://20.213.128.1:8086/api/streaming/image/'+musicDes.trackThumbnail" v-bind:class="upHere?'transition delay-95 duration-700 scale-125 z-0 md:w-698 sm:w-466 w-80 md:h-15 h-12':'md:w-698 sm:w-466 w-80 md:h-15 h-12'" style="object-fit: cover;"/>
   </div>
 </template>
 <script>
@@ -54,7 +54,7 @@ import { mapGetters } from "vuex";
 export default {
   props:{
     musicDes: {type:Object, required: true},
-    count: {type:String,required: false}
+    count: {type:Number,required: false}
   },
   emits: ['music','count'],
   data() {

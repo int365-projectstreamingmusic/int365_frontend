@@ -108,9 +108,11 @@ module.exports = {
             11: '2.75rem',
             11.3:'2.891rem',
             12: '3rem',
+            13: '3.25rem',
             14: '3.5rem',
             15: '3.75rem',
             16: '4rem',
+            17: '4.375rem',
             20: '5rem',
             24: '6rem',
             28: '7rem',
@@ -141,6 +143,7 @@ module.exports = {
             98: '25rem',
             100: '26.25rem',
             448:'28rem',
+            466: '29.125rem',
             504:'31.5rem',
             600: '37.5rem',
             640: '40rem',
@@ -432,6 +435,7 @@ module.exports = {
 
         },
         fontSize: {
+            mxs: ['0.5rem', { lineHeight: '0.5rem' }],
             xxs: ['0.6rem', { lineHeight: '0.75rem' }],
             xs: ['0.75rem', { lineHeight: '0.75rem' }],
             ss: ['0.75rem', { lineHeight: '1rem' }],

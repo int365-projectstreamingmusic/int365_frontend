@@ -7,10 +7,18 @@ export default {
     topFive: '',
     mediaPlayer: false,
     sideBarShow: true,
-    mobile: false
+    mobile: false,
+    logo:false,
+    topOne:false
 
   },
   mutations: {
+    SET_TOPONE(state,topOne){
+      state.topOne = topOne
+    },
+    SET_LOGO(state,logo){
+      state.logo = logo
+    },
     SET_MOBILE(state,mobile){
       state.mobile = mobile
     },
@@ -28,6 +36,12 @@ export default {
     }
   },
   getters:{
+    topOne(state){
+      return state.topOne
+    },
+    logo(state){
+      return state.logo
+    },
     mobile(state){
       return state.mobile
     },
@@ -65,12 +79,20 @@ export default {
       console.log(state.sideBarShow)
       commit("SET_SIDEBARSHOW",!state.sideBarShow)
     },
+    setTopOne({commit},boolean){
+      commit("SET_TOPONE", boolean)
+    },
     handleView({commit}) {
-      
+        commit("SET_TOPONE", false)
       if (window.innerWidth <= 1320) {
         commit("SET_MOBILE",true)
       } else if (window.innerWidth > 1320) {
         commit("SET_MOBILE",false)
+      }
+      if(window.innerWidth <= 450){
+        commit("SET_LOGO",true)
+      } else if (window.innerWidth > 450) {
+        commit("SET_LOGO",false)
       }
     },
   }
