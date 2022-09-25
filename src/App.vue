@@ -1,11 +1,8 @@
 <template>
-  <div v-if="$route.path != '/login'">
+  <div>
     <nav-bar></nav-bar>
     <router-view @music="acceptData" @musicQ="passMusicQeue"></router-view>
     <SideBar :music="music" :addQueue="addQueue"></SideBar>
-  </div>
-  <div v-if="$route.path == '/login'">
-    <LogIn></LogIn>
   </div>
 </template>
 <script>
@@ -29,9 +26,7 @@ export default {
   computed: {},
   methods: {
     acceptData(e) {
-      console.log(e);
       this.music = e;
-      console.log(this.music);
     },
     passMusicQeue(e) {
       this.addQueue = e;

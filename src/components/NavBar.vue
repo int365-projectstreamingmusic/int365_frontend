@@ -85,13 +85,13 @@ export default {
     return {
       path: "",
       isOpen: false,
-
     };
   },
+
   methods: {
     pathPage(path) {
       this.path = path;
-      checkRole=false;
+      checkRole = false;
     },
     routerLogin(active) {
       localStorage.setItem("logInActive", active);
@@ -101,6 +101,7 @@ export default {
       signOutAction: "authentication/singOut",
        hideSideBar: 'homepage/hideSideBar',
     }),
+
     signOut() {
       this.signOutAction().then(() => {
         this.$router.replace({
@@ -108,14 +109,6 @@ export default {
         });
       });
     },
-
-    checkRole(){
-      roles.forEach(element => {
-        if (element === "admin") {
-            checkRole = true;
-          }
-      });
-    }
   },
   computed: {
     ...mapGetters({
@@ -125,6 +118,14 @@ export default {
       sideBarShow: 'homepage/sideBarShow',
       logo: 'homepage/logo'
     }),
+  },
+  checkRole() {
+    roles.forEach((element) => {
+      console.log(element);
+      if (element === "admin") {
+        checkRole = true;
+      }
+    });
   },
 };
 

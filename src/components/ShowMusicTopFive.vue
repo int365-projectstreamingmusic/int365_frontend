@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       upHere : false,
-      pic:require('../assets/948523.png')
+      url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
   },
   computed: {
