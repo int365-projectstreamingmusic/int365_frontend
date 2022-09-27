@@ -8,12 +8,12 @@
         </div>
       </div>
     </div>
-    <div v-show="sideBarShow" class="bg-white md:w-52.1 ">
-    </div> 
-    <div class="text-gray-700 z-50 mt-7 mb-5 h-9 flex flex-row items-center">
-      <div class="flex justify-center bg-white ">
-        <div class="2xl:w-1200 w-full flex flex-row 2xl:space-x-20 lg:space-x-10 md:space-x-4 sm:space-x-2 space-x-2 2xl:justify-between justify-center ">
-          <div class="flex flex-row lg:space-x-3 sm:space-x-2 space-x-1 2xl:ml-10 h-5 md:h-full items-center">
+    <!-- <div v-show="sideBarShow" class="bg-white md:w-52.1 ">
+    </div>  -->
+    <div class="text-gray-700 z-50 mt-7 mb-5 h-9 flex flex-row items-center" :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
+      <div class="flex justify-center bg-white 2xl:w-1200">
+        <div class=" w-full flex flex-row 2xl:space-x-20 lg:space-x-10 md:space-x-4 sm:space-x-2 space-x-2 2xl:justify-between justify-center ">
+          <div class="flex flex-row lg:space-x-3 sm:space-x-2 space-x-1  h-5 md:h-full items-center">
             <router-link to="/">
               <div class="icon-navbar-outside">
                 <span class="material-icons md:text-xl sm:text-sm text-xs">home</span>
@@ -42,33 +42,33 @@
               </div>
             </router-link> 
           </div>
-          <!-- ยังไม่ได้ทำ responsive -->
-          <div class="flex flex-row justify-center items-center font-sansation-light space-x-2 text-base w-42" v-if="authenticated">
-            <div class="bg-gray-700 rounded-full appearance-none border-2 h-8 w-full px-2 text-white font-sansation-light text-sm focus:outline-none focus:border-violetlight flex items-center flex-col">
-              <div class="flex flex-row items-center justify-center focus:text-violetlight hover:text-violetlight" @click="isOpen = !isOpen">
-                <img src="../assets/ImgTmp1.png" class="rounded-xl mt-1 mr-1" style="width: 30px; height: 23px; object-fit: cover"/>
-                {{ UserName }}
-                <span class="material-icons ml-2" v-if="isOpen">expand_less</span>
-                <span class="material-icons ml-2" v-else> expand_more </span>
+          <!-- ยังไม่ได้ทำ responsive -->   
+          <div class="select-none font-sansation-light  lg:w-56 md:w-40 w-24 cursor-pointer " v-if="authenticated">
+            <div class="bg-gray-700 rounded-full md:h-9 h-5  text-white font-sansation-light text-sm flex flex-col">
+              <div class="flex flex-row items-center justify-between sm:px-2 px-1 md:mt-1 space-x-1 focus:text-violetlight hover:text-violetlight" @click="isOpen = !isOpen" >
+                <img  src="../assets/ImgTmp1.png" class="rounded-xl md:h-6 md:w-6  w-3 h-3"  style="object-fit: cover"/>
+                <p class="lg:w-32 sm:w-20 w-15 truncate md:text-base sm:text-xs text-mxs">{{ UserName }}</p>
+                <span class="material-icons md:text-lg text-sm" v-if="isOpen">expand_less</span>
+                <span class="material-icons md:text-lg text-sm" v-else> expand_more </span>
               </div>
-              <div class="text-gray-800 flex items-end flex-col w-full mt-2 bg-white" v-if="isOpen">
-                <div class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1">
+              <div class="text-gray-800 flex items-end md:text-base text-mxs flex-col w-full md:mt-2 mt-1 bg-white  rounded-xl border-2 border-gray-100"  v-if="isOpen">
+                <div class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                   <router-link to="/accountprofile">Account</router-link>
                 </div>
-                <div v-if="checkRole" class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1">
+                <div v-if="checkRole" class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                   <router-link to="/managereport">Manage Report</router-link>
                 </div>
-                <div v-else class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1">
+                <div v-else class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                   <router-link to="/myplaylist">My playlist</router-link>
                 </div>
-                <div class="font-sansation-regular hover:text-violetlight hover:underline underline-offset-1" @click="signOut">
+                <div class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right" @click="signOut">
                   <p>Sign out</p>
                 </div>
               </div>
             </div>
           </div>
           <!-- ยังไม่ได้ทำ responsive -->
-          <router-link v-else to="/login" class="flex flex-row items-center sm:space-x-2 font-sansation-light md:text-base sm:text-ss text-xs md:w-28.1  w-24 space-x-1">
+          <router-link v-else to="/login" class="flex flex-row items-center sm:space-x-2 font-sansation-light md:text-base sm:text-ss text-xs md:w-28.1   w-24 space-x-1">
             <p @click="routerLogin('1')" class="cursor-pointer hover:text-violetlight transition duration-300"> Log in</p>
             <p>|</p>
             <p @click="routerLogin('2')" class="cursor-pointer hover:text-violetlight transition duration-300">Register</p>
@@ -85,13 +85,13 @@ export default {
     return {
       path: "",
       isOpen: false,
+
     };
   },
-
   methods: {
     pathPage(path) {
       this.path = path;
-      checkRole = false;
+      checkRole=false;
     },
     routerLogin(active) {
       localStorage.setItem("logInActive", active);
@@ -101,7 +101,6 @@ export default {
       signOutAction: "authentication/singOut",
        hideSideBar: 'homepage/hideSideBar',
     }),
-
     signOut() {
       this.signOutAction().then(() => {
         this.$router.replace({
@@ -109,23 +108,25 @@ export default {
         });
       });
     },
+
+    checkRole(){
+      roles.forEach(element => {
+        if (element === "admin") {
+            checkRole = true;
+          }
+      });
+    }
   },
+  
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
       UserName: "authentication/UserName",
       roles: "authentication/roles",
       sideBarShow: 'homepage/sideBarShow',
-      logo: 'homepage/logo'
+      logo: 'homepage/logo',
+      smView: 'homepage/smView'
     }),
-  },
-  checkRole() {
-    roles.forEach((element) => {
-      console.log(element);
-      if (element === "admin") {
-        checkRole = true;
-      }
-    });
   },
 };
 
