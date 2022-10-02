@@ -108,9 +108,13 @@
                   <div class="xgl:text-3xl md:text-xl text-lg">Guide</div>
                   <div class="xgl:text-base text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim nulla lobortis posuere scelerisque. Ultricies varius risus vulputate libero nisl fames. Elementum amet massa sapien commodo sed eros vulputate massa.</div>
                 </div>
-                <div>
-                  select mood
-                </div>                
+              <!-- ยังไม่ได้ทำ respone -->
+                <select class="rounded-lg bg-neutral-100 w-48 h-6 text-center" >
+                  <option value="" disabled selected class="hidden ">- Select your filter -</option>
+                  <option >Counted: min > max</option>
+                  <option >Counted: max > min</option>
+                  <option >Latest</option>
+                </select>               
               </div>  
             </div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
@@ -130,7 +134,7 @@
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
                 <div class="font-sansation-bold xgl:text-4xl md:text-2xl text-xl text-blackcoal ">Recent Releases</div>
                 <div class="sm:my-4 my-2">
-                  <div class="lg:text-lg md:text-base text-sm flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
+                  <div class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
                     <div class="w-10">#</div>
                     <div class="xgl:w-600 md:w-96 w-52">Name</div>
                     <div v-if="smView" class="xgl:w-44 md:w-36 w-20">Artist</div>
@@ -252,11 +256,11 @@ export default {
     }
   },
  methods:{
-    ...mapActions({
+  ...mapActions({
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne'
-    }),
+  }),
   acceptData(e) {
       console.log(e);
       // this.music = e;

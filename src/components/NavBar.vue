@@ -31,13 +31,13 @@
             </router-link> 
             <input
                 type="text"
-                class="bg-neutral-100 rounded-full appearance-none border-2 border-gray-100 md:h-8 h-5 2xl:w-504 lg:w-64 md:w-32 sm:w-24 w-20 md:pl-6 sm:pl-2 pl-1 font-sansation-light md:text-sm text-xs  focus:outline-none focus:bg-white focus:border-violetlight"
+                class="bg-neutral-100 rounded-full appearance-none border-2 border-gray-100 md:h-8 h-5 2xl:w-504 lg:w-64 md:w-32 sm:w-24 w-20 md:pl-6 sm:pl-2 pl-1 font-sansation-light md:text-sm text-xxs  focus:outline-none focus:bg-white focus:border-violetlight"
                 placeholder="Search"
                 v-model="searchName"
             />
             <router-link to="/allsong" @click="pathPage('/allsong')" >
               <div v-bind:class="this.path=='/allsong'?'bg-blackcoal text-violetlight':'bg-neutral-100'"
-                 class="flex items-center md:text-base sm:text-xs text-mxs justify-center hover:font-sansation-regular hover:text-violetlight  hover:bg-blackcoal transition duration-300 rounded-full 2xl:w-36 md:w-24 md:h-8 sm:w-15 w-11 h-5">
+                 class="flex items-center md:text-base sm:text-xs text-xxs justify-center hover:font-sansation-regular hover:text-violetlight  hover:bg-blackcoal transition duration-300 rounded-full 2xl:w-36 md:w-24 md:h-8 sm:w-15 w-11 h-5">
                 <div class="font-sansation-light" v-bind:class="this.path == '/allsong' ? '' : ''">Song</div>
               </div>
             </router-link> 
