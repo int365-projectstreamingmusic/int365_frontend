@@ -1,6 +1,8 @@
 import { createStore } from "vuex";
 import authentication from "./authentication";
 import homepage from "./homepage";
+import managereport from "./managereport";
+
 export default createStore({
   state: {},
   getters: {},
@@ -8,6 +10,7 @@ export default createStore({
   actions: {},
   modules: {
     authentication,
-    homepage
+    homepage,
+    managereport
   },
 });

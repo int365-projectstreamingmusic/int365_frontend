@@ -134,16 +134,16 @@
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
                 <div class="font-sansation-bold xgl:text-4xl md:text-2xl text-xl text-blackcoal ">Recent Releases</div>
                 <div class="sm:my-4 my-2">
-                  <div class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
+                  <div class="   md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
                     <div class="w-10">#</div>
                     <div class="xgl:w-600 md:w-96 w-52">Name</div>
                     <div v-if="smView" class="xgl:w-44 md:w-36 w-20">Artist</div>
                     <div class="xgl:w-20 sm:w-14 w-10"></div>
                   </div>
                   <div class="space-x-1 flex flex-row justify-between items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
-                    <div class="w-10 lg:text-lg md:text-base sm:text-sm text-xs">1</div>
-                    <p class="truncate xgl:w-600 md:w-96 w-52 lg:text-lg md:text-base sm:text-sm text-xs">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadadasdadadadasdadaadadadaasdadadadadada</p>
-                    <p v-if="smView" class="truncate xgl:w-44 md:w-36 lg:text-lg md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
+                    <div class="w-10  md:text-base sm:text-sm text-xs">1</div>
+                    <p class="truncate xgl:w-600 md:w-96 w-52  md:text-base sm:text-sm text-xs">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadadasdadadadasdadaadadadaasdadadadadada</p>
+                    <p v-if="smView" class="truncate xgl:w-44 md:w-36  md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
                     <div class="xgl:w-20 sm:w-14 w-10 space-x-1 text-blackcoal flex flex-row justify-between">
                       <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">grade</span>
                       <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
