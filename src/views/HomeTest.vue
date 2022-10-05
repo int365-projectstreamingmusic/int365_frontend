@@ -43,7 +43,7 @@
           </div>
         </div>
         <!-- mobile top5 -->
-        <div v-if='mobile' class="flex justify-center ">
+        <div v-if='mobile' class="flex justify-center sm:mb-15 mb-8">
           <div>
             <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal lg:mx-10 mt-3 sm:mb-6 mb-3 bg-white">Top 5 Music</div>
             <div class="lg:mx-10 md:w-698 sm:w-466 w-80">
@@ -72,23 +72,22 @@
             </div>
             <div v-for="(musics,index) in topFive" :key="musics.id">
               <ShowMusicTopFive :musicDes="musics" :count="index" @music="acceptData"></ShowMusicTopFive>
-            </div> 
-
-           
+            </div>  
           </div>
         </div>
         <!-- /mobile top5 -->
         <!-- /Top5music style="height: 350px; width: 330px;"-->
         <!-- recommend -->
-        <div v-if='!mobile' class="flex justify-center mb-15">
-          <div class="mx-10 w-1200">
-            <div class="font-sansation-bold text-4xl text-blackcoal mb-3">Recommend</div>
-            <div class="flex flex-row items-end justify-between font-sansation-regular mb-6" >
-              <div class="w-4/6 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
+        <!-- v-if='!mobile' -->
+        <div  class="flex justify-center sm:mb-15 mb-8">
+          <div class=" 2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80" >
+            <div class="font-sansation-bold  text-blackcoal mb-3 xgl:text-4xl md:text-2xl text-xl">Recommend</div>
+            <div class=" font-sansation-regular mb-6 xgl:text-base text-sm space-y-2" >
+              <div class=" ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
                 Nisi, velit luctus ultrices in leo. Sit id interdum tempus, </div>
-              <div @click="ClickMood()" v-if="!selectMood" class="w-2/6 text-right underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>  
+              <div @click="ClickMood()" v-if="!selectMood" class=" underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>  
             </div>
-            <div v-if="!selectMood" class="flex flex-row space-x-3.6 ">
+            <div v-if="!selectMood" class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center">
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
@@ -98,21 +97,27 @@
             </div>      
           </div>
         </div>       
-        <div v-if="selectMood" class="bg-blackcoal w-full flex flex-row justify-center mb-15 -mt-14" >
-          <div>
+        <div v-if="selectMood" class="bg-blackcoal w-full flex flex-row justify-center sm:mb-15 mb-8 " >
+          <div class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="flex justify-end cursor-pointer mt-6" @click="ClickMood()">
-              <span class="material-icons text-scarlet hover:text-red-500 transition duration-500">close</span>
+              <span class="material-icons text-scarlet hover:text-red-500 transition duration-500  ">close</span>
             </div>
-            <div class="flex flex-row w-1200">
+            <div class="flex justify-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
               <div>
-                select mood
-              </div>
-              <div class="font-sansation-regular text-white">
-                <div>Guide</div>
-                <div class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim nulla lobortis posuere scelerisque. Ultricies varius risus vulputate libero nisl fames. Elementum amet massa sapien commodo sed eros vulputate massa.</div>
-              </div>
+                <div class="font-sansation-regular text-center text-white ">
+                  <div class="xgl:text-3xl md:text-xl text-lg">Guide</div>
+                  <div class="xgl:text-base text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim nulla lobortis posuere scelerisque. Ultricies varius risus vulputate libero nisl fames. Elementum amet massa sapien commodo sed eros vulputate massa.</div>
+                </div>
+              <!-- ยังไม่ได้ทำ respone -->
+                <select class="rounded-lg bg-neutral-100 w-48 h-6 text-center" >
+                  <option value="" disabled selected class="hidden ">- Select your filter -</option>
+                  <option >Counted: min > max</option>
+                  <option >Counted: max > min</option>
+                  <option >Latest</option>
+                </select>               
+              </div>  
             </div>
-            <div class="flex flex-row space-x-3.6 w-1200 mt-3 mb-12">
+            <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
@@ -124,13 +129,37 @@
         </div>
         <!--/recommend -->
         <!-- recent releases -->    
-        <div v-if='!mobile' class="flex justify-center" >
-          <div class="mx-10 w-1200">
+        <div  class="flex justify-center mb-20" >
+          <div class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
-            <div class="flex flex-row mb-20">
-              <div>
-                <div class="font-sansation-bold text-4xl text-blackcoal mb-6">Recent Releases</div>
-                <table class="w-696 h-60">
+                <div class="font-sansation-bold xgl:text-4xl md:text-2xl text-xl text-blackcoal ">Recent Releases</div>
+                <div class="sm:my-4 my-2">
+                  <div class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
+                    <div class="w-10">#</div>
+                    <div class="xgl:w-600 md:w-96 w-52">Name</div>
+                    <div v-if="smView" class="xgl:w-44 md:w-36 w-20">Artist</div>
+                    <div class="xgl:w-20 sm:w-14 w-10"></div>
+                  </div>
+                  <div class="space-x-1 flex flex-row justify-between items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
+                    <div class="w-10 lg:text-lg md:text-base sm:text-sm text-xs">1</div>
+                    <p class="truncate xgl:w-600 md:w-96 w-52 lg:text-lg md:text-base sm:text-sm text-xs">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadadasdadadadasdadaadadadaasdadadadadada</p>
+                    <p v-if="smView" class="truncate xgl:w-44 md:w-36 lg:text-lg md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
+                    <div class="xgl:w-20 sm:w-14 w-10 space-x-1 text-blackcoal flex flex-row justify-between">
+                      <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">grade</span>
+                      <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
+                    </div>
+                  </div>
+                </div>  
+                <div class="underline underline-offset-1 xgl:text-base text-ss font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">see more</div>
+                <!-- <table>
+                  <tr class="font-sansation-regular tracking-wider border-b-2 border-violetdark  select-none ">
+                    <th >#</th>
+                    <th >Name</th>
+                    <th >Artist</th>
+                    <th >Favorite</th>
+                  </tr>
+                </table> -->
+                <!-- <table class="w-696 h-60">
                   <tr class="h-8 font-sansation-light text-white bg-blackcoal antialiased text-sm tracking-wider ">
                     <th class="w-9">#</th>
                     <th class="w-96">Name</th>
@@ -169,8 +198,8 @@
                   </tr>
                 </table>
                 <div class="underline underline-offset-1 font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">see more</div>
-              </div>
-              <div class="w-504">
+              </div> -->
+              <!-- <div class="w-504">
                 <div class="ml-14">
                   <div class="font-sansation-bold text-4xl text-blackcoal mb-6">Streaming</div>
                   <div class="overflow-hidden w-448 rounded-lg h-56.5 "  @mouseover="streamingI = true" @mouseleave="streamingI = false">
@@ -187,11 +216,10 @@
                   </div>
                   
                 </div>  
-              </div>
-            </div>
-          </div>
+              </div> -->
+            <!-- </div>-->
+          </div> 
         </div> 
-        
         <!-- /recent releases -->
       <!-- </div> -->
     </div>
@@ -216,7 +244,7 @@ export default {
       mobile: 'homepage/mobile',
       logo: 'homepage/logo', 
       topOne: 'homepage/topOne',
-
+      smView: 'homepage/smView'
     })
   },
   data() {
@@ -228,11 +256,11 @@ export default {
     }
   },
  methods:{
-    ...mapActions({
+  ...mapActions({
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne'
-    }),
+  }),
   acceptData(e) {
       console.log(e);
       // this.music = e;

@@ -16,6 +16,7 @@ module.exports = {
             md: '768px',
             lg: '1024px',
             xl: '1280px',
+            xgl: '1320px',
             '2xl': '1536px',
         },
         colors: ({ colors }) => ({
@@ -150,6 +151,7 @@ module.exports = {
             696: '43.5rem',
             698:'43.625rem',
             669: '41.813rem',
+            720: '45.625rem',
             780: '48.75rem', 
             800: '50rem',
             962: '60.125rem' ,

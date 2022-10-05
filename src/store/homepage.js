@@ -9,10 +9,14 @@ export default {
     sideBarShow: true,
     mobile: false,
     logo:false,
-    topOne:false
+    topOne:false,
+    smView:false
 
   },
   mutations: {
+    SET_SMVIEW(state,smView){
+      state.smView = smView
+    },
     SET_TOPONE(state,topOne){
       state.topOne = topOne
     },
@@ -36,6 +40,9 @@ export default {
     }
   },
   getters:{
+    smView(state){
+      return state.smView
+    },
     topOne(state){
       return state.topOne
     },
@@ -84,6 +91,11 @@ export default {
     },
     handleView({commit}) {
         commit("SET_TOPONE", false)
+      if (window.innerWidth <= 640){
+        commit("SET_SMVIEW",false)
+      } else if (window.innerWidth > 640){
+        commit("SET_SMVIEW",true)
+      }  
       if (window.innerWidth <= 1320) {
         commit("SET_MOBILE",true)
       } else if (window.innerWidth > 1320) {
