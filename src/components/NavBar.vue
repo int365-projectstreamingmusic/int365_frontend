@@ -78,13 +78,24 @@
         </div>
       </div>
     </div>
-    <div class="text-gray-700 z-50 mt-2 mb-5 h-9 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80" :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
-      <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2">
+    <div class="text-gray-700 z-50 mt-2 mb-5 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 h-full " :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
+      <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2 sm:pl-3.5">
+        <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " Angel With a short gun  "</div>
+        <div class="flex flex-col justify-center h-32 space-y-2 overflow-y-scroll ">
         <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs ">
           <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
             <span class="material-icons md:text-sm text-xs text-blackcoal">radio_button_unchecked</span>
             <div class="sm:w-10 w-5 text-center">1.</div>
-            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-74   truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52   truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+          </div>
+          <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">play</div>
+        </div>
+        
+        <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs ">
+          <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
+            <span class="material-icons md:text-sm text-xs text-blackcoal">radio_button_unchecked</span>
+            <div class="sm:w-10 w-5 text-center">1.</div>
+            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52    truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
           </div>
           <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">play</div>
         </div>
@@ -92,12 +103,37 @@
           <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
             <span class="material-icons md:text-sm text-xs text-blackcoal">radio_button_unchecked</span>
             <div class="sm:w-10 w-5 text-center">1.</div>
-            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-74   truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52    truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
           </div>
           <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">play</div>
+        </div>
+        <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs ">
+          <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
+            <span class="material-icons md:text-sm text-xs text-blackcoal">radio_button_unchecked</span>
+            <div class="sm:w-10 w-5 text-center">1.</div>
+            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52    truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+          </div>
+          <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">play</div>
+        </div>
+        <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs ">
+          <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
+            <span class="material-icons md:text-sm text-xs text-blackcoal">radio_button_unchecked</span>
+            <div class="sm:w-10 w-5 text-center">1.</div>
+            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52    truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+          </div>
+          <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">play</div>
+        </div>
+        <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs ">
+          <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
+            <span class="material-icons md:text-sm text-xs text-blackcoal">radio_button_unchecked</span>
+            <div class="sm:w-10 w-5 text-center">1.</div>
+            <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52    truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+          </div>
+          <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">play</div>
+        </div>
         </div>
       </div>
-      <div class="flex flex-row bg-white 2xl:w-1200 space-x-3 w-full">
+      <div class="flex flex-row bg-white 2xl:w-1200 sm:space-x-3 space-x-1 w-full">
         <div class="space-x-1 sm:w-32 w-20 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
           <span class="material-icons md:text-sm text-xxs text-blackcoal">radio_button_unchecked</span>
           <div>playground</div>
@@ -107,8 +143,7 @@
           <div>favorite</div>
         </div>
         <div class="flex flex-row items-center sm:h-6 h-5 font-sansation-light space-x-4 ">
-          <!-- รอเปลี่ยนเป็น v-for -->
-          <select class="rounded-full bg-neutral-100 md:w-36 w-22 h-6 text-center lg:text-base sm:text-sm text-xxs" >
+          <select class="rounded-full bg-neutral-100 md:w-36 sm:w-22 w-17 h-6 text-center lg:text-base sm:text-sm text-xxs" >
             <option value="" disabled selected class="hidden ">My Playlist</option>
             <option >Counted: min > max</option>
             <option >Counted: max > min</option>
@@ -118,7 +153,7 @@
         <div class="md:w-20 sm:w-15 w-10 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
           add
         </div>
-        <div class="md:w-20 sm:w-16 w-12 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
+        <div class="md:w-20 sm:w-17 w-13 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
         cancel
         </div>
       </div>
