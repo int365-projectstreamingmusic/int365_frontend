@@ -38,7 +38,7 @@
                 name="Username"
                 placeholder="Username or Email"
                 required
-                class="w-full h-12 pl-6 cursor-pointer duration-200 border-zinc-400 hover-focus-input rounded-md border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer duration-200 hover-focus-input focus:border-violetlight rounded-md border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -52,7 +52,7 @@
                 name="NewPassword"
                 placeholder="New Password"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 hover-focus-input border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -66,7 +66,7 @@
                 name="confirmationPassword"
                 placeholder="Confrim Password"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 hover-focus-input border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -100,9 +100,9 @@
                 name="userName"
                 placeholder="USERNAME OR EMAIL "
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 hover-focus-input border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
-                  this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+                  this.invalid.duplicated.showErrorBox ? 'border-red-500' : 'focus:border-violetlight'
                 "
               />
             </div>
@@ -114,7 +114,7 @@
                 name="password"
                 placeholder="PASSWORD"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 hover-focus-input border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -147,7 +147,7 @@
               name="username"
               placeholder="USERNAME OR EMAIL "
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 hover-focus-input text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -161,7 +161,7 @@
               name="email"
               placeholder="EMAIL ADDRESS "
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 hover-focus-input text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -175,7 +175,7 @@
               name="user_passcode"
               placeholder="PASSWORD"
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 hover-focus-input text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -188,7 +188,7 @@
               name="confirmPass"
               placeholder="CONFIRM PASSWORD"
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 hover-focus-input text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -211,7 +211,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions,mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -252,7 +252,6 @@ export default {
   methods: {
     ...mapActions({
       signIn: "authentication/signIn",
-      sideBarShow: "homepage/sideBarShow",
     }),
     click(active) {
       this.regisform = {
@@ -384,6 +383,11 @@ export default {
         this.invalid.duplicated.errorMessage = "Passwords do NOT match.";
       }
     },
+    computed: {
+    ...mapGetters({
+      sideBarShow: "homepage/sideBarShow",
+    }),
+  },
   },
 };
 </script>
