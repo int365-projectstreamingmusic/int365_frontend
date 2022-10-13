@@ -59,7 +59,7 @@
                   <div v-if="checkRole" class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                     <router-link to="/managereport">Manage Report</router-link>
                   </div>
-                  <div v-else class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
+                  <div class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                     <router-link to="/myplaylist">My playlist</router-link>
                   </div>
                   <div class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right" @click="signOut">
@@ -78,7 +78,7 @@
         </div>
       </div>
     </div>
-    <div class="text-gray-700 z-50 mt-2 mb-5 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 h-full " :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
+    <div v-if="found" class="text-gray-700 z-50 mt-2 mb-5 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 h-full " :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
       <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2 sm:pl-3.5">
         <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " Angel With a short gun  "</div>
         <div class="flex flex-col justify-center h-32 space-y-2 overflow-y-scroll ">
@@ -199,7 +199,6 @@ export default {
       });
     }
   },
-  
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
@@ -207,7 +206,8 @@ export default {
       roles: "authentication/roles",
       sideBarShow: 'homepage/sideBarShow',
       logo: 'homepage/logo',
-      smView: 'homepage/smView'
+      smView: 'homepage/smView',
+      found: 'search/found'
     }),
   },
 };
