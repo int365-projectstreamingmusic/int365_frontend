@@ -277,13 +277,13 @@
         <div
           class="flex flex-row items-end font-sansation-light justify-between mt-36 mx-3 md:mx-36"
         >
-          <div class="flex flex-row items-end">
+          <div class="flex flex-row items-end" @click="page1('up')">
             <div class="md:text-xl text-base md:mr-12 mr-3">My Song</div>
-            <div
+            <router-link to="/addmusic" 
               class="text-sm font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer"
             >
               upload song
-            </div>
+            </router-link>
           </div>
           <div class="text-sm">filter</div>
         </div>
@@ -420,6 +420,7 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 export default {
+  
   data() {
     return {
       path: "",
@@ -468,6 +469,9 @@ export default {
         confirmationPassword: null,
       };
     },
+    page1(data){
+      localStorage.setItem("addOrUp", data);
+    },
     handleImageUpload(event) {
       this.profileIamge = null;
       this.image = event.target.files[0];
@@ -489,7 +493,6 @@ export default {
           formData
         )
         .then((response) => {
-          console.log(response.data);
         });
     },
     async userChangePassword() {
@@ -580,7 +583,6 @@ export default {
       await axios
         .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/MyHistory`)
         .then((response) => {
-          console.log(response.data);
           this.history = response.data;
         });
     },
@@ -588,7 +590,6 @@ export default {
       await axios
         .delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/Clear`)
         .then((response) => {
-          console.log(response.data);
         });
     },
   },
