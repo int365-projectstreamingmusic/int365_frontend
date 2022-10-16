@@ -47,12 +47,12 @@
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 ">My Playlist</div>
             <div class="2xl:w-720  xgl:w-962 md:w-698 sm:w-466 w-80 my-6 h-full bg-gray-50 rounded-2xl  md:px-10 md:py-10 p-5 flex flex-col justify-between font-sansation-light">
               <div class="grid md:gap-x-10 md:gap-y-6.5 gap-y-3 gap-x-3 md:grid-cols-3 grid-cols-2  justify-items-center">
-                <music-card></music-card>
+                <!-- <music-card></music-card>
                 <music-card></music-card>  
                 <music-card></music-card>  
                 <music-card></music-card>  
                 <music-card></music-card>
-                <music-card></music-card>
+                <music-card></music-card> -->
                 <empty-card></empty-card>           
               </div>  
             </div>

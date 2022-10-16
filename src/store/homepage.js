@@ -5,13 +5,15 @@ export default {
   state: {
     topFrist:'',
     topFive: '',
+    topFiveInSevenDays:'',
+    recentplayed:'',
+    recentReleases: '',
     mediaPlayer: false,
     sideBarShow: true,
     mobile: false,
     logo:false,
     topOne:false,
-    smView:false
-
+    smView:false,
   },
   mutations: {
     SET_SMVIEW(state,smView){
@@ -37,6 +39,15 @@ export default {
     },
     SET_SIDEBARSHOW(state,sideBarShow){
       state.sideBarShow = sideBarShow
+    },
+    SET_TOPFIVESEVENDAYS(state,topFiveInSevenDays){
+      state.topFiveInSevenDays = topFiveInSevenDays
+    },
+    SET_RECENTPLAYED(state,recentplayed){
+      state.recentplayed = recentplayed
+    },
+    SET_RECENTRELEASES(state,recentReleases){
+      state.recentReleases = recentReleases
     }
   },
   getters:{
@@ -63,17 +74,62 @@ export default {
     },
     topFive(state){
       return state.topFive
+    },
+    topFiveInSevenDays(state){
+      return state.topFiveInSevenDays
+    },
+    recentplayed(state){
+      return state.recentplayed
+    },
+    recentReleases(state){
+      return state.recentReleases
     }
   },
   actions: {
-    async getTopFive({ commit }){
-      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/general/track`)
+    async getTopFive({ commit },num){
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/topall?numberOfTracks=${num}`)
       .then((res) =>{
-        console.log(res.data)
-        commit("SET_TOPFRIST", res.data.content[0])
-        res.data.content.splice(0,1)
-        commit("SET_TOPFIVE", res.data.content);
+        // console.log(res.data)
+        // console.log(res.data[0])
+        commit("SET_TOPFRIST", res.data[0])
+        res.data.splice(0,1)
+        commit("SET_TOPFIVE", res.data);
         
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    async getTopFiveInSevenDays({ commit },params){
+      // console.log(params)
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/top?days=${params.day}&numberOfTracks=${params.num}`)
+      .then((res) =>{
+        // console.log(res.data)
+        commit("SET_TOPFIVESEVENDAYS", res.data);
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    async getRecentplayed({ commit,rootGetters },params){
+      // console.log(params)
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/LastVisited?numberOfRecord=${params}`,
+      {         
+        headers: {
+          'Authorization': 'Bearer ' + rootGetters['authentication/token']
+        }
+      })
+      .then((res) =>{
+        // console.log(res.data)
+        commit("SET_RECENTPLAYED", res.data);
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    async getRecentReleases({ commit }){
+      // console.log(params)
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/latest`)
+      .then((res) =>{
+        // console.log(res.data)
+        commit("SET_RECENTRELEASES", res.data);
       }).catch((err) => {
         console.log(err)
       })
@@ -106,6 +162,6 @@ export default {
       } else if (window.innerWidth > 450) {
         commit("SET_LOGO",false)
       }
-    },
+    }
   }
 }
