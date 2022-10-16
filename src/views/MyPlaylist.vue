@@ -5,15 +5,20 @@
         <div class="flex 2xl:flex-row flex-col lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 my-6 2xl:space-x-1 ">
           <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 ">Playground</div>
-            <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 2xl:h-full bg-gray-50 rounded-2xl  px-5 2xl:py-10 md:py-5 py-3 flex flex-col justify-between font-sansation-light">
-              <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-                <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
-                  <div class="w-5 text-center">1.</div>
-                  <p class="2xl:w-52 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
-                </div>
-                <div class="flex flex-row md:space-x-1 space-x-2">
-                  <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
-                  <div class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
+            <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 2xl:h-full bg-gray-50 rounded-2xl  px-5 2xl:py-10 md:py-5 py-3 flex flex-col font-sansation-light space-y-2">
+              <div v-if="notfound" class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
+                "you not have music in your playground"
+              </div>
+              <div v-if="!notfound">         
+                <div v-for="(playgrounds,index) in playground" :key="playgrounds.track.id" class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
+                  <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
+                    <div class="w-5 text-center">{{index+1}}.</div>
+                    <p class="2xl:w-52 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">{{playgrounds.track.trackName}}</p>                
+                  </div>
+                  <div class="flex flex-row md:space-x-1 space-x-2">
+                    <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
+                    <div @click="deletePlayground(playgrounds.track.id)" class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
+                  </div>
                 </div>
               </div>   
             </div>
@@ -127,7 +132,9 @@ export default {
     ...mapActions({
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
-      setTopOne: 'homepage/setTopOne'
+      setTopOne: 'homepage/setTopOne',
+      getPlayground: 'myplaylist/getPlayground',
+      deletePlayground: 'myplaylist/deletePlayground'
     }),
   },
   computed: {
@@ -138,11 +145,14 @@ export default {
       mobile: 'homepage/mobile',
       logo: 'homepage/logo', 
       topOne: 'homepage/topOne',
-      smView: 'homepage/smView'
+      smView: 'homepage/smView',
+      notfound: 'myplaylist/notfound',
+      playground: 'myplaylist/playground'
     })
   },
   async created() {
     this.handleView();
+    this.getPlayground();
     window.addEventListener("resize", this.handleView);
  }
 }

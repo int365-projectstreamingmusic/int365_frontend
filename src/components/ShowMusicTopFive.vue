@@ -10,7 +10,7 @@
       <div v-else class="2xL:pl-6 pl-2 2xl:pr-3 pr-2 pb-4 bg-neutral-100 bg-opacity-80 absolute justify-self-end flex flex-row items-end justify-between 2xl:w-74 w-full" style="height: 150px;  ">
         <div class="2xl:w-56 w-44 flex flex-col font-sansation-regular text-sm 2xl:tracking-widest text-blackcoal opacity-100">
           <div><p class="truncate">Name: {{musicDes.trackName}}</p></div>
-          <div>Artist: {{musicDes.userAccountModel.username}}</div>
+          <div>Artist: {{musicDes.artistTracks[0].artistsModel.artistName}}</div>
           <div>Album: you name</div>
           <div>Released: {{musicDes.timestamp}}</div>
           <div>View: 142,169,846</div>
