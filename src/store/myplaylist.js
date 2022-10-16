@@ -48,9 +48,10 @@ export default {
             }
         )
         .then((response) => {
-          console.log( response.data.content)
+          // console.log( response.data.content)
+          commit("SET_NOTFOUND", false);
           commit("SET_PLAYGROUND", response.data.content);
-          console.log(state.playground)
+          // console.log(state.playground)
           
         })
         .catch((error) => {

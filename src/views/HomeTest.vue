@@ -1,12 +1,12 @@
 <template>
 <!-- :class="sideBarShow ?'2xl:ml-75':''" -->
-  <div class="hometest h-screen" :class="sideBarShow ?'lg:ml-75':''" >
+  <div class="hometest h-full" :class="sideBarShow ?'lg:ml-75':''" >
     <div class="flex flex-col w-full ">
       <!-- <div class=" flex  " > -->
         <!-- Top5music -->
         <div v-if='!mobile' class="flex justify-center mb-15">
           <div>
-            <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music</div>
+            <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music ALL Time</div>
             <div class="mx-10 2xl:w-1200 w-962 ">
               <div class="flex flex-row relative" >
                 <div class="absolute flex flex-row items-end z-10 justify-between 2xl:w-780 xl:w-962 "  @mouseover="setTopOne(true)" @mouseleave="setTopOne(false)">
@@ -21,11 +21,11 @@
                 </div>
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
                   <div class="mb-6 2xl:ml-9 ml-7 flex flex-col space-y-0.5">
-                    <div>Name: {{topFrist.trackName}}</div>
-                    <div>Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
+                    <div v-if="topFive != '' && topFrist.trackName">Name: {{topFrist.trackName}}</div>
+                    <div v-if="topFive != '' && topFrist.artistTracks[0]">Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
                     <div>Album: you name</div>
-                    <div>Released: {{topFrist.timestamp}}</div>
-                    <div>View: 142,169,846</div>
+                    <div v-if="topFive != '' && topFrist.timestamp">Released: {{topFrist.timestamp}}</div>
+                    <div v-if="topFive != '' && topFrist.viewCount">Views: {{topFrist.viewCount}}</div>
                   </div> 
                 </div>
               </div>
@@ -57,11 +57,11 @@
                 </div>
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light md:text-sm sm:text-xs text-xxs md:tracking-widest flex items-end md:w-100 w-64" >
                   <div class="md:mb-6 mb-4 md:mx-4 ml-3 mr-2 flex flex-col space-y-0.5">
-                    <div>Name: {{topFrist.trackName}}</div>
-                    <div v-show="!logo">Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
-                    <div v-show="!logo">Album: you name</div>
-                    <div v-show="!logo">Released: {{topFrist.timestamp}}</div>
-                    <div>View: 142,169,846</div>
+                    <div v-if="topFive != '' && topFrist.trackName">Name: {{topFrist.trackName}}</div>
+                    <div v-if="!logo && topFive != '' && topFrist.artistTracks[0] ">Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
+                    <div v-if="!logo && topFive != ''">Album: you name</div>
+                    <div v-if="!logo && topFive != '' && topFrist.timestamp">Released: {{topFrist.timestamp}}</div>
+                    <div v-if="topFive != '' && topFrist.viewCount">Views: {{topFrist.viewCount}}</div>
                   </div> 
                 </div>
               </div>
@@ -77,49 +77,31 @@
         <!-- v-if='!mobile' -->
         <div  class="flex justify-center sm:mb-15 mb-8">
           <div class=" 2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80" >
-            <div class="font-sansation-bold  text-blackcoal mb-3 xgl:text-4xl md:text-2xl text-xl">Recommend</div>
+            <div class="font-sansation-bold  text-blackcoal mb-3 xgl:text-4xl md:text-2xl text-xl">Top 5 Music in 7 Days</div>
             <div class=" font-sansation-regular mb-6 xgl:text-base text-sm space-y-2" >
               <div class=" ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
                 Nisi, velit luctus ultrices in leo. Sit id interdum tempus, </div>
-              <div @click="ClickMood()" v-if="!selectMood" class=" underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>  
+              <!-- <div @click="ClickMood()" v-if="!selectMood" class=" underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>   -->
             </div>
-            <div v-if="!selectMood" class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center">
+            <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center">
+              <div v-for="(musics) in TopFiveInSevenDays" :key="musics.id">
+                <music-card :musicDes="musics" @music="acceptData"></music-card>
+              </div>
+              <!-- <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
               <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
+              <music-card></music-card> -->
             </div>      
           </div>
         </div>       
-        <div v-if="selectMood" class="bg-blackcoal w-full flex flex-row justify-center sm:mb-15 mb-8 " >
+        <div v-show="authenticated && !notfound" class="bg-blackcoal w-full flex flex-row justify-center sm:mb-15 mb-8 " >
           <div class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
-            <div class="flex justify-end cursor-pointer mt-6" @click="ClickMood()">
-              <span class="material-icons text-scarlet hover:text-red-500 transition duration-500  ">close</span>
-            </div>
-            <div class="flex justify-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
-              <div>
-                <div class="font-sansation-regular text-center text-white ">
-                  <div class="xgl:text-3xl md:text-xl text-lg">Guide</div>
-                  <div class="xgl:text-base text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget enim nulla lobortis posuere scelerisque. Ultricies varius risus vulputate libero nisl fames. Elementum amet massa sapien commodo sed eros vulputate massa.</div>
-                </div>
-              <!-- ยังไม่ได้ทำ respone -->
-                <select class="rounded-lg bg-neutral-100 w-48 h-6 text-center" >
-                  <option value="" disabled selected class="hidden ">- Select your filter -</option>
-                  <option >Counted: min > max</option>
-                  <option >Counted: max > min</option>
-                  <option >Latest</option>
-                </select>               
-              </div>  
-            </div>
+            <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-10">Recent Played</div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
+              <div v-for="(musics) in recentplayed" :key="musics.id">
+                <music-card :musicDes="musics.track" @music="acceptData"></music-card>
+              </div>
             </div>
           </div>
         </div>
@@ -130,23 +112,27 @@
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
                 <div class="font-sansation-bold xgl:text-4xl md:text-2xl text-xl text-blackcoal ">Recent Releases</div>
                 <div class="sm:my-4 my-2">
-                  <div class="   md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
+                  <div class="md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
                     <div class="w-10">#</div>
                     <div class="xgl:w-600 md:w-96 w-52">Name</div>
                     <div v-if="smView" class="xgl:w-44 md:w-36 w-20">Artist</div>
                     <div class="xgl:w-20 sm:w-14 w-10"></div>
                   </div>
-                  <div class="space-x-1 flex flex-row justify-between items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
-                    <div class="w-10  md:text-base sm:text-sm text-xs">1</div>
-                    <p class="truncate xgl:w-600 md:w-96 w-52  md:text-base sm:text-sm text-xs">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadadasdadadadasdadaadadadaasdadadadadada</p>
-                    <p v-if="smView" class="truncate xgl:w-44 md:w-36  md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
-                    <div class="xgl:w-20 sm:w-14 w-10 space-x-1 text-blackcoal flex flex-row justify-between">
-                      <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">grade</span>
-                      <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
+                  <div v-for="(musics,index) in recentReleases" :key="musics.id">
+                    <div @click="acceptData(musics)" v-if="musics!=''" class="space-x-1 flex flex-row justify-between items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
+                      <div class="w-10  md:text-base sm:text-sm text-xs">{{index+1}}</div>
+                      <p class="truncate xgl:w-600 md:w-96 w-52  md:text-base sm:text-sm text-xs">{{musics.trackName}}</p>
+                      <p v-if="smView" class="truncate xgl:w-44 md:w-36  md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
+                      <div class="xgl:w-20 sm:w-14 w-10 space-x-1 text-blackcoal flex flex-row justify-between">
+                        <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">grade</span>
+                        <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
+                      </div>
                     </div>
                   </div>
                 </div>  
-                <div class="underline underline-offset-1 xgl:text-base text-ss font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">see more</div>
+                <router-link to="/allsong">
+                  <div class="underline underline-offset-1 xgl:text-base text-ss font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">see more</div>
+                </router-link>
                 <!-- <table>
                   <tr class="font-sansation-regular tracking-wider border-b-2 border-violetdark  select-none ">
                     <th >#</th>
@@ -240,13 +226,18 @@ export default {
       mobile: 'homepage/mobile',
       logo: 'homepage/logo', 
       topOne: 'homepage/topOne',
-      smView: 'homepage/smView'
+      smView: 'homepage/smView',
+      TopFiveInSevenDays: 'homepage/topFiveInSevenDays',
+      recentplayed: 'homepage/recentplayed',
+      authenticated: "authentication/authenticated",
+      recentReleases: 'homepage/recentReleases',
+      notfound: 'allsong/notfound'
     })
   },
   data() {
     return {
       music: null,
-      selectMood:false,
+      // selectMood:false,
       streamingI:false,
       url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
@@ -263,15 +254,20 @@ export default {
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
       // console.log(this.music);
   },
-  ClickMood(){
-    this.selectMood = !this.selectMood
-  },
-  async getContent(){
-    await this.$store.dispatch('homepage/getTopFive')
+  // ClickMood(){
+  //   this.selectMood = !this.selectMood
+  // },
+  getContent(){
+    this.$store.dispatch('homepage/getTopFive',5)
+    this.$store.dispatch('homepage/getTopFiveInSevenDays',{num:6,day:7})
+    if(this.authenticated){
+      this.$store.dispatch('homepage/getRecentplayed',6)
+    }
+    this.$store.dispatch('homepage/getRecentReleases')
   }
  },
- async created() {
-  await this.getContent();
+  created() {
+  this.getContent();
   this.handleView();
   window.addEventListener("resize", this.handleView);
  }

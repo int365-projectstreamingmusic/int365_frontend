@@ -4,6 +4,7 @@ import homepage from "./homepage";
 import managereport from "./managereport";
 import search from "./search";
 import myplaylist from "./myplaylist";
+import allsong from "./allsong";
 
 export default createStore({
   state: {},
@@ -15,6 +16,7 @@ export default createStore({
     homepage,
     managereport,
     search,
-    myplaylist
+    myplaylist,
+    allsong
   },
 });
