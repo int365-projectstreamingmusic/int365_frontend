@@ -26,6 +26,10 @@
     @apply flex justify-center;
 }
 
+.hover-focus-input{
+    @apply hover:border-violetlight hover:text-violetlight focus:border-violetlight focus:text-violetlight active:border-violetlight active:text-violetlight
+}
+
 @font-face {
     font-family: "sansation-light";
     src: url(../fonts/SansSerif/sansation-light.ttf) format("truetype");

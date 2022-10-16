@@ -1,9 +1,10 @@
 <template>
   <div
-    class="h-screen ml-75 flex  item-center flex-col font-sansation-light "
+    class="h-screen flex item-center flex-col font-sansation-light"
+    :class="sideBarShow ? 'xl:ml-75' : ''"
   >
     <div
-      class=" lg:w-2/6 h-5/6  p-12 flex flex-col justify-center item-center cursor-pointer transition duration-200"
+      class="lg:w-2/6 h-5/6 p-12 flex flex-col justify-center item-center cursor-pointer transition duration-200"
     >
       <div class="flex flex-row items-center space-x-2 text-3xl">
         <div
@@ -16,7 +17,8 @@
           <p v-else>Sign in</p>
         </div>
         <p v-if="!isChange">|</p>
-        <p v-if="!isChange"
+        <p
+          v-if="!isChange"
           @click="click('2')"
           class="cursor-pointer hover:text-violetlight transition duration-300"
           :class="this.localbox == 2 ? 'text-violetlight' : ''"
@@ -29,13 +31,14 @@
           <form @submit.prevent="userChangePassword">
             <div class="my-2">
               <p class="text-md my-2 mx-5">Username or Email:</p>
+
               <input
                 v-model="passwordForm.Username"
                 type="text"
                 name="Username"
                 placeholder="Username or Email"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer duration-200 hover-focus-input focus:border-violetlight rounded-md border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -49,7 +52,7 @@
                 name="NewPassword"
                 placeholder="New Password"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -63,7 +66,7 @@
                 name="confirmationPassword"
                 placeholder="Confrim Password"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -97,9 +100,9 @@
                 name="userName"
                 placeholder="USERNAME OR EMAIL "
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
-                  this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+                  this.invalid.duplicated.showErrorBox ? 'border-red-500' : 'focus:border-violetlight'
                 "
               />
             </div>
@@ -111,7 +114,7 @@
                 name="password"
                 placeholder="PASSWORD"
                 required
-                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-zinc-400 border-2 text-xs md:text-base"
+                class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
                 "
@@ -144,7 +147,7 @@
               name="username"
               placeholder="USERNAME OR EMAIL "
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -158,7 +161,7 @@
               name="email"
               placeholder="EMAIL ADDRESS "
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -172,7 +175,7 @@
               name="user_passcode"
               placeholder="PASSWORD"
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -185,7 +188,7 @@
               name="confirmPass"
               placeholder="CONFIRM PASSWORD"
               required
-              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 border-zinc-400 text-xs md:text-base"
+              class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               "
@@ -208,7 +211,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions,mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -380,6 +383,11 @@ export default {
         this.invalid.duplicated.errorMessage = "Passwords do NOT match.";
       }
     },
+    computed: {
+    ...mapGetters({
+      sideBarShow: "homepage/sideBarShow",
+    }),
+  },
   },
 };
 </script>
