@@ -3,7 +3,7 @@
     <div class="flex flex-col">
       <div class="">
         <!-- Account Profile chagne password -->
-        <div class="lg:mx-36 md:ml-16 ">
+        <div class="lg:mx-36 md:ml-16">
           <div
             class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start my-7"
           >
@@ -48,13 +48,11 @@
                 />
               </label>
             </div>
-  
+
             <div
-              class="font-sansation-light text-sm md:w-4/6 w-full md:ml-10 my-5 "
+              class="font-sansation-light text-sm md:w-4/6 w-full md:ml-10 my-5"
             >
-              <div
-                class="flex flex-row justify-start items-start"
-              >
+              <div class="flex flex-row justify-start items-start">
                 <p class="text-xs text-gray-500 font-bold tracking-wide">
                   Profile
                 </p>
@@ -97,182 +95,182 @@
               </div>
             </div>
           </div>
-            
-          <div class="lg:ml-75 font-sansation-light text-sm md:-mt-8 -mt-5 ">
-              <div v-if="isChange" class="w-82 md:ml-8">
-                <div>
-                  <p class="text-xs text-gray-500 font-bold tracking-wide">
-                    Change Password
-                  </p>
-                </div>
-                <form @submit.prevent="userChangePassword">
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 w-32">
-                      Current Password :
-                    </p>
-                    <input
-                      v-model="passwordForm.oldPassword"
-                      type="password"
-                      name="Current Password"
-                      placeholder="Current Password"
-                      required
-                      class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    />
-                  </div>
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 w-32">New Password :</p>
-                    <input
-                      v-model="passwordForm.newPassword"
-                      type="password"
-                      name="NewPassword"
-                      placeholder="New Password"
-                      required
-                      class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    />
-                  </div>
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 w-32">
-                      Confrim Password :
-                    </p>
-                    <input
-                      v-model="passwordForm.confirmationPassword"
-                      type="password"
-                      name="confirmationPassword"
-                      placeholder="Confrim Password"
-                      required
-                      class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    />
-                  </div>
-                  <div class="text-red-500 text-sm font-mono mx-5">
-                    {{ this.invalid.duplicated.errorMessage }}
-                  </div>
-                  <div
-                    class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5"
-                  >
-                    <button
-                      class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                    >
-                      save
-                    </button>
-                    <button
-                      @click="editClose"
-                      class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                    >
-                      cancel
-                    </button>
-                  </div>
-                </form>
+
+          <div class="lg:ml-75 font-sansation-light text-sm md:-mt-8 -mt-5">
+            <div v-if="isChange" class="w-82 md:ml-8">
+              <div>
+                <p class="text-xs text-gray-500 font-bold tracking-wide">
+                  Change Password
+                </p>
               </div>
-              <div v-if="isEdit" class="w-82 md:ml-8">
-                <div>
-                  <p class="text-xs text-gray-500 font-bold tracking-wide">
-                    Edit Profile
+              <form @submit.prevent="userChangePassword">
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 w-32">
+                    Current Password :
                   </p>
+                  <input
+                    v-model="passwordForm.oldPassword"
+                    type="password"
+                    name="Current Password"
+                    placeholder="Current Password"
+                    required
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  />
                 </div>
-                <form @submit.prevent="userEditProfile">
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
-                      Profile Name :
-                    </p>
-                    <input
-                      v-model="profileForm.profileName"
-                      type="text"
-                      name="profileName"
-                      placeholder="ProfileName"
-                      class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    />
-                  </div>
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
-                      Firstname :
-                    </p>
-                    <input
-                      v-model="profileForm.firstName"
-                      type="text"
-                      name="firstName"
-                      placeholder="Firstname"
-                      class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    />
-                  </div>
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
-                      Lastname :
-                    </p>
-                    <input
-                      v-model="profileForm.lastName"
-                      type="text"
-                      name="lastName"
-                      placeholder="Lastname"
-                      class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    />
-                  </div>
-                  <div class="my-2 flex flex-row">
-                    <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">Bio :</p>
-                    <textarea
-                      v-model="profileForm.userBios"
-                      type="text"
-                      name="userBios"
-                      placeholder="userBios"
-                      class="w-48 h-24 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                      :class="
-                        this.invalid.duplicated.showErrorBox
-                          ? 'border-red-500'
-                          : ''
-                      "
-                    >
-                    </textarea>
-                  </div>
-                  <div class="text-red-500 text-sm font-mono mx-5">
-                    {{ this.invalid.duplicated.errorMessage }}
-                  </div>
-                  <div
-                    class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5"
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 w-32">New Password :</p>
+                  <input
+                    v-model="passwordForm.newPassword"
+                    type="password"
+                    name="NewPassword"
+                    placeholder="New Password"
+                    required
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 w-32">
+                    Confrim Password :
+                  </p>
+                  <input
+                    v-model="passwordForm.confirmationPassword"
+                    type="password"
+                    name="confirmationPassword"
+                    placeholder="Confrim Password"
+                    required
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  />
+                </div>
+                <div class="text-red-500 text-sm font-mono mx-5">
+                  {{ this.invalid.duplicated.errorMessage }}
+                </div>
+                <div
+                  class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5"
+                >
+                  <button
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
                   >
-                    <button
-                      class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                    >
-                      save
-                    </button>
-                    <button
-                      @click="editClose"
-                      class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                    >
-                      cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
+                    save
+                  </button>
+                  <button
+                    @click="editClose"
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
+                  >
+                    cancel
+                  </button>
+                </div>
+              </form>
             </div>
+            <div v-if="isEdit" class="w-82 md:ml-8">
+              <div>
+                <p class="text-xs text-gray-500 font-bold tracking-wide">
+                  Edit Profile
+                </p>
+              </div>
+              <form @submit.prevent="userEditProfile">
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                    Profile Name :
+                  </p>
+                  <input
+                    v-model="profileForm.profileName"
+                    type="text"
+                    name="profileName"
+                    placeholder="ProfileName"
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                    Firstname :
+                  </p>
+                  <input
+                    v-model="profileForm.firstName"
+                    type="text"
+                    name="firstName"
+                    placeholder="Firstname"
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                    Lastname :
+                  </p>
+                  <input
+                    v-model="profileForm.lastName"
+                    type="text"
+                    name="lastName"
+                    placeholder="Lastname"
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">Bio :</p>
+                  <textarea
+                    v-model="profileForm.userBios"
+                    type="text"
+                    name="userBios"
+                    placeholder="userBios"
+                    class="w-48 h-24 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    "
+                  >
+                  </textarea>
+                </div>
+                <div class="text-red-500 text-sm font-mono mx-5">
+                  {{ this.invalid.duplicated.errorMessage }}
+                </div>
+                <div
+                  class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5"
+                >
+                  <button
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
+                  >
+                    save
+                  </button>
+                  <button
+                    @click="editClose"
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
+                  >
+                    cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
         <!-- Account Profile chagne password -->
         <!-- My song -->
