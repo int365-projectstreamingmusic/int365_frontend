@@ -1,17 +1,23 @@
 <template>
-  <div class="h-screen" :class="sideBarShow ? 'lg:ml-75' : ''">
-    <div class="flex flex-col w-full font-sansation-light">
+  <div class="h-screen flex justify-center" :class="sideBarShow ? 'lg:ml-75' : ''">
+    <div class="flex justify-center flex-col w-full font-sansation-light">
       <div class="flex justify-center h-full">
         <div class="2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
-          <div class="2xl:w-1200 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
-            <div v-if="addOrUp=='add'" class="xgl:text-2xl md:text-xl text-lg px-3 font-sansation-bold">
-              Add Playlist 
+          <div class="2xl:w-1200 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3 flex justify-center flex-col">
+            <div class="flex justify-between items-center">
+              <div>
+                <div v-if="addOrUp=='add'" class="xgl:text-2xl md:text-xl text-lg font-sansation-bold ">
+                  Add Playlist
+                </div>
+                <div v-else class="xgl:text-2xl md:text-xl text-lg font-sansation-bold ">
+                  upload music
+                </div>
+              </div>
+              <div v-if="addOrUp=='add'" class="bg-gray-500 lg:p-4 p-1 text-white xgl:text-lg md:text-md text-sm ">
+                5/20
+              </div>
             </div>
-            <div v-else class="xgl:text-2xl md:text-xl text-lg px-3 font-sansation-bold">
-              upload music
-            </div>
-
-            <div class="lg:w-5/6 w-full flex justify-center items-center flex-col">
+            <div class="lg:w-5/6 w-full flex justify-center items-center flex-col xgl:text-lg md:text-md text-sm ">
               <img v-show="image == ''" src="../assets/upload_icon.png"
                 class="md:w-44.5 md:h-52.5 w-36 h-40  rounded-3xl object-cover mt-3" />
               <img id="image-preview" alt="your image" v-show="image != ''"
@@ -31,12 +37,12 @@
                 </div>
                 <div class="my-2" v-if="addOrUp=='up'">
                   <p class="text-md my-2">Album</p>
-                  <input v-model="musicInfo.album" type="text" name="album" placeholder="ALBUM " required
+                  <input v-model="musicInfo.album" type="text" name="album" placeholder="ALBUM "
                     class="w-full h-12 pl-4 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base" />
                 </div>
                 <div class="my-2" v-if="addOrUp=='up'">
                   <p class="text-md my-2">Artist</p>
-                  <input v-model="musicInfo.artist" type="text" name="artist" placeholder="ARTIST " required
+                  <input v-model="musicInfo.artist" type="text" name="artist" placeholder="ARTIST "
                     class="w-full h-12 pl-4 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base" />
                 </div>
                 <div class="my-2">
@@ -61,7 +67,8 @@
                 </div>
 
                 <!-- </form> -->
-                <div class="flex md:flex-row md:justify-start flex-col items-center w-full space-x-4" v-if="addOrUp=='up'">
+                <div class="flex md:flex-row md:justify-start flex-col items-center w-full space-x-4"
+                  v-if="addOrUp=='up'">
                   <div>
                     <label for="input-audio" class="font-sansation-light">
                       <p>upload music</p>
@@ -73,9 +80,10 @@
                     <audio id="audio-preview" controls v-show="file != ''" />
                   </div>
                 </div>
-                <div class="flex md:justify-start w-4/6 my-3 items-center flex-col md:flex-row" >
+                <div class="my-3 flex md:flex-row flex-col ">
                   <div>
-                    <p class="md:mr-2">music will be</p>
+                    <p class="md:mr-2" v-if="addOrUp=='up'">music will be</p>
+                    <p class="md:mr-2" v-else>playlist will be</p>
                   </div>
                   <div class="md:flex md:flex-row">
                     <div>
@@ -88,18 +96,26 @@
                     </div>
                   </div>
                 </div>
-                <input type="radio" v-model="musicInfo.confirm" value="agree" />
-                <label for="musicInfo.confirm" class="mx-2">I have read and agree to the website
-                  <a class="text-violetlight font-sansation-bold underline underline-offset-1">terms and conditions</a>
-                </label>
+                <div v-if="addOrUp=='add'">
+                  <input type="radio" v-model="musicInfo.confirm" value="autoAdd" />
+                  <label for="musicInfo.confirm" class="mx-2">auto add music in this playlist
+                  </label>
+                </div>
+                <div><input type="radio" v-model="isActive" @click="activeClick()" value="false" />
+                  <label for="isActive" class="mx-2">I have read and agree to the website
+                    <a class="text-violetlight font-sansation-bold underline underline-offset-1">terms and
+                      conditions</a>
+                  </label>
+                </div>
                 <div class="flex flex-row space-x-3 justify-center items-center my-5">
-                  <button
-                    class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-violetlight text-white flex justify-center item-center font-sansation-bold">
+                  <button :disabled="isActive" @click="showPopupConfirm()"
+                    :class="isActive ? 'bg-violet-200':'bg-violetlight' "
+                    class="w-36 h-12 cursor-pointer transition duration-200 rounded-md  text-white flex justify-center item-center font-sansation-bold">
                     Upload
                   </button>
-                  <button @click="editClose"
+                  <button @click="showPopupCancle()"
                     class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center font-sansation-bold">
-                    cancel
+                    Cancel
                   </button>
                 </div>
               </form>
@@ -109,15 +125,19 @@
       </div>
     </div>
   </div>
+
+  <popupCard v-if="showClicked" :message="this.message" @close="closeClicked()" @confirm="routerClicked()"></popupCard>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
+import popupCard from '../components/PopUpCard.vue'
 export default {
+  components: {
+    popupCard,
+  },
   data() {
     return {
-      id: 0,
       file: "",
       image: "",
       musicInfo: {
@@ -129,7 +149,17 @@ export default {
         pub: "",
         confirm: "",
       },
-      addOrUp : null,
+      addOrUp: null,
+      showClicked: false,
+      editProducts: [],
+      message: {
+        header: '',
+        body: '',
+        status: '',
+        button1: '',
+        button2: '',
+      },
+      isActive: true,
     };
   },
   methods: {
@@ -140,7 +170,6 @@ export default {
     handleImageUpload(event) {
       this.image = event.target.files[0];
       this.previewImage();
-      console.log(this.image);
     },
     previewImage() {
       let pic = document.getElementById("image-preview");
@@ -162,7 +191,35 @@ export default {
         audio.src = reader.result;
       });
     },
+    showMessageClicked(value) {
+      this.showClicked = !value;
+    },
+    routerClicked() {
+      this.$router.push('/hometest')
+    },
+    closeClicked() {
+      this.showClicked = false;
+    },
+    activeClick() {
+      this.isActive = false;
+    },
+
+    showPopupCancle() {
+      this.showClicked = !this.showClicked;
+      this.message.header = "Are sure for cancle ?"
+      this.message.body = "Lorem ipsum dolor sit"
+      this.message.button1 = 'Confirm'
+      this.message.button2 = 'Cancle'
+    },
+    showPopupConfirm() {
+      this.showClicked = true;
+      this.message.header = "Successfully executed!"
+      this.message.body = ""
+      this.message.button1 = ''
+      this.message.button2 = 'Close'
+    },
     addMusicInfo() { },
+
   },
   mounted() {
     this.addOrUp = localStorage.getItem("addOrUp");

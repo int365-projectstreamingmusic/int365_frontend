@@ -215,7 +215,7 @@ export default {
     // const route=useRoute();
     this.path = window.location.pathname
     // console.log()
-    console.log(this.pathC)
+    
     // if(this.music != null && this.music != undefined){
     //   this.playApi.value.push(this.music)
     // } 

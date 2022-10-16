@@ -145,8 +145,8 @@ export default {
       this.$emit("musicQ", { name: "audio1.mp3", image: "sadasd" });
     },
     page1(data){
-      console.log("cat");
       localStorage.setItem("addOrUp", data);
+      this.$router.go();
     }
   },
   async created() {
