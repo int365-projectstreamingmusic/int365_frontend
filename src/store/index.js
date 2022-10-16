@@ -2,6 +2,8 @@ import { createStore } from "vuex";
 import authentication from "./authentication";
 import homepage from "./homepage";
 import managereport from "./managereport";
+import search from "./search";
+import myplaylist from "./myplaylist";
 
 export default createStore({
   state: {},
@@ -11,6 +13,8 @@ export default createStore({
   modules: {
     authentication,
     homepage,
-    managereport
+    managereport,
+    search,
+    myplaylist
   },
 });

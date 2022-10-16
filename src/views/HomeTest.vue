@@ -8,7 +8,6 @@
           <div>
             <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music</div>
             <div class="mx-10 2xl:w-1200 w-962 ">
-              <!-- <Suspense> -->
               <div class="flex flex-row relative" >
                 <div class="absolute flex flex-row items-end z-10 justify-between 2xl:w-780 xl:w-962 "  @mouseover="setTopOne(true)" @mouseleave="setTopOne(false)">
                   <div class="bg-blackTopFive opacity-80" style="height: 350px; width: 60px;"></div>
@@ -23,17 +22,14 @@
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
                   <div class="mb-6 2xl:ml-9 ml-7 flex flex-col space-y-0.5">
                     <div>Name: {{topFrist.trackName}}</div>
-                    <div>Artist: {{topFrist.userAccountModel.username}}</div>
+                    <div>Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
                     <div>Album: you name</div>
                     <div>Released: {{topFrist.timestamp}}</div>
                     <div>View: 142,169,846</div>
                   </div> 
                 </div>
               </div>
-              <!-- <template #fallback>
-                Loading...
-              </template>
-              </Suspense> -->
+
               <div class="flex flex-row">
                 <div v-for="(musics,index) in topFive" :key="musics.id">
                   <ShowMusicTopFive :musicDes="musics" :count="index" @music="acceptData"></ShowMusicTopFive>
@@ -62,7 +58,7 @@
                 <div class="bg-blackTopFive  text-slate-50 font-sansation-light md:text-sm sm:text-xs text-xxs md:tracking-widest flex items-end md:w-100 w-64" >
                   <div class="md:mb-6 mb-4 md:mx-4 ml-3 mr-2 flex flex-col space-y-0.5">
                     <div>Name: {{topFrist.trackName}}</div>
-                    <div v-show="!logo">Artist: {{topFrist.userAccountModel.username}}</div>
+                    <div v-show="!logo">Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
                     <div v-show="!logo">Album: you name</div>
                     <div v-show="!logo">Released: {{topFrist.timestamp}}</div>
                     <div>View: 142,169,846</div>
