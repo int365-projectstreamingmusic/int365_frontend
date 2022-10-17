@@ -52,11 +52,11 @@
                   <span class="material-icons md:text-lg text-sm" v-if="isOpen">expand_less</span>
                   <span class="material-icons md:text-lg text-sm" v-else> expand_more </span>
                 </div>
-                <div class="text-gray-800 flex items-end md:text-base text-xxs flex-col w-full md:mt-2 mt-1 bg-white  rounded-xl border-2 border-gray-100"  v-if="isOpen">
+                <div class="text-gray-800 flex items-end md:text-base text-xxs flex-col w-full md:mt-2 mt-1 bg-white  rounded-xl border-2 border-gray-100 z-50"  v-if="isOpen">
                   <div @click="isOpen = !isOpen"  class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                     <router-link to="/accountprofile">Account</router-link>
                   </div>
-                  <div @click="isOpen = !isOpen"  v-if="checkRole" class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
+                  <div @click="isOpen = !isOpen"  v-if="role" class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                     <router-link to="/managereport">Manage Report</router-link>
                   </div>
                   <div @click="isOpen = !isOpen"  class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
@@ -78,7 +78,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!found" class="text-gray-700 z-50 mt-2 mb-5 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 h-full " :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
+    <div v-if="!found" class="text-gray-700  mt-2 mb-5 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 h-full z-20" :class="sideBarShow ?'2xl:ml-75 lg:ml-64':''">
       <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2 sm:pl-3.5">
         <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " Angel With a short gun  "</div>
         <div class="flex flex-col justify-center h-32 space-y-2 overflow-y-scroll ">
@@ -167,13 +167,13 @@ export default {
     return {
       path: "",
       isOpen: false,
-
+      role: false
     };
   },
   methods: {
     pathPage(path) {
       this.path = path;
-      checkRole=false;
+      this.role=false;
     },
     routerLogin(active) {
       localStorage.setItem("logInActive", active);
@@ -195,7 +195,7 @@ export default {
     checkRole(){
       roles.forEach(element => {
         if (element === "admin") {
-            checkRole = true;
+            this.role = true;
           }
       });
     }

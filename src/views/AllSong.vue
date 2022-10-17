@@ -53,8 +53,9 @@
           </div>
         </div>       
       </div>
+      <paginate :totalItems="110" :itemsPerPage="15" :maxPagesShow="4"></paginate>
       <!-- number page -->
-      <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 mb-10">
+      <!-- <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 mb-10">
         <div class="icon-navbar-outside">
           <span class="material-icons md:text-2xl text-lg">chevron_left</span>
         </div>
@@ -73,7 +74,7 @@
         <div class="icon-navbar-outside">
           <span class="material-icons md:text-2xl text-lg">chevron_right</span>
         </div>
-      </div>
+      </div> -->
       <!-- number page -->
       <!-- all song -->
     </div>
@@ -82,9 +83,11 @@
 <script>
 import { mapGetters,mapActions } from "vuex";
 import MusicCard from "../components/MusicCard.vue";
+import Paginate from "../components/Paginate.vue";
 export default {
   components: {
-    MusicCard
+    MusicCard,
+    Paginate
   },
   data() {
     return {
