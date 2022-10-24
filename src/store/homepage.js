@@ -110,7 +110,8 @@ export default {
       })
     },
     async getRecentplayed({ commit,rootGetters },params){
-      // console.log(params)
+      console.log(params)
+      console.log(rootGetters['authentication/token'])
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/LastVisited?numberOfRecord=${params}`,
       {         
         headers: {
@@ -135,7 +136,7 @@ export default {
       })
     },
     setMediaPlayer({ commit },boolean){
-      console.log(boolean)
+      // console.log(boolean)
       commit("SET_MEDIAPLAYER",boolean)
     },
     hideSideBar({ commit,state }){

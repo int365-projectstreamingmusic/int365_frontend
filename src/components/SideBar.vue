@@ -2,7 +2,7 @@
 <template>
   <div v-show="sideBarShow" class=" bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll   z-50">
     <div class="sticky top-0 z-20">
-      <div class="flex flex-row items-center justify-center space-x-5">
+      <div class="flex flex-row items-center justify-center space-x-5 bg-neutral-50">
         <span @click="hideSideBar()" class="material-icons text-3xl mt-7 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
         <div class="font-sansation-light text-3xl text-center mt-7 bg-neutral-50 text-black  pb-0  sticky top-0">GARDEN</div>
       </div>
@@ -246,7 +246,7 @@ export default {
         const volBar = ref(null);
         // const sliderBtn = ref(0);
         const sliderBtnVol = ref(null);
-        const volumeProgress = ref(100);
+        const volumeProgress = ref(60);
         const mutePlayer = ref(false);
         const playNow = ref(null)
         const playImage = ref(null)
@@ -406,6 +406,7 @@ export default {
       playTest();
     }
     function next(index) {
+      console.log(playApi.value[0])
       if(index == 'NEXT'){
         loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL': loopType.value = 'NOTLOOP'
         next()
@@ -418,7 +419,7 @@ export default {
               playNow.value = playApi.value[0].name
               playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
-              console.log(played.value)
+              // console.log(played.value)
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
           }else{
@@ -430,16 +431,24 @@ export default {
             next(0)
           }  
         }else{
-          // console.log('3')
+          // console.log('เลือกมือ')
+          // console.log(nameMusic.value[0])
+          // console.log(playImage.value)
+          // console.log(playNow.value)
+          // console.log(played.value)
+          // console.log(played.value.length)
+          // played.value.length <= 1 ? emptyPlayed.value = true : emptyPlayed.value = false
+          // played.value.push({name:playNow.value,image:playImage.value,nameShow:nameMusic.value[0]})
+          // console.log(played.value)
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
-          // console.log(nameMusic.value[0])
           nameMusic.value[0] = playApi.value[index].nameShow
-          // console.log(nameMusic.value[0])
           playNow.value = playApi.value[index].name
-          playImage.value = playApi.value[0].image
+          playImage.value = playApi.value[index].image
+          played.value.push(playApi.value[index])
+          playApi.value = playApi.value.filter((m) => m != playApi.value[index])
         }
       }
-      console.log('4')
+      // console.log('4')
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false

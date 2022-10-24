@@ -31,10 +31,11 @@ export default {
   },
   actions: {
     async getAllSong({commit}){
-      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track`)
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track?pageSize=18`)
       .then((res) =>{
         // console.log(res.data)
-        // console.log(res.data.content)
+        console.log(res.data.content)
+        console.log(res.data.content.length)
         commit("SET_NOTFOUND", false);
         commit("SET_ALLSONG", res.data.content)
         commit("SET_TOTALSONG", res.data);

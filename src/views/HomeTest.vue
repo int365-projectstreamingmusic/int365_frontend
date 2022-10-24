@@ -5,7 +5,7 @@
       <!-- <div class=" flex  " > -->
         <!-- Top5music -->
         <div v-if='!mobile' class="flex justify-center mb-15">
-          <div>
+          <div v-if="topFive != ''">
             <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music ALL Time</div>
             <div class="mx-10 2xl:w-1200 w-962 ">
               <div class="flex flex-row relative" >
@@ -40,7 +40,7 @@
         </div>
         <!-- mobile top5 -->
         <div v-if='mobile' class="flex justify-center sm:mb-15 mb-8">
-          <div>
+          <div v-if="topFive != ''">
             <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal lg:mx-10 mt-3 sm:mb-6 mb-3 bg-white">Top 5 Music</div>
             <div class="lg:mx-10 md:w-698 sm:w-466 w-80">
               <div class="flex flex-row relative" >
@@ -76,7 +76,7 @@
         <!-- recommend -->
         <!-- v-if='!mobile' -->
         <div  class="flex justify-center sm:mb-15 mb-8">
-          <div class=" 2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80" >
+          <div v-if="TopFiveInSevenDays != ''" class=" 2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80" >
             <div class="font-sansation-bold  text-blackcoal mb-3 xgl:text-4xl md:text-2xl text-xl">Top 5 Music in 7 Days</div>
             <div class=" font-sansation-regular mb-6 xgl:text-base text-sm space-y-2" >
               <div class=" ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
@@ -108,7 +108,7 @@
         <!--/recommend -->
         <!-- recent releases -->    
         <div  class="flex justify-center mb-20" >
-          <div class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div  v-if="recentReleases != ''" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
                 <div class="font-sansation-bold xgl:text-4xl md:text-2xl text-xl text-blackcoal ">Recent Releases</div>
                 <div class="sm:my-4 my-2">
