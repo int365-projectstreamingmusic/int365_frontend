@@ -184,7 +184,7 @@ export default {
        hideSideBar: 'homepage/hideSideBar',
     }),
     signOut() {
-      this.isOpen = !isOpen
+      this.isOpen = !this.isOpen
       this.signOutAction().then(() => {
         this.$router.replace({
           name: "hometest",
