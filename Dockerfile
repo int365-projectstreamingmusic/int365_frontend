@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 COPY ./ .
-RUN ["yarn", "install"]
+RUN ["yarn"]
 RUN ["yarn", "build"]
 
 FROM nginx as production-stage
