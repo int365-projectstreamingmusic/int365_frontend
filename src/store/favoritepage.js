@@ -24,6 +24,7 @@ export default {
   },
   actions: {
     async getAllFavorites({commit,rootGetters}){
+      commit("SET_FAVORITES", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite`,
       {         
         headers: {
@@ -31,17 +32,36 @@ export default {
         }
       })
       .then((res) =>{
-        console.log(res.data)
-        // console.log(res.data.content)
         commit("SET_NOTFOUND", false);
         commit("SET_FAVORITES", res.data.content);
-
       }).catch((err) => {
         if(err.response.status == 404){
           commit("SET_NOTFOUND", true);
         }
         console.log(err)
       })
+    },
+    async addFavorites({commit,rootGetters,dispatch},id){
+      commit("SET_FAVORITES", '');
+      await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite?trackId=${id}`,
+      { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
+      .then((res) =>{
+        console.log(res)
+        dispatch("getAllFavorites");
+      }).catch((err) => {
+        console.log(err)
+      }) 
+    },
+    async delFavorites({commit,rootGetters,dispatch},id){
+      commit("SET_FAVORITES", '');
+      await axios.delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite?trackId=${id}`,
+      { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
+      .then((res) =>{
+        console.log(res)
+        dispatch("getAllFavorites");
+      }).catch((err) => {
+        console.log(err)
+      }) 
     }
   }
 }
