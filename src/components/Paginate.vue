@@ -9,7 +9,7 @@
     <div v-for="(page) in totalPages.slice(min,max)" :key="page">
       <p @click="selectPage(page)" :class="currentPage == page ?'page-number-outside-current':'page-number-outside'">{{page}}</p>
     </div>
-    <div v-if="max>=(totalItems/itemsPerPage)" class="icon-navbar-outside-prevent">
+    <div v-if="max>=(totalItems/itemsPerPage) || max == 0" class="icon-navbar-outside-prevent">
       <span class="material-icons text-gray-300 md:text-2xl text-lg">chevron_right</span>
     </div>
     <div v-else @click="next()" class="icon-navbar-outside">
@@ -22,16 +22,27 @@
 import { mapGetters,mapActions } from "vuex";
 export default {
   props:{
-    totalItems:{type:Number,required:true},
+    totalItems:{type:Number,required:false},
     itemsPerPage:{type:Number,required:true},
+    sizePage:{type:Number,required:false},
     maxPagesShow:{type:Number,required:true},
+  },
+  watch: { 
+    totalItems: function(newVal) { 
+      console.log(newVal)
+      this.addPage()
+    },
+    sizePage: function(newVal){
+      console.log(newVal)
+      this.max = newVal
+    }
   },
   data() {
     return {
       totalPages: [],
       currentPage: 1,
       min: 0,
-      max: this.maxPagesShow,
+      max: 0,
       url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
   },
@@ -42,6 +53,7 @@ export default {
     selectPage(page){
       console.log(page)
       this.currentPage = page
+      this.$emit('pageNum',page)
     },
     next(){
       if((this.max) < (this.totalItems/this.itemsPerPage) ){
@@ -58,13 +70,16 @@ export default {
       }else{
         console.log(this.min)         
       }
+    },
+    addPage(){
+      for (let i = 0; i < (this.totalItems/this.itemsPerPage); i++) {
+        this.totalPages[i] = i+1
+      }
     }
   },
   created(){
-    for (let i = 0; i < (this.totalItems/this.itemsPerPage); i++) {
-      this.totalPages[i] = i+1
-    }
-    console.log(this.totalPages)
+    this.addPage()
+    console.log(this.max)
     this.handleView();
     window.addEventListener("resize", this.handleView);
   }
