@@ -19,7 +19,7 @@
                 <div class="overflow-hidden 2xl:w-780 xl:w-962"  style=" height: 350px;">
                   <img :src="url+'api/streaming/image/'+topFrist.trackThumbnail" v-bind:class="topOne?'transition delay-95 duration-700 scale-110 2xl:w-780 xl:w-962':'2xl:w-780 xl:w-962'" style=" height: 350px; object-fit: cover;"/>
                 </div>
-                <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
+                <!-- <div class="bg-blackTopFive  text-slate-50 font-sansation-light text-sm tracking-widest flex items-end w-100" >
                   <div class="mb-6 2xl:ml-9 ml-7 flex flex-col space-y-0.5">
                     <div>Name: {{topFrist.trackName}}</div>
                     <div>Artist: {{topFrist.artistTracks[0].artistsModel.artistName}}</div>
@@ -27,7 +27,7 @@
                     <div>Released: {{topFrist.timestamp}}</div>
                     <div>View: 142,169,846</div>
                   </div> 
-                </div>
+                </div> -->
               </div>
 
               <div class="flex flex-row">
