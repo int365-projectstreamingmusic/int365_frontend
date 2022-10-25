@@ -8,6 +8,7 @@ import OnePlaylist  from '../views/OnePlaylist.vue'
 import AccountProfile from '../views/AccountProfile.vue'
 import ManageReport from '../views/ManageReport.vue'
 import LogIn from '../views/LogIn.vue'
+import AddMusic from '../views/AddMusic.vue'
 
 const routes = [
   {
@@ -54,7 +55,11 @@ const routes = [
     path: '/managereport',
     name: 'managereport',
     component: ManageReport
-
+  },
+  {
+    path: '/addmusic',
+    name: 'addmusic',
+    component: AddMusic
   }
 ]
 

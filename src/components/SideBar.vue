@@ -1,9 +1,12 @@
 
 <template>
-  <div class="bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
+  <div v-show="sideBarShow" class=" bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll   z-50">
     <div class="sticky top-0 z-20">
-      <div class="font-sansation-light text-logo text-center bg-neutral-50 text-black pt-5 pb-0  sticky top-0">GARDEN</div>
-      <div class="h-8 bg-gradient-to-b from-neutral-50 dark:from-slate-900"></div>
+      <div class="flex flex-row items-center justify-center space-x-5 bg-neutral-50">
+        <span @click="hideSideBar()" class="material-icons text-3xl mt-7 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+        <div class="font-sansation-light text-3xl text-center mt-7 bg-neutral-50 text-black  pb-0  sticky top-0">GARDEN</div>
+      </div>
+      <div class="h-8 bg-gradient-to-b from-neutral-50 "></div>
     </div>
     <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">menu</div>
     <div class="py-7">
@@ -36,7 +39,7 @@
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
       <div class="flex flex-row justify-center py-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
-        <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" />
+        <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" style="object-fit: cover;"/>
       </div>
       <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
       <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div>
@@ -93,7 +96,7 @@
         </div>
       </div>
       <div class="px-10 mb-10 tracking-wide space-y-1 cursor-pointer">
-        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="value.name" >
+        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="index" >
           <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
             <div>{{index+1}}</div>
             <div class="truncate w-48 " @click="next(index)">{{value.nameShow}}</div>
@@ -114,6 +117,14 @@
       <!-- <div>{{url}}</div> -->
     </div>
  </div>
+ <!-- <div v-show="!sideBarShow" class="fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
+    <div class="sticky top-0 z-20">
+      <div class="flex flex-row items-center justify-center space-x-5">
+        <span @click="hideSideBar()" class="material-icons text-4xl mt-5 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+        <div class="font-sansation-light text-logo text-center text-black pt-5 pb-0  sticky top-0">GARDEN</div>
+      </div>
+    </div>
+ </div> -->
  
 </template>
 
@@ -123,7 +134,7 @@
 //             cursor.style.left = e.clientX + "px";
 //             cursor.style.top = e.clientX + "px";})
 //           ;
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import {
   ref,
   // ,reactive
@@ -177,6 +188,7 @@ export default {
   computed: {
     ...mapGetters({
       mediaPlayer: 'homepage/mediaPlayer',
+      sideBarShow: 'homepage/sideBarShow'
     })
   },
   data() {
@@ -191,21 +203,19 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      hideSideBar: 'homepage/hideSideBar' // map `this.add()` to `this.$store.dispatch('increment')`
+    }),
     pathPage(path){
       this.path = path
-    }, 
-    // nextTest(index){
-      // console.log(index)
-      // index == undefined ? console.log("true") : console.log("false")
-            // this.playNow = this.playApi[1].name
-            // this.next();
-    // }
+    }
+
   },
   mounted(){
     // const route=useRoute();
     this.path = window.location.pathname
     // console.log()
-    console.log(this.pathC)
+    
     // if(this.music != null && this.music != undefined){
     //   this.playApi.value.push(this.music)
     // } 
@@ -236,7 +246,7 @@ export default {
         const volBar = ref(null);
         // const sliderBtn = ref(0);
         const sliderBtnVol = ref(null);
-        const volumeProgress = ref(100);
+        const volumeProgress = ref(60);
         const mutePlayer = ref(false);
         const playNow = ref(null)
         const playImage = ref(null)
@@ -356,13 +366,15 @@ export default {
       var round = playApi.value.length
       var oldPlay = playApi.value
       var random = []
+      // var gap 
       // console.log(oldPlay[Math.floor(Math.random()*oldPlay.length)])
       for (let index = 0; index < round; index++) {
-        // console.log(oldPlay)
+        // gap = 
+        // console.log(gap)
         random.push(oldPlay[Math.floor(Math.random()*oldPlay.length)]) 
         // playApi.value[index] = random 
         // console.log(random)
-        oldPlay = oldPlay.filter((m) => m != random[index] )
+        oldPlay = oldPlay.filter((m) => m != random[index]  )
         // console.log(oldPlay)
       }
       playApi.value = random
@@ -394,6 +406,7 @@ export default {
       playTest();
     }
     function next(index) {
+      console.log(playApi.value[0])
       if(index == 'NEXT'){
         loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL': loopType.value = 'NOTLOOP'
         next()
@@ -406,7 +419,7 @@ export default {
               playNow.value = playApi.value[0].name
               playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
-              console.log(played.value)
+              // console.log(played.value)
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
           }else{
@@ -418,16 +431,24 @@ export default {
             next(0)
           }  
         }else{
-          // console.log('3')
+          // console.log('เลือกมือ')
+          // console.log(nameMusic.value[0])
+          // console.log(playImage.value)
+          // console.log(playNow.value)
+          // console.log(played.value)
+          // console.log(played.value.length)
+          // played.value.length <= 1 ? emptyPlayed.value = true : emptyPlayed.value = false
+          // played.value.push({name:playNow.value,image:playImage.value,nameShow:nameMusic.value[0]})
+          // console.log(played.value)
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
-          // console.log(nameMusic.value[0])
           nameMusic.value[0] = playApi.value[index].nameShow
-          // console.log(nameMusic.value[0])
           playNow.value = playApi.value[index].name
-          playImage.value = playApi.value[0].image
+          playImage.value = playApi.value[index].image
+          played.value.push(playApi.value[index])
+          playApi.value = playApi.value.filter((m) => m != playApi.value[index])
         }
       }
-      console.log('4')
+      // console.log('4')
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
@@ -483,23 +504,12 @@ export default {
             timer,step,stepFunction,seek,progress
             ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
             ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic,nameMusic,playImage
-            // 
             };
-  },    
+  },
+
 };
 </script>
 
 <style>
-/* #progressButtonTimer,
-#progressButtonVolume {
-  margin-top: -9px;
-  right: -8px;
-}
-@media screen and (max-width: 768px) {
-  #progressButtonTimer,
-  #progressButtonVolume {
-    margin-top: -8px;
-    right: -7px;
-  }
-} */
+
 </style>
