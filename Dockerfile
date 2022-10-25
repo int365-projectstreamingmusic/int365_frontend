@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY yarn.lock ./
 COPY ./ .
+RUN ["apt upgrade -y"]
 RUN ["yarn --version"]
 # RUN ["yarn", "build"]
 
