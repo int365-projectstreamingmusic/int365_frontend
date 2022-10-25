@@ -13,12 +13,12 @@
           <div v-if="musicDes && musicDes.trackName" class="font-sansation-light text-sm tracking-wider truncate">{{musicDes.trackName}}</div>
           <div class="font-sansation-light text-xxs tracking-wider">BOWKYLION</div>          
         </div>
-        <div class="flex flex-row justify-between items-center">   
-          <span @click="addFavorite(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">grade</span>
+        <div class="flex flex-row  items-center" :class="authenticated?'justify-between':'justify-center'">   
+          <span v-if="authenticated" @click="addFavorite(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">grade</span>
           <div @click="passMusic(musicDes)" class=" cursor-pointer text-white md:w-12 md:h-12 w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-white hover:text-violetlight transition duration-500 ">
               <span class="material-icons md:text-4xl text-3xl">play_arrow</span>
           </div> 
-          <span @click="addPlayground(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">playlist_add</span>   
+          <span v-if="authenticated" @click="addPlayground(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">playlist_add</span>   
         </div> 
       </div>
     </div>

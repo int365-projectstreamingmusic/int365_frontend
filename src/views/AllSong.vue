@@ -12,7 +12,8 @@
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">Recent Played</div>
             <div class="underline underline-offset-1 font-sansation-light text-violetlight hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">see more</div>               
             </div>
-            <div class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center">
+            <loading v-if="recentplayed == ''"></loading>
+            <div v-if="recentplayed != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center">
               <div v-for="(musics) in recentplayed" :key="musics.id">
                 <music-card :musicDes="musics.track" @music="acceptData"></music-card>
               </div>          
@@ -28,33 +29,17 @@
            <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">All Song</div>
            <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>               
           </div>
+          <loading v-if="allSong == ''"></loading>
           <div class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div v-for="(musics) in allSong" :key="musics.id">
               <music-card :musicDes="musics" @music="acceptData"></music-card>
             </div>    
-            <!-- <music-card></music-card>
-            <music-card></music-card>  
-            <music-card></music-card>  
-            <music-card></music-card>  
-            <music-card></music-card>
-            <music-card></music-card>   
-            <music-card></music-card>
-            <music-card></music-card>  
-            <music-card></music-card>  
-            <music-card></music-card>  
-            <music-card></music-card>
-            <music-card></music-card>
-            <music-card></music-card>
-            <music-card></music-card>  
-            <music-card></music-card>  
-            <music-card></music-card>  
-            <music-card></music-card>
-            <music-card></music-card>    -->
           </div>
         </div>       
       </div>
+      <paginate :totalItems="totalSong" :sizePage="totalPage" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNum"></paginate>
       <!-- number page -->
-      <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 mb-10">
+      <!-- <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 mb-10">
         <div class="icon-navbar-outside">
           <span class="material-icons md:text-2xl text-lg">chevron_left</span>
         </div>
@@ -73,7 +58,7 @@
         <div class="icon-navbar-outside">
           <span class="material-icons md:text-2xl text-lg">chevron_right</span>
         </div>
-      </div>
+      </div> -->
       <!-- number page -->
       <!-- all song -->
     </div>
@@ -82,13 +67,17 @@
 <script>
 import { mapGetters,mapActions } from "vuex";
 import MusicCard from "../components/MusicCard.vue";
+import Paginate from "../components/Paginate.vue";
+import Loading from "../components/Loading.vue"
 export default {
   components: {
-    MusicCard
+    MusicCard,
+    Paginate,
+    Loading
   },
   data() {
     return {
-
+      
     }
   },
   computed: {
@@ -103,7 +92,9 @@ export default {
       recentplayed: 'homepage/recentplayed',
       authenticated: "authentication/authenticated",
       allSong: 'allsong/allSong',
-      notfound: 'allsong/notfound'
+      notfound: 'allsong/notfound',
+      totalSong: 'allsong/totalSong',
+      totalPage: 'allsong/totalPage'
     })
   },
   methods:{
@@ -112,6 +103,10 @@ export default {
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne'
     }),
+    resPageNum(e){
+      console.log(e-1)
+      this.$store.dispatch('allsong/getAllSong',e-1)
+    },
     acceptData(e) {
       console.log(e);
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
@@ -131,6 +126,6 @@ export default {
 
 }
 </script>
-<style >
+<style>
 
 </style>

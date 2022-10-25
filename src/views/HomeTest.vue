@@ -5,7 +5,8 @@
       <!-- <div class=" flex  " > -->
         <!-- Top5music -->
         <div v-if='!mobile' class="flex justify-center mb-15">
-          <div>
+          <loading v-if="topFive == ''"></loading>
+          <div v-if="topFive != ''">
             <div class="font-sansation-bold text-4xl text-blackcoal mx-10 mt-3 mb-6">Top 5 Music ALL Time</div>
             <div class="mx-10 2xl:w-1200 w-962 ">
               <div class="flex flex-row relative" >
@@ -29,7 +30,6 @@
                   </div> 
                 </div>
               </div>
-
               <div class="flex flex-row">
                 <div v-for="(musics,index) in topFive" :key="musics.id">
                   <ShowMusicTopFive :musicDes="musics" :count="index" @music="acceptData"></ShowMusicTopFive>
@@ -40,7 +40,8 @@
         </div>
         <!-- mobile top5 -->
         <div v-if='mobile' class="flex justify-center sm:mb-15 mb-8">
-          <div>
+          <loading v-if="topFive == ''"></loading>
+          <div v-if="topFive != ''">
             <div class="font-sansation-bold md:text-2xl text-xl text-blackcoal lg:mx-10 mt-3 sm:mb-6 mb-3 bg-white">Top 5 Music</div>
             <div class="lg:mx-10 md:w-698 sm:w-466 w-80">
               <div class="flex flex-row relative" >
@@ -76,27 +77,23 @@
         <!-- recommend -->
         <!-- v-if='!mobile' -->
         <div  class="flex justify-center sm:mb-15 mb-8">
-          <div class=" 2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80" >
+          <loading v-if="TopFiveInSevenDays == ''"></loading>
+          <div v-if="TopFiveInSevenDays != ''" class=" 2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80" >
             <div class="font-sansation-bold  text-blackcoal mb-3 xgl:text-4xl md:text-2xl text-xl">Top 5 Music in 7 Days</div>
             <div class=" font-sansation-regular mb-6 xgl:text-base text-sm space-y-2" >
               <div class=" ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
                 Nisi, velit luctus ultrices in leo. Sit id interdum tempus, </div>
-              <!-- <div @click="ClickMood()" v-if="!selectMood" class=" underline underline-offset-1 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">let’s start for setting mood today</div>   -->
             </div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center">
               <div v-for="(musics) in TopFiveInSevenDays" :key="musics.id">
                 <music-card :musicDes="musics" @music="acceptData"></music-card>
               </div>
-              <!-- <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card>
-              <music-card></music-card> -->
             </div>      
           </div>
         </div>       
-        <div v-show="authenticated && !notfound" class="bg-blackcoal w-full flex flex-row justify-center sm:mb-15 mb-8 " >
-          <div class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+        <div v-show="authenticated && !notfound" :class="recentplayed == ''?'':'bg-blackcoal'" class=" w-full flex flex-row justify-center sm:mb-15 mb-8 " >
+          <loading v-if="recentplayed == ''"></loading>
+          <div v-if="recentplayed != ''" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-10">Recent Played</div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
               <div v-for="(musics) in recentplayed" :key="musics.id">
@@ -108,8 +105,8 @@
         <!--/recommend -->
         <!-- recent releases -->    
         <div  class="flex justify-center mb-20" >
-          <div class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
-            <!-- <div class="font-sansation-bold text-4xl text-blackcoal ">Recent Releases</div> -->
+          <loading v-if="recentReleases == ''"></loading>
+          <div  v-if="recentReleases != ''" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
                 <div class="font-sansation-bold xgl:text-4xl md:text-2xl text-xl text-blackcoal ">Recent Releases</div>
                 <div class="sm:my-4 my-2">
                   <div class="md:text-base sm:text-sm text-ss flex flex-row justify-between font-sansation-regular tracking-wider border-b-2 border-violetdark text-center  select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
@@ -133,77 +130,9 @@
                 <router-link to="/allsong">
                   <div class="underline underline-offset-1 xgl:text-base text-ss font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">see more</div>
                 </router-link>
-                <!-- <table>
-                  <tr class="font-sansation-regular tracking-wider border-b-2 border-violetdark  select-none ">
-                    <th >#</th>
-                    <th >Name</th>
-                    <th >Artist</th>
-                    <th >Favorite</th>
-                  </tr>
-                </table> -->
-                <!-- <table class="w-696 h-60">
-                  <tr class="h-8 font-sansation-light text-white bg-blackcoal antialiased text-sm tracking-wider ">
-                    <th class="w-9">#</th>
-                    <th class="w-96">Name</th>
-                    <th class="w-24">Artist</th>
-                    <th class="w-20">Favorite</th>
-                  </tr>
-                  <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td class=" w-9"><p >1</p></td>
-                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
-                    <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
-                  </tr>
-                  <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td class=" w-9"><p >1</p></td>
-                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
-                    <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
-                  </tr>
-                  <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td class=" w-9"><p >1</p></td>
-                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
-                    <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
-                  </tr>
-                  <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td class=" w-9"><p >1</p></td>
-                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
-                    <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
-                  </tr>
-                  <tr class=" cursor-pointer text-center font-sansation-regular h-10 text-sm bg-gray-100 hover:bg-white hover:text-violetdark transition duration-500" >
-                    <td class=" w-9"><p >1</p></td>
-                    <td><p class="truncate w-82 px-5 ">好きだから。（feat.れん）/ 『ユイカ』【MV】asdsadad</p></td>
-                    <td class="w-24"><p class="w-20 truncate ">『ユイカ』asdsadada</p></td>
-                    <td class="w-20"><span class="material-icons text-2xl text-blackcoal hover:text-yellow-400 transition duration-500">grade</span></td>
-                  </tr>
-                </table>
-                <div class="underline underline-offset-1 font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">see more</div>
-              </div> -->
-              <!-- <div class="w-504">
-                <div class="ml-14">
-                  <div class="font-sansation-bold text-4xl text-blackcoal mb-6">Streaming</div>
-                  <div class="overflow-hidden w-448 rounded-lg h-56.5 "  @mouseover="streamingI = true" @mouseleave="streamingI = false">
-                    <div v-if="streamingI">
-                      <div class="z-20 h-56.5 w-448 font-sansation-bold flex justify-center items-center absolute text-whiteghost text-4xl tracking-wider">
-                        <div class="cursor-pointer flex flex-row justify-center items-center hover:text-white transition duration-300">
-                          <p>LET'S GO</p>
-                          <span class="material-icons text-5xl">chevron_right</span>
-                        </div>
-                      </div>
-                      <div class="z-10 h-56.5 w-448 opacity-40 bg-blackcoal absolute rounded-lg"></div>
-                    </div>                   
-                    <img src="../assets/yourname.png" v-bind:class="streamingI?'transition delay-95 duration-1000 scale-110':''" style="width:448px ; height: 232px; object-fit: cover;"/>
-                  </div>
-                  
-                </div>  
-              </div> -->
-            <!-- </div>-->
           </div> 
         </div> 
         <!-- /recent releases -->
-      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -211,11 +140,12 @@
 import ShowMusicTopFive from "../components/ShowMusicTopFive.vue";
 import MusicCard from "../components/MusicCard.vue";
 import { mapGetters,mapActions } from "vuex";
-
+import Loading from "../components/Loading.vue"
 export default {
   components: {
     ShowMusicTopFive,
-    MusicCard
+    MusicCard,
+    Loading
   },
   emits: ['music'],
   computed: {
@@ -237,7 +167,6 @@ export default {
   data() {
     return {
       music: null,
-      // selectMood:false,
       streamingI:false,
       url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
@@ -250,13 +179,8 @@ export default {
   }),
   acceptData(e) {
       console.log(e);
-      // this.music = e;
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
-      // console.log(this.music);
   },
-  // ClickMood(){
-  //   this.selectMood = !this.selectMood
-  // },
   getContent(){
     this.$store.dispatch('homepage/getTopFive',5)
     this.$store.dispatch('homepage/getTopFiveInSevenDays',{num:6,day:7})
