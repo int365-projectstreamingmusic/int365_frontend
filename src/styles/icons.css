@@ -11,8 +11,24 @@
 }
 
 .icon-navbar-outside {
-    @apply flex items-center justify-center md:h-8 md:w-8 h-5 w-5  rounded-full bg-neutral-100 cursor-pointer hover:text-violetlight hover:bg-blackcoal transition duration-300
+    @apply select-none flex items-center justify-center md:h-8 md:w-8 h-5 w-5  rounded-full bg-neutral-100 cursor-pointer hover:text-violetlight hover:bg-blackcoal transition duration-300
 }
+
+.icon-navbar-outside-prevent {
+    @apply select-none flex items-center justify-center md:h-8 md:w-8 h-5 w-5  rounded-full bg-neutral-100
+}
+
 .page-number-outside {
-    @apply flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 cursor-pointer rounded-full bg-neutral-100 text-violetlight hover:text-neutral-100 hover:bg-violetlight transition duration-300
+    @apply select-none flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 cursor-pointer rounded-full bg-neutral-100 text-blackcoal hover:text-violetlight transition duration-300
+}
+
+.page-number-outside-current {
+    @apply select-none flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 cursor-pointer rounded-full text-neutral-100 bg-violetlight transition duration-300
+}
+
+.loader {
+    @apply w-12 h-12 border-10 rounded-full border-solid border-violetdark relative box-border rotate-45
+}
+.loader::before { 
+    @apply absolute box-border -inset-2.5 rounded-full border-10 border-solid border-violetdark
 }
