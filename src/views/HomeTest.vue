@@ -86,7 +86,7 @@
             </div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center">
               <div v-for="(musics) in TopFiveInSevenDays" :key="musics.id">
-                <music-card :musicDes="musics" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)"></music-card>
+                <music-card :musicDes="musics" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)" @passAddOrDelPlayground="addOrDelPlayground($event)"></music-card>
               </div>
             </div>      
           </div>
@@ -100,7 +100,7 @@
             <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-10">Recent Played</div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
               <div v-for="(musics) in recentplayed" :key="musics.id">
-                <music-card :musicDes="musics.track" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)"></music-card>
+                <music-card :musicDes="musics.track" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)" @passAddOrDelPlayground="addOrDelPlayground($event)"></music-card>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
                       <div class="xgl:w-20 sm:w-14 w-10 z-30">
                         <div v-if="authenticated" class="flex flex-row justify-between space-x-1 text-blackcoal">
                           <span @click="addOrDelFavorite(musics)" :class="musics.favorite?'text-yellow-400 hover:text-blackcoal' : 'text-blackcoal hover:text-yellow-400'" class="material-icons sm:text-2xl text-base transition duration-500">grade</span>
-                          <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
+                          <span @click="addOrDelPlayground(musics)" :class="musics.playground?'text-yellow-400 hover:text-blackcoal' : 'text-blackcoal hover:text-yellow-400'" class="material-icons sm:text-2xl text-base transition duration-500">playlist_add</span> 
                         </div>
                       </div>
                     </div>
@@ -198,6 +198,17 @@ export default {
   //     this.$router.push({ name: 'login' })
   //   }   
   // },
+  async addOrDelPlayground(music){
+    console.log(music)
+    if(this.authenticated){
+      console.log(music.id)
+      let boolean = music.playground
+      await this.$store.dispatch('myplaylist/addOrDelPlayground',music)
+      await this.$store.dispatch('homepage/checkFavAndPlay',{idFav:music.id,booleanFav:boolean})
+    }else{
+      this.$router.push({ name: 'login' })
+    }
+  },
   async addOrDelFavorite(music){
     // ทำต่อ
     console.log(music)

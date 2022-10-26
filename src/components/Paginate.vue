@@ -34,7 +34,7 @@ export default {
     },
     sizePage: function(newVal){
       console.log(newVal)
-      this.max = newVal
+      this.addSize(newVal)
     }
   },
   data() {
@@ -70,6 +70,9 @@ export default {
       }else{
         console.log(this.min)         
       }
+    },
+    addSize(p){
+      this.max = p
     },
     addPage(){
       for (let i = 0; i < (this.totalItems/this.itemsPerPage); i++) {

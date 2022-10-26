@@ -27,7 +27,7 @@
           </div>
         </div>        
       </div>
-    <paginate v-if="authenticated && favorites != ''" :totalItems="110" :itemsPerPage="15" :maxPagesShow="4"></paginate>
+    <paginate :totalItems="totalFav" :sizePage="totalPage" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNum"></paginate>
     </div>
   </div>    
 </template>
@@ -62,7 +62,14 @@ export default {
       notfound: 'favoritepage/notfound',
       favorites: 'favoritepage/favorites',
       authenticated: "authentication/authenticated",
+      totalFav: 'favoritepage/totalFav',
+      totalPage: 'favoritepage/totalPage'
     })
+  },
+  data(){
+    return {
+      pageCurrent: 0
+    }
   },
   methods:{
     ...mapActions({
@@ -79,6 +86,11 @@ export default {
   },
     passMusic(){
      this.$emit('music',{name:'audio1.mp3',image:'sadasd'})
+    },
+    resPageNum(e){
+      console.log(e-1)
+      this.pageCurrent = e-1
+      this.$store.dispatch('favoritepage/getAllFavorites',e-1)
     },
     passMusicQeue(){
      this.$emit('musicQ',{name:'audio1.mp3',image:'sadasd'})

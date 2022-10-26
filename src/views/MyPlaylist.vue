@@ -6,10 +6,11 @@
           <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 ">Playground</div>
             <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 2xl:h-full bg-gray-50 rounded-2xl  px-5 2xl:py-10 md:py-5 py-3 flex flex-col font-sansation-light space-y-2">
-              <div v-if="notfound" class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
+              <div v-if="notfoundPG" class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
                 "you not have music in your playground"
               </div>
-              <div v-if="!notfound">         
+              <loading v-if="playground == '' && !notfoundPG"></loading>
+              <div v-if="!notfoundPG">         
                 <div v-for="(playgrounds,index) in playground" :key="playgrounds.track.id" class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
                   <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
                     <div class="w-5 text-center">{{index+1}}.</div>
@@ -108,10 +109,12 @@
 import { mapGetters,mapActions } from "vuex";
 import MusicCard from "../components/MusicCard.vue";
 import EmptyCard from "../components/EmptyCard.vue";
+import Loading from "../components/Loading.vue"
 export default {
   components: {
     MusicCard,
-    EmptyCard
+    EmptyCard,
+    Loading
   },
     methods:{
     optionPlaylist(e){
@@ -133,8 +136,8 @@ export default {
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne',
-      getPlayground: 'myplaylist/getPlayground',
-      deletePlayground: 'myplaylist/deletePlayground'
+      getPlayground: 'myplaylist/getAllPlayground',
+      deletePlayground: 'myplaylist/delPlayground'
     }),
   },
   computed: {
@@ -146,7 +149,7 @@ export default {
       logo: 'homepage/logo', 
       topOne: 'homepage/topOne',
       smView: 'homepage/smView',
-      notfound: 'myplaylist/notfound',
+      notfoundPG: 'myplaylist/notfoundPG',
       playground: 'myplaylist/playground'
     })
   },

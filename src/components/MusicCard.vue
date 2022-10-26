@@ -18,7 +18,7 @@
           <div @click="passMusic(musicDes)" class=" cursor-pointer text-white md:w-12 md:h-12 w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-white hover:text-violetlight transition duration-500 ">
               <span class="material-icons md:text-4xl text-3xl">play_arrow</span>
           </div> 
-          <span v-if="authenticated" @click="addPlayground(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">playlist_add</span>   
+          <span v-if="authenticated" @click="passAddOrDelPlayground(musicDes)" :class="musicDes.playground?'text-yellow-400 hover:text-white' : 'text-white hover:text-yellow-400'" class="material-icons md:text-3xl text-2xl transition duration-500">playlist_add</span>   
         </div> 
       </div>
     </div>
@@ -47,19 +47,8 @@ export default {
     }
   },
   methods:{
-    async addPlayground(id){
-      if(this.authenticated){
-        console.log(id)
-        await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
-         { headers: { 'Authorization': 'Bearer ' + this.token}})
-          .then((res) =>{
-          console.log(res.data)
-        }).catch((err) => {
-          console.log(err)
-        })
-      }else{
-        this.$router.push({ name: 'login' })
-      }
+    passAddOrDelPlayground(e){
+      this.$emit('passAddOrDelPlayground',e)
     },
     passAddOrDelFavorite(e){
       this.$emit('passAddOrDelFavorite',e)
