@@ -92,11 +92,11 @@
           </div>
         </div>       
         <div v-show="authenticated " :class="recentplayed == ''?'':'bg-blackcoal'" class=" w-full flex flex-row justify-center sm:mb-15 mb-8 " >
-          <loading v-if="recentplayed == '' && notfoundRP"></loading>
+          <loading v-if="recentplayed == '' && !notfoundRP"></loading>
           <div v-if="recentplayed != '' && recentplayed == 'NOTFOUNDRP' && notfoundRP" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-3">" Not have Recent Played In History "</div>
           </div>
-          <div v-if="recentplayed != '' && recentplayed != 'NOTFOUNDRP' && notfoundRP" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div v-if="recentplayed != '' && recentplayed != 'NOTFOUNDRP' && !notfoundRP" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-10">Recent Played</div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
               <div v-for="(musics) in recentplayed" :key="musics.id">

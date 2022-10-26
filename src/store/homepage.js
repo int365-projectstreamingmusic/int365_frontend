@@ -129,7 +129,7 @@ export default {
         }
       })
       .then((res) =>{
-        // console.log(res.data)
+        console.log(res.data)
         commit("SET_RECENTPLAYED", res.data);
         // console.log(state.recentplayed)
       }).catch((err) => {
@@ -140,8 +140,12 @@ export default {
     },
     checkFavAndPlay({state,dispatch},params){
       console.log(params.idFav)
-      for (let x of state.topFiveInSevenDays) { if(x.id == params.idFav){ dispatch("getTopFiveInSevenDays",{num:6,day:7}); }
-      for (let x of state.recentplayed) { x.id == params.idFav ? dispatch("getRecentplayed",{num:6,day:7}):''} }
+      for (let x of state.topFiveInSevenDays) { 
+        if(x.id == params.idFav){ 
+          dispatch("getTopFiveInSevenDays",{num:6,day:7});
+        }
+      for (let x of state.recentplayed) {
+         x.id == params.idFav ? dispatch("getRecentplayed",6):''} }
       for (let x of state.recentReleases) { x.id == params.idFav ? dispatch("getRecentReleases"):''} 
     }
     ,
