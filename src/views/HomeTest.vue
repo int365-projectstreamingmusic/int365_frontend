@@ -86,18 +86,21 @@
             </div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center">
               <div v-for="(musics) in TopFiveInSevenDays" :key="musics.id">
-                <music-card :musicDes="musics" @music="acceptData"></music-card>
+                <music-card :musicDes="musics" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)"></music-card>
               </div>
             </div>      
           </div>
         </div>       
-        <div v-show="authenticated && !notfound" :class="recentplayed == ''?'':'bg-blackcoal'" class=" w-full flex flex-row justify-center sm:mb-15 mb-8 " >
-          <loading v-if="recentplayed == ''"></loading>
-          <div v-if="recentplayed != ''" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+        <div v-show="authenticated " :class="recentplayed == ''?'':'bg-blackcoal'" class=" w-full flex flex-row justify-center sm:mb-15 mb-8 " >
+          <loading v-if="recentplayed == '' && notfoundRP"></loading>
+          <div v-if="recentplayed != '' && recentplayed == 'NOTFOUNDRP' && notfoundRP" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+            <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-3">" Not have Recent Played In History "</div>
+          </div>
+          <div v-if="recentplayed != '' && recentplayed != 'NOTFOUNDRP' && notfoundRP" class="2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div class="font-sansation-bold  text-white mb-3 xgl:text-4xl md:text-2xl text-xl mt-10">Recent Played</div>
             <div class="grid 2xl:grid-cols-6 sm:grid-cols-3 grid-cols-2  gap-4 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 mb-12">
               <div v-for="(musics) in recentplayed" :key="musics.id">
-                <music-card :musicDes="musics.track" @music="acceptData"></music-card>
+                <music-card :musicDes="musics.track" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)"></music-card>
               </div>
             </div>
           </div>
@@ -116,13 +119,15 @@
                     <div class="xgl:w-20 sm:w-14 w-10"></div>
                   </div>
                   <div v-for="(musics,index) in recentReleases" :key="musics.id">
-                    <div @click="acceptData(musics)" v-if="musics!=''" class="space-x-1 flex flex-row justify-between items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
-                      <div class="w-10  md:text-base sm:text-sm text-xs">{{index+1}}</div>
-                      <p class="truncate xgl:w-600 md:w-96 w-52  md:text-base sm:text-sm text-xs">{{musics.trackName}}</p>
-                      <p v-if="smView" class="truncate xgl:w-44 md:w-36  md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
-                      <div class="xgl:w-20 sm:w-14 w-10 space-x-1 text-blackcoal flex flex-row justify-between">
-                        <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">grade</span>
-                        <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
+                    <div @click.self="acceptData(musics)" v-if="musics!=''" class="space-x-1 flex flex-row justify-between items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
+                      <div @click.self="acceptData(musics)" class="w-10  md:text-base sm:text-sm text-xs">{{index+1}}</div>
+                      <p @click.self="acceptData(musics)" class="truncate xgl:w-600 md:w-96 w-52  md:text-base sm:text-sm text-xs">{{musics.trackName}}</p>
+                      <p @click.self="acceptData(musics)" v-if="smView" class="truncate xgl:w-44 md:w-36  md:text-base sm:text-sm text-xs w-20">『ユイカ』asdsadada</p>
+                      <div class="xgl:w-20 sm:w-14 w-10 z-30">
+                        <div v-if="authenticated" class="flex flex-row justify-between space-x-1 text-blackcoal">
+                          <span @click="addOrDelFavorite(musics)" :class="musics.favorite?'text-yellow-400 hover:text-blackcoal' : 'text-blackcoal hover:text-yellow-400'" class="material-icons sm:text-2xl text-base transition duration-500">grade</span>
+                          <span class="material-icons sm:text-2xl text-base hover:text-yellow-400 transition duration-500">playlist_add</span> 
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -161,7 +166,8 @@ export default {
       recentplayed: 'homepage/recentplayed',
       authenticated: "authentication/authenticated",
       recentReleases: 'homepage/recentReleases',
-      notfound: 'allsong/notfound'
+      notfound: 'allsong/notfound',
+      notfoundRP: 'homepage/notfoundRP'
     })
   },
   data() {
@@ -177,6 +183,39 @@ export default {
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne'
   }),
+  // async addOrDelFavorite(music){
+  //   if(this.authenticated){
+  //     let boolean = music.favorite
+  //     console.log(music.id)
+  //     if(music.favorite == false){
+  //        await this.$store.dispatch('favoritepage/addFavorites',music.id)
+  //     } else if(music.favorite == true) {
+  //        await this.$store.dispatch('favoritepage/delFavorites',music.id) 
+  //     }
+  //     this.$store.dispatch('homepage/getRecentReleases')
+  //     this.$store.dispatch('homepage/checkFavAndPlay',{idFav:music.id,booleanFav:boolean})
+  //   }else{
+  //     this.$router.push({ name: 'login' })
+  //   }   
+  // },
+  async addOrDelFavorite(music){
+    // ทำต่อ
+    console.log(music)
+    // console.log(feature)
+    if(this.authenticated){
+      console.log(music.id)
+      let boolean = music.favorite
+      await this.$store.dispatch('favoritepage/addOrDelFavorites',music)
+      await this.$store.dispatch('homepage/checkFavAndPlay',{idFav:music.id,booleanFav:boolean})
+      // if(this.music.favorite == false){
+      //   await  this.$store.dispatch('favoritepage/addFavorites',music.id)
+      // } else if(this.music.favorite == true) {
+      //   await this.$store.dispatch('favoritepage/delFavorites',music.id) 
+      // }
+    }else{
+      this.$router.push({ name: 'login' })
+    }
+  },
   acceptData(e) {
       console.log(e);
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})

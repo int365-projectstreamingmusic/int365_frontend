@@ -4,21 +4,20 @@
       <div class="flex justify-center">
         <div v-if="authenticated" class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
           <div v-if="notfound" class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-center">" Hmm.. , you don't seem to have your favorite song yet. "</div>
-
           <div v-if="notfound" class="flex flex-row items-center justify-center space-x-3">
             <div class="font-sansation-light xgl:text-xl md:text-lg text-base">Cilck Here -></div>
             <router-link v-if="favorites == ''" to="/allsong" @click="pathPage('/allsong')" >
               <div class="font-sansation-regular hover:text-violetdark transition duration-200 underline underline-offset-4  xgl:text-2xl md:text-xl text-lg text-center" v-bind:class="this.path == '/allsong' ? '' : ''">All Song Page</div>
             </router-link>
           </div>
-          <loading v-if="favorites == '' && !notfound"></loading>
-          <div v-if="favorites != ''" class="flex flex-row justify-between items-end 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div  class="flex flex-row justify-between items-end 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
            <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">Favorites</div>
-           <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>               
+           <!-- <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>                -->
           </div>
+          <loading v-if="favorites == '' && !notfound"></loading>          
           <div v-if="favorites != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div v-for="(musics) in favorites" :key="musics.id">
-              <music-card :musicDes="musics.track" @music="acceptData"></music-card>
+              <music-card :musicDes="musics.track" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)"></music-card>
             </div>  
           </div>
         </div>
@@ -70,6 +69,14 @@ export default {
     // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
     }),
+    async addOrDelFavorite(music){
+    if(this.authenticated){
+      await this.$store.dispatch('favoritepage/addOrDelFavorites',music)
+      await this.$store.dispatch('favoritepage/getAllFavorites')
+    }else{
+      this.$router.push({ name: 'login' })
+    }
+  },
     passMusic(){
      this.$emit('music',{name:'audio1.mp3',image:'sadasd'})
     },

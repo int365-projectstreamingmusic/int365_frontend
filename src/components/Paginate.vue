@@ -7,7 +7,7 @@
       <span class="material-icons md:text-2xl text-lg">chevron_left</span>
     </div>
     <div v-for="(page) in totalPages.slice(min,max)" :key="page">
-      <p @click="selectPage(page)" :class="currentPage == page ?'page-number-outside-current':'page-number-outside'">{{page}}</p>
+      <p @click="page == currentPage ? '':selectPage(page)" :class="currentPage == page ?'page-number-outside-current':'page-number-outside'">{{page}}</p>
     </div>
     <div v-if="max>=(totalItems/itemsPerPage) || max == 0" class="icon-navbar-outside-prevent">
       <span class="material-icons text-gray-300 md:text-2xl text-lg">chevron_right</span>

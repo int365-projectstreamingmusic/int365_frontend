@@ -61,6 +61,26 @@ export default {
         }
         console.log(err)
       })
+    },
+    async addHisAndView({rootGetters},musicfilename){
+      console.log(musicfilename)
+      // console.log(musicfilename.name)
+      await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/entrance/${musicfilename}`,
+        {         
+          headers: {
+            'Authorization': 'Bearer ' + rootGetters['authentication/token']
+          }
+        }
+      )
+      .then((res) =>{
+        console.log(res.data)
+      }).catch((err) => {
+        if(err.response.status == 404){
+          console.log('404')
+        }
+        console.log(err)
+      })
     }
+
   }
 }

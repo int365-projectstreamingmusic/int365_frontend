@@ -109,23 +109,12 @@
           </div>
         </div>
       </div>
-      <!-- <div>{{music}}</div> -->
     </div>
     <div v-show="!mediaPlayer">
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
       <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Click music And <br> i will play music for you! </div>
-      <!-- <div>{{url}}</div> -->
     </div>
  </div>
- <!-- <div v-show="!sideBarShow" class="fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
-    <div class="sticky top-0 z-20">
-      <div class="flex flex-row items-center justify-center space-x-5">
-        <span @click="hideSideBar()" class="material-icons text-4xl mt-5 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
-        <div class="font-sansation-light text-logo text-center text-black pt-5 pb-0  sticky top-0">GARDEN</div>
-      </div>
-    </div>
- </div> -->
- 
 </template>
 
 <script>
@@ -134,7 +123,7 @@
 //             cursor.style.left = e.clientX + "px";
 //             cursor.style.top = e.clientX + "px";})
 //           ;
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, useStore} from "vuex";
 import {
   ref,
   // ,reactive
@@ -256,6 +245,8 @@ export default {
         const emptyPlayed = ref(true)
         const loopType = ref('NOTLOOP')
         const nameMusic = ref([])
+        const hisAndView = ref(true)
+        const store = useStore();
         // const state = reactive({
         //     audioPlaying: []
         // })
@@ -319,8 +310,16 @@ export default {
           played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
           // console.log(playApi.value) 
         }
+        if(hisAndView.value == true){
+          hisAndView.value = false
+          let name = playNow.value
+          console.log(name)
+          console.log(playNow.value)
+          store.dispatch("allsong/addHisAndView",name);
+          // this.$store.dispatch('',)
+        }
       // console.log(`ใน paly ${playNow.value}`) 
-        sound.value = new Howl({
+      sound.value = new Howl({
         src:[`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/getContent/${playNow.value}`],
         html5: true,
         onplay: function () {
@@ -389,7 +388,9 @@ export default {
           // console.log(played.value)
           // console.log(played.value[played.value.length-1].nameShow)
           // console.log(played.value[played.value.length-2].image)
+          
           playApi.value.splice(0, 0,{name:playNow.value,nameShow:played.value[played.value.length-1].nameShow,image:played.value[played.value.length-1].image})
+          store.dispatch("allsong/addHisAndView",playNow.value);
           playNow.value = played.value[played.value.length-2].name
           playImage.value = played.value[played.value.length-2].image
           nameMusic.value[0] = played.value[played.value.length-2].nameShow
@@ -414,32 +415,18 @@ export default {
         if(sound.value && index == undefined ){
           if(playApi.value.length != 0){
             if(loopType.value != 'ONLYONE'){
-              // console.log('1')
               nameMusic.value[0] = playApi.value[0].nameShow
               playNow.value = playApi.value[0].name
               playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
-              // console.log(played.value)
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
           }else{
-            // console.log('2')
-            //loopall กำลังคิดยุว่ามีดีไหมหรือหมดกะหมุน auto
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
             played.value = []
-            // sound.value = null
             next(0)
           }  
         }else{
-          // console.log('เลือกมือ')
-          // console.log(nameMusic.value[0])
-          // console.log(playImage.value)
-          // console.log(playNow.value)
-          // console.log(played.value)
-          // console.log(played.value.length)
-          // played.value.length <= 1 ? emptyPlayed.value = true : emptyPlayed.value = false
-          // played.value.push({name:playNow.value,image:playImage.value,nameShow:nameMusic.value[0]})
-          // console.log(played.value)
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
           nameMusic.value[0] = playApi.value[index].nameShow
           playNow.value = playApi.value[index].name
@@ -447,10 +434,11 @@ export default {
           played.value.push(playApi.value[index])
           playApi.value = playApi.value.filter((m) => m != playApi.value[index])
         }
+        hisAndView.value = true
       }
-      // console.log('4')
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
+      
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
       playNow.value == null ? null : playTest();
     }   
@@ -504,8 +492,15 @@ export default {
             timer,step,stepFunction,seek,progress
             ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
             ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic,nameMusic,playImage
-            };
+            ,hisAndView};
   },
+  // methods:{
+  //   ...mapActions({
+  //     hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+  //     handleView: 'homepage/handleView',
+  //     setTopOne: 'homepage/setTopOne'
+  // }),
+  // }
 
 };
 </script>

@@ -19,11 +19,11 @@
 }
 
 .page-number-outside {
-    @apply select-none flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 cursor-pointer rounded-full bg-neutral-100 text-blackcoal hover:text-violetlight transition duration-300
+    @apply select-none flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 cursor-pointer rounded-full bg-neutral-100 text-blackcoal hover:text-violetdark transition duration-300
 }
 
 .page-number-outside-current {
-    @apply select-none flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 cursor-pointer rounded-full text-neutral-100 bg-violetlight transition duration-300
+    @apply select-none flex md:text-lg text-ss items-center justify-center md:h-8 md:w-8 h-5 w-5 rounded-full text-neutral-100 bg-violetdark transition duration-300
 }
 
 .loader {
