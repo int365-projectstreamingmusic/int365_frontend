@@ -68,14 +68,13 @@ export default {
       this.$emit('passAddOrDelFavorite',e)
     },
     async passMusic(e){
-      console.log(e)
+
       await this.getPlaylist(4)
-      console.log(this.playlist)
       let arrPlaylist = []
       for (let index = 0; index < this.playlist.length; index++) {
         arrPlaylist.push({name:this.playlist[index].trackFile,image:this.playlist[index].trackThumbnail,nameShow:this.playlist[index].trackName})
       }
-      console.log(arrPlaylist)
+
       this.$emit('playlist',arrPlaylist)
       // for (const x of this.playlist) {
         

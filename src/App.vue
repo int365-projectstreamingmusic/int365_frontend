@@ -27,7 +27,7 @@ export default {
   computed: {},
   methods: {
     acceptArr(e){
-      console.log(e)
+
       this.playlist = e;
     },
     acceptData(e) {

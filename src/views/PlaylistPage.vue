@@ -37,7 +37,7 @@
         </div>
       </div> -->
       <div v-if="notfoundPL" class="flex justify-center">
-        
+
       </div>
       <div v-if="authenticated && !notfoundPL" class="flex justify-center">
         <div>
@@ -45,18 +45,21 @@
             <div class="flex flex-row justify-between items-end">
               <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">Recent Played</div>
               <router-link to="/myplaylist">
-                <div class="underline underline-offset-1 font-sansation-light text-violetlight hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">see more</div>               
+                <div
+                  class="underline underline-offset-1 font-sansation-light text-violetlight hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">
+                  see more</div>
               </router-link>
             </div>
             <loading v-if="myplaylist == '' && !notfoundPL"></loading>
-            <div v-if="myplaylist != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center">
+            <div v-if="myplaylist != ''"
+              class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center">
               <div v-for="(playlist) in myplaylist" :key="playlist.id">
                 <playlist-card :musicDes="playlist" @playlist="acceptDataArr"></playlist-card>
               </div>
               <div @click="page1('add')">
-                <router-link to="/addmusic" >
-                  <empty-card></empty-card>   
-                </router-link> 
+                <router-link to="/addmusic">
+                  <empty-card></empty-card>
+                </router-link>
               </div>
             </div>
           </div>
@@ -67,18 +70,20 @@
       <div class="flex justify-center">
         <div class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
           <div class="flex flex-row justify-between items-end 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
-           <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">All Playlist</div>
-           <!-- <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>                -->
+            <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">All Playlist</div>
+            <!-- <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>                -->
           </div>
           <loading v-if="allPlaylist == '' && !notfoundAPL"></loading>
-          <div v-if="allPlaylist != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div v-if="allPlaylist != ''"
+            class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div v-for="(playlist) in allPlaylist" :key="playlist.id">
               <playlist-card :musicDes="playlist" @playlist="acceptDataArr"></playlist-card>
-            </div>    
+            </div>
           </div>
-        </div>       
+        </div>
       </div>
-      <paginate :totalItems="totalPlaylist" :sizePage="totalPageAPL" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNum"></paginate>
+      <paginate :totalItems="totalPlaylist" :sizePage="totalPageAPL" :itemsPerPage="15" :maxPagesShow="4"
+        @pageNum="resPageNum"></paginate>
     </div>
   </div>
   <!-- <div class="playlist pl-80">
@@ -102,7 +107,7 @@ export default {
     Loading,
     EmptyCard,
   },
-  emits: ["music", "musicQ","playlist"],
+  emits: ["music", "musicQ", "playlist"],
   computed: {
     ...mapGetters({
       topFive: "homepage/topFive",
@@ -131,8 +136,7 @@ export default {
       getAllMyPlaylist: 'myplaylist/getAllMyPlaylist'
     }),
     acceptDataArr(e) {
-      console.log(e);
-      this.$emit('playlist',e)
+      this.$emit('playlist', e)
     },
     // passMusic() {
     //   this.$emit("music", { name: "audio1.mp3", image: "sadasd" });
@@ -140,12 +144,11 @@ export default {
     passMusicQeue() {
       this.$emit("musicQ", { name: "audio1.mp3", image: "sadasd" });
     },
-    resPageNum(e){
-      console.log(e-1)
-      this.pageCurrent = e-1
-      this.$store.dispatch('allplaylist/getAllPlaylist',{pagenum:e-1,pagesize:17})
+    resPageNum(e) {
+      this.pageCurrent = e - 1
+      this.$store.dispatch('allplaylist/getAllPlaylist', { pagenum: e - 1, pagesize: 17 })
     },
-    page1(data){
+    page1(data) {
       localStorage.setItem("addOrUp", data);
       this.$router.go();
     }
@@ -153,7 +156,7 @@ export default {
   async created() {
     this.handleView();
     this.getAllPlaylist();
-    this.getAllMyPlaylist({pagenum:0,pagesize:5});
+    this.getAllMyPlaylist({ pagenum: 0, pagesize: 5 });
     window.addEventListener("resize", this.handleView);
   },
 };

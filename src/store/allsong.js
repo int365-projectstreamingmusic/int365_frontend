@@ -43,10 +43,8 @@ export default {
   actions: {
     async getAllSong({commit},pagenum = 0){
       commit("SET_ALLSONG",'')
-      console.log(pagenum)
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track?page=${pagenum}&pageSize=18`)
       .then((res) =>{
-        console.log(res.data.totalPages)
         // console.log(res.data.content)
         // console.log(res.data.content.length)
         commit("SET_TOTALPAGE",res.data.totalPages)
@@ -63,8 +61,6 @@ export default {
       })
     },
     async addHisAndView({rootGetters},musicfilename){
-      console.log(musicfilename)
-      // console.log(musicfilename.name)
       await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/entrance/${musicfilename}`,
         {         
           headers: {
@@ -73,7 +69,6 @@ export default {
         }
       )
       .then((res) =>{
-        console.log(res.data)
       }).catch((err) => {
         if(err.response.status == 404){
           console.log('404')

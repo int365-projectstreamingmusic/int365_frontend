@@ -83,12 +83,10 @@ export default {
       setTopOne: 'homepage/setTopOne'
     }),
     resPageNum(e){
-      console.log(e-1)
       this.pageCurrent = e-1
       this.$store.dispatch('allsong/getAllSong',e-1)
     },
     acceptData(e) {
-      console.log(e);
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
     },
     getContent(){
