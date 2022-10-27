@@ -23,7 +23,7 @@
                 <span class="material-icons active:text-violetdark hover:text-violetdark transition duration-200 flex justify-end lg:text-3xl md:text-2xl sm:text-xl text-lg" @click="optionPlaylist('option')">more_vert</span>
                 <transition name="fade">
                   <div v-if="optionPlayl" class="md:w-44 sm:w-32 w-24 py-1 md:mt-2  absolute  right-0 font-sansation-regular space-y-0 border border-gray-200 rounded-md bg-white md:text-sm sm:text-ss text-xxs shadow-md" >
-                    <div  class="text-right text-blackcoal hover:text-shadow-xl hover:text-violetdark p-1 xgl:pl-8 md:pr-2 pr-1 mx-2 hover:bg-gray-100 transition duration-200 rounded-md">manage playlist</div>
+                    <div @click="managePlaylist('manage')" class="text-right text-blackcoal hover:text-shadow-xl hover:text-violetdark p-1 xgl:pl-8 md:pr-2 pr-1 mx-2 hover:bg-gray-100 transition duration-200 rounded-md">manage playlist</div>
                     <div @click="deletePlaylist('del')" class="text-right text-red-500 hover:text-shadow-xl  p-1 xgl:pl-8 md:pr-2 pr-1 mx-2 hover:bg-gray-100 transition duration-200 rounded-md">delete playlist</div>
                   </div>
                 </transition>
@@ -43,8 +43,8 @@
                 </thead>
                 <tbody class="sm:text-sm text-xxs">
                   <tr class="2xl:w-1120 w-full h-9">
-                    <th v-show="delPlayl" class="w-6 pr-1" ></th>
-                    <th v-show="!delPlayl" class="w-6 pr-1 cursor-pointer">
+                    <th v-show="!manPlaylist" class="w-6 pr-1" ></th>
+                    <th v-show="manPlaylist" class="w-6 pr-1 cursor-pointer">
                       <!-- <span class="material-icons text-sm text-blackcoal">radio_button_unchecked</span> -->
                       <span class="material-icons  text-violetdark  xl:text-xl sm:text-base text-sm ">check_circle</span>
                     </th>
@@ -60,6 +60,10 @@
                 <div v-show="delPlayl" class="flex flex-row  sm:space-x-3 space-x-2 justify-end xl:text-sm sm:text-ss text-xxs">
                   <div class="bg-black text-center xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 rounded-full text-white flex items-center justify-center cursor-pointer">Delete</div>
                   <div @click="deletePlaylist()" class="bg-black xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 text-center  rounded-full text-white flex items-center justify-center cursor-pointer">Cancel</div>
+                </div>
+                <div v-show="manPlaylist" class="flex flex-row  sm:space-x-3 space-x-2 justify-end xl:text-sm sm:text-ss text-xxs">
+                  <div class="bg-black text-center xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 rounded-full text-white flex items-center justify-center cursor-pointer">Delete</div>
+                  <div @click="managePlaylist()" class="bg-black xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 text-center  rounded-full text-white flex items-center justify-center cursor-pointer">Cancel</div>
                 </div>
               </div>
             </div>
@@ -85,78 +89,25 @@
               </div>
           </div> -->
           <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 lg:mx-10">Playground</div>
-          <div class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl sm:h-52 h-40 sm:px-10 px-5 py-5 flex flex-col justify-between font-sansation-light">
-            <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-              <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
-                <div class="sm:w-10 w-5 text-center">1.</div>
-                <p class="2xl:w-800 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
-              </div>
-              <div class="flex flex-row md:space-x-3 space-x-2">
-                <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
-                <div class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
-              </div>
+          <div class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl h-fit sm:px-10 px-5 py-5 flex flex-col space-y-2 font-sansation-light">
+            <div v-if="notfoundPG" class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
+                "you not have music in your playground"
             </div>
-            <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-              <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
-                <div class="sm:w-10 w-5 text-center">1.</div>
-                <p class="2xl:w-800 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
+            <loading v-if="playground == '' && !notfoundPG"></loading>
+            <div v-if="!notfoundPG">
+              <div v-for="(playgrounds,index) in playground" :key="playgrounds.track.id" class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
+                <div @click="acceptData(playgrounds.track)" class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
+                  <div class="sm:w-10 w-5 text-center">{{index+1}}.</div>
+                  <p class="2xl:w-800 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">{{playgrounds.track.trackName}}</p>                
+                </div>
+                <div class="flex flex-row md:space-x-3 space-x-2">
+                  <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
+                  <div @click="deletePlayground(playgrounds.track.id)" class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
+                </div>
               </div>
-              <div class="flex flex-row md:space-x-3 space-x-2">
-                <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
-                <div class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
-              </div>
-            </div>
-            <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-              <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
-                <div class="sm:w-10 w-5 text-center">1.</div>
-                <p class="2xl:w-800 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
-              </div>
-              <div class="flex flex-row md:space-x-3 space-x-2">
-                <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
-                <div class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
-              </div>
-            </div>
-            <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-              <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
-                <div class="sm:w-10 w-5 text-center">1.</div>
-                <p class="2xl:w-800 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
-              </div>
-              <div class="flex flex-row md:space-x-3 space-x-2">
-                <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
-                <div class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
-              </div>
-            </div>
-            <div class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-              <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
-                <div class="sm:w-10 w-5 text-center">1.</div>
-                <p class="2xl:w-800 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">ฝนตกไหม - Three Man Down |Lyric Video|</p>                
-              </div>
-              <div class="flex flex-row md:space-x-3 space-x-2">
-                <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
-                <div class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
-              </div>
-            </div>                        
-          </div>
-          <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 mb-10">
-            <div class="icon-navbar-outside">
-              <span class="material-icons md:text-2xl text-lg">chevron_left</span>
-            </div>
-            <div>
-              <p class="page-number-outside ">1</p>
-            </div>
-            <div>
-              <p class="page-number-outside ">2</p>
-            </div>
-            <div>
-              <p class="page-number-outside ">3</p>
-            </div>
-            <div>
-              <p class="page-number-outside ">4</p>
-            </div>
-            <div class="icon-navbar-outside">
-              <span class="material-icons md:text-2xl text-lg">chevron_right</span>
             </div>
           </div>
+          <paginate :totalItems="totalPG" :sizePage="totalPagePG" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNumPG"></paginate>
           <div class="2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 mb-20 ">
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5">Comment</div>
             <div class="flex flex-row items-center sm:space-x-4 space-x-2 mx-3 mb-5">
@@ -192,15 +143,20 @@
 </template>   
 <script>
 import MusicCard from "../components/MusicCard.vue";
+import Loading from "../components/Loading.vue";
+import Paginate from "../components/Paginate.vue";
 import { mapGetters,mapActions } from "vuex";
 export default {
   components: {
-    MusicCard
+    MusicCard,
+    Paginate,
+    Loading
   },
   data() {
     return {
       optionPlayl: false,
       delPlayl: false,
+      manPlaylist: false,
       pic:require('../assets/948523.png')
     }
   },
@@ -212,6 +168,14 @@ export default {
         this.optionPlayl = false
       }
     },
+    managePlaylist(e){
+      if(e == 'manage'){
+        this.manPlaylist = true
+        this.optionPlaylist()
+      } else {
+        this.manPlaylist = false 
+      }  
+    },
     deletePlaylist(e){
       if(e == 'del' ){
         this.delPlayl = true
@@ -220,10 +184,23 @@ export default {
         this.delPlayl = false 
       }  
     },
+    acceptData(e) {
+      console.log(e);
+      console.log(e.trackName,e.trackFile,e.trackThumbnail)
+      this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
+    },
+    resPageNumPG(e){
+      console.log(e-1)
+      this.pageCurrent = e-1
+      this.$store.dispatch('myplaylist/getAllFavorites',e-1)
+    },
     ...mapActions({
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
-      setTopOne: 'homepage/setTopOne'
+      setTopOne: 'homepage/setTopOne',
+      getOnePlaylist: 'oneplaylist/getOnePlaylist',
+      getPlayground: 'myplaylist/getAllPlayground',
+      deletePlayground: 'myplaylist/delPlayground',
     }),
   },
   computed: {
@@ -234,11 +211,18 @@ export default {
       mobile: 'homepage/mobile',
       logo: 'homepage/logo', 
       topOne: 'homepage/topOne',
-      smView: 'homepage/smView'
+      smView: 'homepage/smView',
+      onePlaylist: 'oneplaylist/onePlaylist',
+      notfoundPG: 'myplaylist/notfoundPG',
+      playground: 'myplaylist/playground',
+      totalPG: 'myplaylist/totalPG',
+      totalPagePG: 'myplaylist/totalPagePG',
     })
   },
   async created() {
+    this.getPlayground({pagenum:0,pagesize:10});
     this.handleView();
+    this.getOnePlaylist();
     window.addEventListener("resize", this.handleView);
  }
 }

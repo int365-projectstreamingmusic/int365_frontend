@@ -2,15 +2,15 @@
   <div class="h-screen" :class="sideBarShow ?'lg:ml-75':''">
     <div class="flex flex-col w-full">
       <!-- recent played -->
-      <div v-if="notfound" class="flex justify-center">
+      <div v-if="notfoundRP" class="flex justify-center">
         
       </div>
-      <div v-if="authenticated && !notfound" class="flex justify-center">
+      <div v-if="authenticated && !notfoundRP" class="flex justify-center">
         <div>
           <div class="2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
             <div class="flex flex-row justify-between items-end">
-            <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">Recent Played</div>
-            <div class="underline underline-offset-1 font-sansation-light text-violetlight hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">see more</div>               
+              <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">Recent Played</div>
+              <div class="underline underline-offset-1 font-sansation-light text-violetlight hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">see more</div>               
             </div>
             <loading v-if="recentplayed == ''"></loading>
             <div v-if="recentplayed != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center">
@@ -27,39 +27,17 @@
         <div class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
           <div class="flex flex-row justify-between items-end 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
            <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">All Song</div>
-           <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>               
+           <!-- <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>                -->
           </div>
           <loading v-if="allSong == ''"></loading>
-          <div class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div v-if="allSong != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
             <div v-for="(musics) in allSong" :key="musics.id">
-              <music-card :musicDes="musics" @music="acceptData"></music-card>
+              <music-card :musicDes="musics" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)"></music-card>
             </div>    
           </div>
         </div>       
       </div>
       <paginate :totalItems="totalSong" :sizePage="totalPage" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNum"></paginate>
-      <!-- number page -->
-      <!-- <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 mb-10">
-        <div class="icon-navbar-outside">
-          <span class="material-icons md:text-2xl text-lg">chevron_left</span>
-        </div>
-        <div>
-          <p class="page-number-outside ">1</p>
-        </div>
-        <div>
-          <p class="page-number-outside ">2</p>
-        </div>
-        <div>
-          <p class="page-number-outside ">3</p>
-        </div>
-        <div>
-          <p class="page-number-outside ">4</p>
-        </div>
-        <div class="icon-navbar-outside">
-          <span class="material-icons md:text-2xl text-lg">chevron_right</span>
-        </div>
-      </div> -->
-      <!-- number page -->
       <!-- all song -->
     </div>
   </div>
@@ -77,7 +55,7 @@ export default {
   },
   data() {
     return {
-      
+      pageCurrent: 0
     }
   },
   computed: {
@@ -93,6 +71,7 @@ export default {
       authenticated: "authentication/authenticated",
       allSong: 'allsong/allSong',
       notfound: 'allsong/notfound',
+      notfoundRP: 'homepage/notfoundRP',
       totalSong: 'allsong/totalSong',
       totalPage: 'allsong/totalPage'
     })
@@ -105,6 +84,7 @@ export default {
     }),
     resPageNum(e){
       console.log(e-1)
+      this.pageCurrent = e-1
       this.$store.dispatch('allsong/getAllSong',e-1)
     },
     acceptData(e) {
@@ -116,7 +96,17 @@ export default {
         this.$store.dispatch('homepage/getRecentplayed',6)
       }
       this.$store.dispatch('allsong/getAllSong')
-    }
+    },
+    async addOrDelFavorite(music){
+      if(this.authenticated){
+        let boolean = music.favorite
+        await this.$store.dispatch('favoritepage/addOrDelFavorites',music)
+        await this.$store.dispatch('homepage/checkFavAndPlay',{idFav:music.id,booleanFav:boolean})
+        await this.$store.dispatch('allsong/getAllSong',this.pageCurrent)
+      }else{
+        this.$router.push({ name: 'login' })
+      }
+    },
   },
   async created() {
     this.getContent();
