@@ -35,6 +35,9 @@ export default {
     data(state) {
       return state.data;
     },
+    token(state){
+      return state.token
+    }
   },
   actions: {
     async signIn({ dispatch }, credeitials) {
@@ -69,7 +72,12 @@ export default {
 
       try {
         let response = await axios.get(
-          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/profile/myprofile`
+          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/myProfile`,
+          {         
+            headers: {
+              'Authorization': 'Bearer ' + state.token
+            }
+          }
         );
         commit("SET_USERNAME", response.data.username);
         commit("SET_ROLES", response.data.roles);

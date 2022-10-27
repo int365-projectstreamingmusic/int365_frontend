@@ -1,9 +1,12 @@
 
 <template>
-  <div class="bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll  z-50">
+  <div v-show="sideBarShow" class=" bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll   z-50">
     <div class="sticky top-0 z-20">
-      <div class="font-sansation-light text-logo text-center bg-neutral-50 text-black pt-5 pb-0  sticky top-0">GARDEN</div>
-      <div class="h-8 bg-gradient-to-b from-neutral-50 dark:from-slate-900"></div>
+      <div class="flex flex-row items-center justify-center space-x-5 bg-neutral-50">
+        <span @click="hideSideBar()" class="material-icons text-3xl mt-7 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+        <div class="font-sansation-light text-3xl text-center mt-7 bg-neutral-50 text-black  pb-0  sticky top-0">GARDEN</div>
+      </div>
+      <div class="h-8 bg-gradient-to-b from-neutral-50 "></div>
     </div>
     <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">menu</div>
     <div class="py-7">
@@ -36,7 +39,7 @@
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
       <div class="flex flex-row justify-center py-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
-        <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" />
+        <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" style="object-fit: cover;"/>
       </div>
       <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
       <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div>
@@ -106,15 +109,12 @@
           </div>
         </div>
       </div>
-      <!-- <div>{{music}}</div> -->
     </div>
     <div v-show="!mediaPlayer">
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
       <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Click music And <br> i will play music for you! </div>
-      <!-- <div>{{url}}</div> -->
     </div>
  </div>
- 
 </template>
 
 <script>
@@ -123,7 +123,7 @@
 //             cursor.style.left = e.clientX + "px";
 //             cursor.style.top = e.clientX + "px";})
 //           ;
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions, useStore} from "vuex";
 import {
   ref,
   // ,reactive
@@ -137,10 +137,35 @@ import {
 export default {
   props:{
     music: {type:Object, required: false},
+    playlist: {type:Array, require: false},
     addQueue: {type:Object, required: false},
     // pathC:{type:String, required:false}
   },
   watch: { 
+    playlist: function(newVal) {
+      console.log(newVal)
+      if(this.checkPlayer()){
+        console.log('checktrue')
+        this.$store.dispatch('homepage/setMediaPlayer',true)
+        console.log(newVal[0])
+        this.playApi.splice(0, 0,newVal[0])
+        this.fristPlayed = true
+        this.stopPlayer()
+        for (let index = 0; index < newVal.length; index++) {
+          if(index != 1){
+            console.log(newVal[index])
+            this.playApi.push(newVal[index])
+          }
+        }
+        console.log(this.playApi.value)
+      }else{
+        console.log('checkApi')
+        for (let index = 0; index < newVal.length; index++) {
+         this.playApi.push(newVal[index])
+        }
+        
+      }
+    },
     music: function(newVal) { // watch it
       // if(this.music != null){
       // console.log("thsoundis.")
@@ -152,13 +177,16 @@ export default {
       // this.fristPlayed = true
       // this.stopPlayer()
       // }
+      console.log(newVal)
       if(this.checkPlayer()){
+        console.log('checktrue')
         this.$store.dispatch('homepage/setMediaPlayer',true)
         this.playApi.splice(0, 0,newVal)
         this.fristPlayed = true
         this.stopPlayer()
         
       }else{
+        console.log(newVal)
         this.playApi.push(newVal)
         
       }
@@ -177,6 +205,7 @@ export default {
   computed: {
     ...mapGetters({
       mediaPlayer: 'homepage/mediaPlayer',
+      sideBarShow: 'homepage/sideBarShow'
     })
   },
   data() {
@@ -191,21 +220,19 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      hideSideBar: 'homepage/hideSideBar' // map `this.add()` to `this.$store.dispatch('increment')`
+    }),
     pathPage(path){
       this.path = path
-    }, 
-    // nextTest(index){
-      // console.log(index)
-      // index == undefined ? console.log("true") : console.log("false")
-            // this.playNow = this.playApi[1].name
-            // this.next();
-    // }
+    }
+
   },
   mounted(){
     // const route=useRoute();
     this.path = window.location.pathname
     // console.log()
-    console.log(this.pathC)
+    
     // if(this.music != null && this.music != undefined){
     //   this.playApi.value.push(this.music)
     // } 
@@ -236,7 +263,7 @@ export default {
         const volBar = ref(null);
         // const sliderBtn = ref(0);
         const sliderBtnVol = ref(null);
-        const volumeProgress = ref(100);
+        const volumeProgress = ref(60);
         const mutePlayer = ref(false);
         const playNow = ref(null)
         const playImage = ref(null)
@@ -246,6 +273,8 @@ export default {
         const emptyPlayed = ref(true)
         const loopType = ref('NOTLOOP')
         const nameMusic = ref([])
+        const hisAndView = ref(true)
+        const store = useStore();
         // const state = reactive({
         //     audioPlaying: []
         // })
@@ -309,8 +338,16 @@ export default {
           played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
           // console.log(playApi.value) 
         }
+        if(hisAndView.value == true){
+          hisAndView.value = false
+          let name = playNow.value
+          console.log(name)
+          console.log(playNow.value)
+          store.dispatch("allsong/addHisAndView",name);
+          // this.$store.dispatch('',)
+        }
       // console.log(`ใน paly ${playNow.value}`) 
-        sound.value = new Howl({
+      sound.value = new Howl({
         src:[`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/getContent/${playNow.value}`],
         html5: true,
         onplay: function () {
@@ -379,7 +416,9 @@ export default {
           // console.log(played.value)
           // console.log(played.value[played.value.length-1].nameShow)
           // console.log(played.value[played.value.length-2].image)
+          
           playApi.value.splice(0, 0,{name:playNow.value,nameShow:played.value[played.value.length-1].nameShow,image:played.value[played.value.length-1].image})
+          store.dispatch("allsong/addHisAndView",playNow.value);
           playNow.value = played.value[played.value.length-2].name
           playImage.value = played.value[played.value.length-2].image
           nameMusic.value[0] = played.value[played.value.length-2].nameShow
@@ -396,6 +435,7 @@ export default {
       playTest();
     }
     function next(index) {
+      console.log(playApi.value[0])
       if(index == 'NEXT'){
         loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL': loopType.value = 'NOTLOOP'
         next()
@@ -403,35 +443,30 @@ export default {
         if(sound.value && index == undefined ){
           if(playApi.value.length != 0){
             if(loopType.value != 'ONLYONE'){
-              // console.log('1')
               nameMusic.value[0] = playApi.value[0].nameShow
               playNow.value = playApi.value[0].name
               playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
-              console.log(played.value)
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
           }else{
-            // console.log('2')
-            //loopall กำลังคิดยุว่ามีดีไหมหรือหมดกะหมุน auto
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
             played.value = []
-            // sound.value = null
             next(0)
           }  
         }else{
-          // console.log('3')
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
-          // console.log(nameMusic.value[0])
           nameMusic.value[0] = playApi.value[index].nameShow
-          // console.log(nameMusic.value[0])
           playNow.value = playApi.value[index].name
-          playImage.value = playApi.value[0].image
+          playImage.value = playApi.value[index].image
+          played.value.push(playApi.value[index])
+          playApi.value = playApi.value.filter((m) => m != playApi.value[index])
         }
+        hisAndView.value = true
       }
-      console.log('4')
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
+      
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
       playNow.value == null ? null : playTest();
     }   
@@ -485,23 +520,19 @@ export default {
             timer,step,stepFunction,seek,progress
             ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
             ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic,nameMusic,playImage
-            // 
-            };
-  },    
+            ,hisAndView};
+  },
+  // methods:{
+  //   ...mapActions({
+  //     hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+  //     handleView: 'homepage/handleView',
+  //     setTopOne: 'homepage/setTopOne'
+  // }),
+  // }
+
 };
 </script>
 
 <style>
-/* #progressButtonTimer,
-#progressButtonVolume {
-  margin-top: -9px;
-  right: -8px;
-}
-@media screen and (max-width: 768px) {
-  #progressButtonTimer,
-  #progressButtonVolume {
-    margin-top: -8px;
-    right: -7px;
-  }
-} */
+
 </style>

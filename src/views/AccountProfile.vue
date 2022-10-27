@@ -1,241 +1,301 @@
 <template>
-  <div class="ml-75 h-screen">
-    <div class="flex flex-col w-full">
-      <div class="flex justify-center h-full">
-        <div>
-          <!-- Account Profile chagne password -->
-          <div class="w-1500 mt-3">
-            <div class="font-sansation-light text-2xl">Account</div>
-            <div class="flex flex-row items-start">
-              <div class="rounded-lg overflow-hidden" style="width: 262px">
-                <img
-                  src="../assets/yourname.png"
-                  style="width: 262px; height: 175px; object-fit: cover"
-                />
-              </div>
+  <div class="h-screen" :class="sideBarShow ? 'lg:ml-75' : 'lg:ml-36 ml-5'">
+    <div class="flex flex-col">
+      <div class="">
+        <!-- Account Profile chagne password -->
+        <div class="lg:mx-36 md:ml-16">
+          <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start my-7">
+            Account
+          </div>
+          <div class="flex flex-col lg:flex-row justify-center items-center">
+            <div class="rounded-lg flex flex-col justify-center items-center">
+              <img v-if="image == '' && data.profileIamge == ''" src="../assets/user_icon.png"
+                style="width: 262px; height: 175px; object-fit: cover" />
+              <img v-show="!imageholderEnable" :src="url + 'api/streaming/image/' + data.profileIamge"
+                style="width: 262px; height: 175px; object-fit: cover" />
+              <img id="image-preview" alt="your image" v-show="image != ''"
+                style="width: 262px; height: 175px; object-fit: cover" />
 
-              <div class="font-sansation-light text-sm mx-10 w-4/6">
-                <div class="">
-                  <p class="text-xs text-gray-500 font-bold tracking-wide">
-                    Profile
+              <label for="inputImage" class="font-sansation-light" v-if="isEdit">
+                <div v-if="isEdit"
+                  class="cursor-pointer text-sm w-24 h-6 my-3 mx-12 rounded-lg bg-neutral-100 text-black text-center">
+                  upload image
+                </div>
+                <input id="inputImage" type="file" class="hidden" accept="image/*"
+                  @change="handleImageUpload($event)" />
+              </label>
+            </div>
+
+            <div class="font-sansation-light text-sm md:w-4/6 w-full md:ml-10 my-5">
+              <div class="flex flex-row justify-start items-start">
+                <p class="text-xs text-gray-500 font-bold tracking-wide">
+                  Profile
+                </p>
+              </div>
+              <div class="space-y-2 my-3 flex flex-col">
+                <div class="flex flex-row space-x-3">
+                  <p class="w-20">Full name</p>
+                  <p class="w-81 pl-3" v-if="data.firstName != null">
+                    {{ data.firstName }} {{ data.lastName }}
+                  </p>
+                  <p class="w-81 pl-3" v-else>{{ UserName }}</p>
+                </div>
+                <div class="flex flex-row space-x-3">
+                  <p class="w-20">Username</p>
+                  <p class="w-81 pl-3">{{ data.username }}</p>
+                </div>
+                <div class="flex flex-row space-x-3">
+                  <p class="w-20">Email</p>
+                  <p class="w-81 px-3 text-left break-all">
+                    {{ data.email }}
                   </p>
                 </div>
-                <div class="mx-4 space-y-2 my-3">
-                  <div class="flex flex-row space-x-5">
-                    <p class="w-20">Name</p>
-                    <p class="w-81 pl-3" v-if="data.firstName != null">
-                      {{ data.firstName }}
-                    </p>
-                    <p class="w-81 pl-3" v-else>{{ UserName }}</p>
-                  </div>
-                  <div class="flex flex-row space-x-3">
-                    <p class="w-20">Username</p>
-                    <p class="w-81 pl-3">{{ data.username }}</p>
-                  </div>
-                  <div class="flex flex-row space-x-3">
-                    <p class="w-20">Email</p>
-                    <p class="w-81 px-3 text-left break-all">
-                      {{ data.email }}
-                    </p>
-                  </div>
+              </div>
+              <div class="flex flex-row space-x-5">
+                <div @click="editProfile" v-if="!isEdit && !isChange"
+                  class="cursor-pointer text-sm w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                  edit profile
                 </div>
-                <div v-if="isChange" class="w-82">
-                  <div>
-                    <p class="text-xs text-gray-500 font-bold tracking-wide">
-                      Change Password
-                    </p>
-                  </div>
-                  <form @submit.prevent="userChangePassword">
-                    <div class="my-2 flex flex-row">
-                      <p class="text-md my-2 mx-5 w-32">Current Password :</p>
-                      <input
-                        v-model="passwordForm.oldPassword"
-                        type="password"
-                        name="Current Password"
-                        placeholder="Current Password"
-                        required
-                        class="w-52 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        "
-                      />
-                    </div>
-                    <div class="my-2 flex flex-row">
-                      <p class="text-md my-2 mx-5 w-32">New Password :</p>
-                      <input
-                        v-model="passwordForm.newPassword"
-                        type="password"
-                        name="NewPassword"
-                        placeholder="New Password"
-                        required
-                        class="w-52 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        "
-                      />
-                    </div>
-                    <div class="my-2 flex flex-row">
-                      <p class="text-md my-2 mx-5 w-32">Confrim Password :</p>
-                      <input
-                        v-model="passwordForm.confirmationPassword"
-                        type="password"
-                        name="confirmationPassword"
-                        placeholder="Confrim Password"
-                        required
-                        class="w-52 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        "
-                      />
-                    </div>
-                    <div class="text-red-500 text-sm font-mono mx-5">
-                      {{ this.invalid.duplicated.errorMessage }}
-                    </div>
-                    <div class="flex justify-end items-end flex-row space-x-5">
-                      <button
-                        class="cursor-pointer text-sm w-16 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                      >
-                        save
-                      </button>
-                      <button
-                        @click="editClose"
-                        class="cursor-pointer text-sm w-16 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                      >
-                        cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
-                <div class="flex flex-row space-x-5">
-                  <div
-                    @click="editProfile"
-                    v-if="!isEdit && !isChange"
-                    class="cursor-pointer text-sm w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                  >
-                    edit profile
-                  </div>
-                  <div
-                    v-if="isEdit"
-                    class="cursor-pointer text-sm w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center"
-                  >
-                    upload image
-                  </div>
-                  <div
-                    @click="changePass"
-                    v-if="!isChange"
-                    class="cursor-pointer text-sm w-36 h-6 flex items-center justify-center rounded-lg bg-violetlight text-white text-center"
-                  >
-                    chagne password
-                  </div>
+
+                <div @click="changePass" v-if="!isChange && !isEdit"
+                  class="cursor-pointer text-sm w-36 h-6 flex items-center justify-center rounded-lg bg-violetlight text-white text-center">
+                  chagne password
                 </div>
               </div>
             </div>
           </div>
-          <!-- Account Profile chagne password -->
-          <!-- My song -->
-          <div
-            class="flex flex-row items-end w-1200 font-sansation-light justify-between mt-10"
-          >
-            <div class="flex flex-row items-end">
-              <div class="text-xl">My Song</div>
-              <div
-                class="text-sm font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer"
-              >
+
+          <div class="lg:ml-75 font-sansation-light text-sm md:-mt-8 -mt-5">
+            <div v-if="isChange" class="w-82 md:ml-8">
+              <div>
+                <p class="text-xs text-gray-500 font-bold tracking-wide">
+                  Change Password
+                </p>
+              </div>
+              <form @submit.prevent="userChangePassword">
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 w-32">
+                    Current Password :
+                  </p>
+                  <input v-model="passwordForm.oldPassword" type="password" name="Current Password"
+                    placeholder="Current Password" required
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    " />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 w-32">New Password :</p>
+                  <input v-model="passwordForm.newPassword" type="password" name="NewPassword"
+                    placeholder="New Password" required
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    " />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 w-32">
+                    Confrim Password :
+                  </p>
+                  <input v-model="passwordForm.confirmationPassword" type="password" name="confirmationPassword"
+                    placeholder="Confrim Password" required
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    " />
+                </div>
+                <div class="text-red-500 text-sm font-mono mx-5">
+                  {{ this.invalid.duplicated.errorMessage }}
+                </div>
+                <div class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5">
+                  <button
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                    save
+                  </button>
+                  <button @click="editClose"
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                    cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div v-if="isEdit" class="w-82 md:ml-8">
+              <div>
+                <p class="text-xs text-gray-500 font-bold tracking-wide">
+                  Edit Profile
+                </p>
+              </div>
+              <form @submit.prevent="userEditProfile">
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                    Profile Name :
+                  </p>
+                  <input v-model="profileForm.profileName" type="text" name="profileName" placeholder="ProfileName"
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    " />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                    Firstname :
+                  </p>
+                  <input v-model="profileForm.firstName" type="text" name="firstName" placeholder="Firstname"
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    " />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                    Lastname :
+                  </p>
+                  <input v-model="profileForm.lastName" type="text" name="lastName" placeholder="Lastname"
+                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    " />
+                </div>
+                <div class="my-2 flex flex-row">
+                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">Bio :</p>
+                  <textarea v-model="profileForm.userBios" type="text" name="userBios" placeholder="userBios"
+                    class="w-48 h-24 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                    :class="
+                      this.invalid.duplicated.showErrorBox
+                        ? 'border-red-500'
+                        : ''
+                    ">
+                  </textarea>
+                </div>
+                <div class="text-red-500 text-sm font-mono mx-5">
+                  {{ this.invalid.duplicated.errorMessage }}
+                </div>
+                <div class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5">
+                  <button
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                    save
+                  </button>
+                  <button @click="editClose"
+                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                    cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Account Profile chagne password -->
+        <!-- My song -->
+        <div class="flex flex-row items-end font-sansation-light justify-between mt-36 mx-3 md:mx-36">
+          <div class="flex flex-row justify-center items-end " @click="page1('up')">
+            <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start">My Song
+              <router-link to="/addmusic"
+                class="text-sm font-sansation-regular pt-2 pl-5 flex justify-center text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">
                 upload song
+              </router-link>
+            </div>
+
+          </div>
+          <div class="text-sm">filter</div>
+        </div>
+        <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
+          <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
+          <div v-if="mySong != ''" class="sm:my-4 my-2 ">
+            <div
+              class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none  pb-1 space-x-1">
+              <p class="w-8 md:w-16">#</p>
+              <p class="w-6/12 md:w-3/6 flex justify-start">Name</p>
+              <p class="w-1/12 invisible lg:visible md:w-2/6">Album</p>
+              <p class="w-3/12 md:w-1/6">Release</p>
+              <span class="w-12 flex justify-center items-center material-icons text-red-600 " @click="editStatus()">
+                edit
+              </span>
+            </div>
+
+            <div v-for="(item, index) in mySong" :key="index"
+              class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer  py-2 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
+              <p class="w-8 md:w-16 sm:text-sm text-xs">{{ index + 1 }}</p>
+              <p @click="acceptData(item)"
+                class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start overflow-x-scroll">
+                {{ item.trackName }}
+              </p>
+              <p v-if="item.albums != null" class="truncate w-1/12 md:w-2/6 sm:text-sm text-xs invisible lg:visible">
+                {{ item.albums.albumName }}
+              </p>
+              <p v-else class="truncate w-1/12 md:w-2/6 sm:text-sm text-xs invisible lg:visible">-</p>
+              <p class="truncate w-3/12 md:w-1/6 sm:text-sm text-xs">
+                {{ item.timestamp.substr(0, 10) }}
+              </p>
+              <div class="w-12 flex flex-row ">
+                <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="deleteMusic(item.id)">
+                    delete
+                  </span></div>
+                <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="editMusic(item.id)">
+                    edit
+                  </span></div>
               </div>
             </div>
-            <div class="text-sm">filter</div>
           </div>
-          <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg">
-            <table class="w-1120 text-center">
-              <thead class="border-b-2 border-violetdark text-sm">
-                <tr class="w-1120">
-                  <th class="w-6 pb-1"></th>
-                  <th class="w-10 pb-1">#</th>
-                  <th class="text-left pl-3 pb-1 w-669">name</th>
-                  <th class="w-54 pb-1 py-3">album</th>
-                  <th class="w-32 pb-1">release</th>
-                </tr>
-              </thead>
-              <tbody class="text-sm">
-                <tr class="w-1120">
-                  <th v-show="!delPlayl" class="w-6 pb-1"></th>
-                  <th
-                    v-show="delPlayl"
-                    class="w-6 pb-1 pt-2 h-9 cursor-pointer"
-                  >
-                    <!-- <span class="material-icons text-sm text-blackcoal">radio_button_unchecked</span> -->
-                    <span class="material-icons text-violetdark"
-                      >check_circle</span
-                    >
-                  </th>
-                  <td class="w-10 py-3">1</td>
-                  <td class="w-669 text-left pl-2 py-3 truncate">
-                    $100asdasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                  </td>
-                  <td class="w-54 px-5 py-3 truncate">
-                    Januarydsfsfsdfsdfsfsfdsasdasdasdadadaasdsadas
-                  </td>
-                  <td class="w-32 py-3">14-08-2000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- My song -->
-          <!-- History -->
-          <div class="flex flex-row items-end w-1200 font-sansation-light">
-            <div class="flex flex-row items-end">
-              <div class="text-xl">History</div>
-              <div
-                class="text-sm font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer"
-              >
+          <paginate :totalItems="totalSongMySong" :sizePage="totalPageMySong" :itemsPerPage="15" :maxPagesShow="4"
+            @pageNum="resPageNum"></paginate>
+        </div>
+        <!-- My song -->
+        <!-- History -->
+
+        <div class="flex flex-row items-end font-sansation-light mt-10 md:mx-36 mx-3">
+          <div class="flex flex-row items-end">
+            <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start my-7">History
+              <div @click="clearHistory()"
+                class="text-sm font-sansation-regular pt-2 pl-5 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">
                 clear history
               </div>
             </div>
+
           </div>
-          <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg">
-            <table class="w-1120 text-center">
-              <thead class="border-b-2 border-violetdark text-sm">
-                <tr class="w-1120">
-                  <th class="w-6 pb-1"></th>
-                  <th class="w-10 pb-1">#</th>
-                  <th class="text-left pl-3 pb-1 w-669">name</th>
-                  <th class="w-54 pb-1 py-3">album</th>
-                  <th class="w-32 pb-1">release</th>
-                </tr>
-              </thead>
-              <tbody class="text-sm">
-                <tr class="w-1120">
-                  <th v-show="!delPlayl" class="w-6 pb-1"></th>
-                  <th
-                    v-show="delPlayl"
-                    class="w-6 pb-1 pt-2 h-9 cursor-pointer"
-                  >
-                    <!-- <span class="material-icons text-sm text-blackcoal">radio_button_unchecked</span> -->
-                    <span class="material-icons text-violetdark"
-                      >check_circle</span
-                    >
-                  </th>
-                  <td class="w-10 py-3">1</td>
-                  <td class="w-669 text-left pl-2 py-3 truncate">
-                    $100asdasdsadadadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-                  </td>
-                  <td class="w-54 px-5 py-3 truncate">
-                    Januarydsfsfsdfsdfsfsfdsasdasdasdadadaasdsadas
-                  </td>
-                  <td class="w-32 py-3">14-08-2000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- History -->
         </div>
+
+        <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
+          <loading v-if="myHitory == ''"></loading>
+          <div v-if="myHitory != ''" class="sm:my-4 my-2">
+            <div
+              class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
+              <p class="w-1/12 md:w-1/6">#</p>
+              <p class="w-6/12 md:w-3/6 flex justify-start">Name</p>
+              <p class="w-3/12 md:w-2/6">album</p>
+              <p class="w-2/12 md:w-1/6">release</p>
+            </div>
+
+            <div v-for="(item, index) in myHitory" :key="index"
+              class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
+              <p class="w-1/12 md:w-1/6 sm:text-sm text-xs">{{ index + 1 }}</p>
+              <p class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start">
+                {{ item.track.trackName }}
+              </p>
+              <p v-if="item.track.albums != null" class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">
+                {{ item.track.albums.albumName }}
+              </p>
+              <p v-else class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">-</p>
+              <p class="truncate w-2/12 md:w-1/6 sm:text-sm text-xs">
+                {{ item.timestamp.substr(0, 10) }}
+              </p>
+            </div>
+          </div>
+          <paginate :totalItems="totalElementsMyHistory" :sizePage="totalPagesMyHistory" :itemsPerPage="15"
+            :maxPagesShow="4" @pageNum="resPageNumHis"></paginate>
+        </div>
+        <!-- History -->
       </div>
     </div>
   </div>
@@ -244,7 +304,16 @@
 <script>
 import { mapGetters } from "vuex";
 import axios from "axios";
+import { musicAuthen } from "../store/musicAuthen.js";
+import Paginate from "../components/Paginate.vue";
+import Loading from "../components/Loading.vue"
 export default {
+  components: {
+    Paginate,
+    Loading,
+    musicAuthen
+  }, 
+  emits: ['music'],
   data() {
     return {
       path: "",
@@ -255,17 +324,43 @@ export default {
         newPassword: "",
         confirmationPassword: "",
       },
+      profileForm: {
+        firstName: "",
+        lastName: "",
+        profileName: "",
+        userBios: "",
+      },
       invalid: {
         duplicated: {
           showErrorBox: false,
           errorMessage: "",
         },
       },
+      file: "",
+      image: "",
+      history: {},
+      inputImage: "",
+      url: `${process.env.VUE_APP_MY_ENV_VARIABLE}`,
+      profileIamge: "",
+      imageholderEnable: false,
+      statusEdit: false,
+
+
     };
   },
   methods: {
+    resPageNum(e) {
+      this.$store.dispatch('musicAuthen/getMySong', e-1)
+    },
+    acceptData(e) {
+      this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
+    },
+    resPageNumHis(e) {
+      this.$store.dispatch('musicAuthen/getMyHistory', e-1)
+    },
     editProfile() {
       this.isEdit = !this.isEdit;
+      this.getProfile();
     },
     changePass() {
       this.isChange = !this.isChange;
@@ -278,6 +373,40 @@ export default {
         newPassword: null,
         confirmationPassword: null,
       };
+    },
+    editMusic(data) {
+      localStorage.setItem("idTrack", data);
+      localStorage.setItem("addOrUp", "editMusic");
+      this.$router.push('/addmusic')
+    },
+    page1(data) {
+      localStorage.setItem("addOrUp", data);
+      this.$router.go();
+    },
+    editStatus() {
+      this.statusEdit = !this.statusEdit
+    },
+    async deleteMusic(id) {
+      await axios
+        .delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track/delete?trackId=${id}`)
+        .then((response) => {
+          this.getMySong();
+        });
+    },
+    handleImageUpload(event) {
+      this.profileIamge = null;
+      this.image = event.target.files[0];
+      this.previewImage();
+    },
+    async previewImage() {
+      let pic = document.getElementById("image-preview");
+      let reader = new FileReader();
+      reader.readAsDataURL(this.image);
+      reader.addEventListener("load", function () {
+        pic.src = reader.result;
+      });
+      this.imageholderEnable = true;
+
     },
     async userChangePassword() {
       let regisJson = JSON.stringify(this.passwordForm);
@@ -294,7 +423,6 @@ export default {
         )
         .then(function () {
           errorCode = 0;
-          
         })
         .catch((error) => {
           errorCode = error.response.data.exceptionCode;
@@ -312,17 +440,94 @@ export default {
               break;
           }
         });
-        if(errorCode===0){
-          this.$router.go() 
-        }
+      if (errorCode === 0) {
+        this.$router.go();
+      }
+    },
+    async userEditProfile() {
+      const regisJson = new Blob([JSON.stringify(this.profileForm)], {
+        type: 'application/json'
+      })
+      let formData = new FormData;
+      formData.append('profile', regisJson)
+      if (this.image != null && this.image != "") {
+        formData.append('profileImage', this.image)
+      }
+      let errorCode = 0;
+      await axios
+        .put(
+          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/myProfile`,
+          formData,
+        )
+        .then(function () {
+          errorCode = 0;
+        })
+        .catch((error) => {
+          errorCode = error.response.data.exceptionCode;
+          this.invalid.duplicated.showErrorBox = true;
+          switch (errorCode) {
+            case 3011:
+              this.invalid.duplicated.errorMessage = "Passwords do NOT match.";
+              break;
+            case 3001:
+              this.invalid.duplicated.errorMessage = "Incorrect password";
+              break;
+            default:
+              this.invalid.duplicated.errorMessage =
+                "An unknown error occures at API.";
+              break;
+          }
+        });
+      if (errorCode === 0) {
+        this.$router.go();
+      }
+    },
+    async getProfile() {
+      await axios
+        .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/myProfile`)
+        .then((response) => {
+          this.profileForm.firstName = response.data.firstName;
+          this.profileForm.lastName = response.data.lastName;
+          this.profileForm.userBios = response.data.userBios;
+          this.profileForm.profileName = response.data.profileName;
+          this.profileIamge = response.data.profileIamge;
+        });
+    },
+    async clearHistory() {
+      await axios
+        .delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/Clear`)
+        .then((response) => {
+        });
     },
   },
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
       data: "authentication/data",
+      sideBarShow: "homepage/sideBarShow",
+      smView: "homepage/smView",
+      mySong: 'musicAuthen/mySong',
+      notfoundMySong: 'musicAuthen/notfoundMySong',
+      totalSongMySong: 'musicAuthen/totalSongMySong',
+      totalPageMySong: 'musicAuthen/totalPageMySong',
+      myHitory: 'musicAuthen/myHitory',
+      notfoundMyHitory: 'musicAuthen/notfoundMyHitory',
+      totalSongMyHitory: 'musicAuthen/totalSongMyHitory',
+      totalPageMyHitory: 'musicAuthen/totalPageMyHitory'
     }),
+    getContent() {
+      if (this.authenticated) {
+        this.$store.dispatch('homepage/getRecentplayed', 6)
+      }
+      this.$store.dispatch('musicAuthen/getMySong');
+      this.$store.dispatch('musicAuthen/getMyHistory');
+    }
   },
+  async created() {
+    this.getContent();
+  }
 };
 </script>
-<style></style>
+<style>
+
+</style>

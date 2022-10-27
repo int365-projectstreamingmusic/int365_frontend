@@ -1,4 +1,4 @@
-name: front-end Production
+name: front-end Develop
 on:
   push:
     branches:
