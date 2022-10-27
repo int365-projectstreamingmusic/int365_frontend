@@ -2,7 +2,7 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    id: 4,
+    id: '',
     onePlaylist: '',
   },
   mutations: {
