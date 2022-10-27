@@ -6,6 +6,7 @@ import search from "./search";
 import myplaylist from "./myplaylist";
 import allsong from "./allsong";
 import favoritepage from "./favoritepage";
+import oneplaylist from "./oneplaylist";
 
 export default createStore({
   state: {},
@@ -19,6 +20,7 @@ export default createStore({
     search,
     myplaylist,
     allsong,
-    favoritepage
+    favoritepage,
+    oneplaylist
   },
 });

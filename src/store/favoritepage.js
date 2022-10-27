@@ -62,6 +62,13 @@ export default {
         console.log(err)
       })
     },
+    async addOrDelFavorites({dispatch},music){
+      if(music.favorite == false){
+        await dispatch('addFavorites',music.id)
+      } else if(music.favorite == true) {
+        await dispatch('delFavorites',music.id) 
+      }
+    },
     async addFavorites({commit,rootGetters,dispatch},id){
       commit("SET_FAVORITES", '');
       try{

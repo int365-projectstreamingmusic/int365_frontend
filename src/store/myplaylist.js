@@ -7,6 +7,10 @@ export default {
     notfoundPG: false,
     totalPG:'',
     totalPagePG: '',
+    myplaylist: '',
+    notfoundPL: false,
+    totalPL: '',
+    totalPagePL: ''
   },
   mutations: {
     SET_TOTALPAGEPG(state,totalPagePG){
@@ -21,31 +25,99 @@ export default {
     SET_PLAYGROUND(state,playground){
       state.playground = playground
     },
+    SET_MYPLAYLIST(state,myplaylist){
+      state.myplaylist = myplaylist
+    },
+    SET_NOTFOUNDPL(state,notfoundPL){
+      state.notfoundPL = notfoundPL
+    },
+    SET_TOTALPL(state,totalPL){
+      state.totalPL = totalPL
+    },
+    SET_TOTALPAGEPL(state,totalPagePL){
+      state.totalPagePL = totalPagePL
+    },
   },
   getters:{
+    totalPagePL(state){
+      if(state.totalPagePL != ''){
+        return state.totalPagePL
+      }
+    },
+    totalPL(state){
+      if(state.totalPL != ''){
+        return state.totalPL
+      }
+    },
+    notfoundPL(state){
+      return state.notfoundPL
+    },
+    myplaylist(state){
+      return state.myplaylist
+    },
     playground(state){
       return state.playground
     },
     totalPagePG (state){
-      return state.totalPagePG
+      if(state.totalPagePG != ''){
+        return state.totalPagePG
+      }
     },
     totalPG (state) {
-      return state.totalPG
+      if(state.totalPG != ''){
+        return state.totalPG
+      }
     },
     notfoundPG (state) {
       return state.notfoundPG
     },
   },
   actions: {
-    async getAllPlayground({commit,rootGetters},pagenum = 0){
-      commit("SET_PLAYGROUND", '');
-      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?page=${pagenum}&pageSize=18`,
+    async getAllMyPlaylist({commit,rootGetters},pagenum = 0){
+      commit("SET_MYPLAYLIST", '');
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist?page=${pagenum}&pageSize=17`,
       {    
         headers: {
           'Authorization': 'Bearer ' + rootGetters['authentication/token']
         }
       })
       .then((res) =>{
+        // console.log(res.data)
+        console.log('playlist'+res.data.totalPages)
+        console.log('playlist'+res.data.totalElements)
+        commit("SET_TOTALPAGEPL",res.data.totalPages)
+        commit("SET_TOTALPL", res.data.totalElements);
+        commit("SET_NOTFOUNDPL", false);
+        commit("SET_MYPLAYLIST", res.data.content);
+      }).catch((err) => {
+        console.log(err)
+        if(err.response.status == 404){
+          commit("SET_NOTFOUNDPL", true);
+        }
+        console.log(err)
+      })
+    },
+    async getAllPlayground({commit,rootGetters},params){
+      let pagenum = 0
+      let pagesize = 18
+      console.log(params)
+      if(params != undefined){
+        pagenum = params.pagenum
+      }
+      if(params != undefined){
+        pagesize = params.pagesize
+      }
+      // console.log(params.pagenum)
+      commit("SET_PLAYGROUND", '');
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?page=${pagenum}&pageSize=${pagesize}`,
+      {    
+        headers: {
+          'Authorization': 'Bearer ' + rootGetters['authentication/token']
+        }
+      })
+      .then((res) =>{
+        console.log('playground'+res.data.totalPages)
+        console.log('playground'+res.data.totalElements)
         commit("SET_TOTALPAGEPG",res.data.totalPages)
         commit("SET_TOTALPG", res.data.totalElements);
         commit("SET_NOTFOUNDPG", false);
@@ -57,13 +129,6 @@ export default {
         }
         console.log(err)
       })
-    },
-    async addOrDelFavorites({dispatch},music){
-      if(music.favorite == false){
-        await dispatch('addFavorites',music.id)
-      } else if(music.favorite == true) {
-        await dispatch('delFavorites',music.id) 
-      }
     },
     async addOrDelPlayground({dispatch},music){
       if(music.favorite == false){
@@ -93,55 +158,6 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
-    },
-    // async deletePlayground({rootGetters,dispatch},id){
-    //   console.log(id)
-    //   await axios.delete( `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
-    //     { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}}
-    //   )
-    //   .then((response) => {
-    //     console.log(response)
-    //     dispatch("getPlayground");
-    //   })
-    //   .catch((error) => {
-    //     return error.response;
-    //   });
-    // },
-    // async delPlayground({commit,rootGetters,dispatch},id){
-    //   commit("SET_PLAYGROUND",'');
-    //   await axios.delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
-    //   { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
-    //   .then((res) =>{
-    //     console.log(res.data)
-    //     dispatch("getAllPlayground");
-    //   }).catch((err) => {
-    //     console.log(err)
-    //   }) 
-    // },
-    // async getPlayground({commit,rootGetters,state}){
-    //   // console.log(rootGetters['authentication/token'] )
-    //   await axios
-    //     .get(
-    //       `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground`,
-    //         {         
-    //           headers: {
-    //             'Authorization': 'Bearer ' + rootGetters['authentication/token']
-    //           }
-    //         }
-    //     )
-    //     .then((response) => {
-    //       // console.log( response.data.content)
-    //       commit("SET_NOTFOUND", false);
-    //       commit("SET_PLAYGROUND", response.data.content);
-    //       // console.log(state.playground)
-          
-    //     })
-    //     .catch((error) => {
-    //       if(error.response.status == 404){
-    //         commit("SET_NOTFOUND", true);
-    //       }
-    //       return error.response;
-    //     });
-    // }
+    }
   }
 }

@@ -11,8 +11,8 @@
         <div class="2xl:w-56 w-44 flex flex-col font-sansation-regular text-sm 2xl:tracking-widest text-blackcoal opacity-100">
           <div v-if="musicDes && musicDes.trackName" ><p class="truncate">Name: {{musicDes.trackName}}</p></div>
           <div v-if="musicDes && musicDes.artistTracks[0]">Artist: {{musicDes.artistTracks[0].artistsModel.artistName}}</div>
-          <div>Album: you name</div>
-          <div v-if="musicDes && musicDes.artistTracks[0]">Released: {{musicDes.timestamp}}</div>
+          <div v-if="musicDes && musicDes.albums">Album: {{musicDes.albums.albumName}}</div>
+          <div v-if="musicDes && musicDes.timestamp">Released: {{musicDes.timestamp}}</div>
           <div v-if="musicDes && musicDes.viewCount">Views: {{musicDes.viewCount}}</div>
         </div>  
         <div class="text-white w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
