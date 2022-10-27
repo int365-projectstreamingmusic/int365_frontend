@@ -59,9 +59,7 @@ export default {
       getPlaylist: 'allplaylist/getPlaylist'
     }),
     idPlaylist(id){
-      console.log(id)
-      // this.$store.commit('oneplaylist/SET_ID',id)
-      this.$store.commit('oneplaylist/SET_ID',4)
+      this.$store.commit('oneplaylist/SET_ID',id)
     },
     passAddOrDelPlayground(e){
       this.$emit('passAddOrDelPlayground',e)
