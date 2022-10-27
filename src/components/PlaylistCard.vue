@@ -21,7 +21,7 @@
         </div>
         <div class="flex flex-row  items-center" :class="authenticated?'justify-center':'justify-center'">   
           <!-- <span v-if="authenticated" @click="passAddOrDelFavorite(musicDes)" :class="musicDes.favorite?'text-yellow-400 hover:text-white' : 'text-white hover:text-yellow-400'" class="material-icons md:text-3xl text-2xl  transition duration-500">grade</span> -->
-          <div @click="passMusic(musicDes)" class=" cursor-pointer text-white md:w-12 md:h-12 w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-white hover:text-violetlight transition duration-500 ">
+          <div @click="passMusic(musicDes.id)" class=" cursor-pointer text-white md:w-12 md:h-12 w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-white hover:text-violetlight transition duration-500 ">
               <span class="material-icons md:text-4xl text-3xl">play_arrow</span>
           </div> 
           <!-- <span v-if="authenticated" @click="passAddOrDelPlayground(musicDes)" :class="musicDes.playground?'text-yellow-400 hover:text-white' : 'text-white hover:text-yellow-400'" class="material-icons md:text-3xl text-2xl transition duration-500">playlist_add</span>    -->
@@ -42,7 +42,9 @@ export default {
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
-      token: "authentication/token"
+      token: "authentication/token",
+      onePlaylist: "oneplaylist/onePlaylist",
+      playlist: "allplaylist/playlist"
     })
   },
   data() {
@@ -52,9 +54,14 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      getOnePlaylist: 'oneplaylist/getOnePlaylist',
+      getPlaylist: 'allplaylist/getPlaylist'
+    }),
     idPlaylist(id){
       console.log(id)
       // this.$store.commit('oneplaylist/SET_ID',id)
+      this.$store.commit('oneplaylist/SET_ID',4)
     },
     passAddOrDelPlayground(e){
       this.$emit('passAddOrDelPlayground',e)
@@ -62,8 +69,19 @@ export default {
     passAddOrDelFavorite(e){
       this.$emit('passAddOrDelFavorite',e)
     },
-    passMusic(e){
-     this.$emit('music',{trackFile:e.trackFile,trackThumbnail:e.trackThumbnail,trackName:e.trackName})
+    async passMusic(e){
+      console.log(e)
+      await this.getPlaylist(4)
+      console.log(this.playlist)
+      let arrPlaylist = []
+      for (let index = 0; index < this.playlist.length; index++) {
+        arrPlaylist.push({name:this.playlist[index].trackFile,image:this.playlist[index].trackThumbnail,nameShow:this.playlist[index].trackName})
+      }
+      console.log(arrPlaylist)
+      this.$emit('playlist',arrPlaylist)
+      // for (const x of this.playlist) {
+        
+      // }
     },
   }
 } 

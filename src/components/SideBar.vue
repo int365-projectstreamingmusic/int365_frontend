@@ -137,10 +137,35 @@ import {
 export default {
   props:{
     music: {type:Object, required: false},
+    playlist: {type:Array, require: false},
     addQueue: {type:Object, required: false},
     // pathC:{type:String, required:false}
   },
   watch: { 
+    playlist: function(newVal) {
+      console.log(newVal)
+      if(this.checkPlayer()){
+        console.log('checktrue')
+        this.$store.dispatch('homepage/setMediaPlayer',true)
+        console.log(newVal[0])
+        this.playApi.splice(0, 0,newVal[0])
+        this.fristPlayed = true
+        this.stopPlayer()
+        for (let index = 0; index < newVal.length; index++) {
+          if(index != 1){
+            console.log(newVal[index])
+            this.playApi.push(newVal[index])
+          }
+        }
+        console.log(this.playApi.value)
+      }else{
+        console.log('checkApi')
+        for (let index = 0; index < newVal.length; index++) {
+         this.playApi.push(newVal[index])
+        }
+        
+      }
+    },
     music: function(newVal) { // watch it
       // if(this.music != null){
       // console.log("thsoundis.")
@@ -152,13 +177,16 @@ export default {
       // this.fristPlayed = true
       // this.stopPlayer()
       // }
+      console.log(newVal)
       if(this.checkPlayer()){
+        console.log('checktrue')
         this.$store.dispatch('homepage/setMediaPlayer',true)
         this.playApi.splice(0, 0,newVal)
         this.fristPlayed = true
         this.stopPlayer()
         
       }else{
+        console.log(newVal)
         this.playApi.push(newVal)
         
       }

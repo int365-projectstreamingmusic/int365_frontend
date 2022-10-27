@@ -29,10 +29,14 @@
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 ">My Playlist</div>
             <div class="2xl:w-720  xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl  md:px-10 md:py-10 p-5 flex flex-col justify-between font-sansation-light">
               <div  class="grid md:gap-x-10 md:gap-y-6.5 gap-y-3 gap-x-3 md:grid-cols-3 grid-cols-2  justify-items-center">
-                <empty-card></empty-card> 
+                <div @click="page1('add')">
+                  <router-link to="/addmusic" >
+                    <empty-card></empty-card> 
+                  </router-link>
+                </div>  
                 <loading v-if="myplaylist == '' && !notfoundPL"></loading>
                 <div v-for="(playlist) in myplaylist" :key="playlist.id">
-                  <playlist-card v-if="myplaylist != ''" :musicDes="playlist" @music="acceptData" @passAddOrDelFavorite="addOrDelFavorite($event)" @passAddOrDelPlayground="addOrDelPlayground($event)"></playlist-card>
+                  <playlist-card v-if="myplaylist != ''" :musicDes="playlist" @music="acceptData" ></playlist-card>
                 </div>        
               </div>  
             </div>
@@ -57,6 +61,10 @@ export default {
     Loading
   },
     methods:{
+    page1(data){
+      localStorage.setItem("addOrUp", data);
+      this.$router.go();
+    },
     acceptData(e) {
       console.log(e);
       console.log(e.trackName,e.trackFile,e.trackThumbnail)

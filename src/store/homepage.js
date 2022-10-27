@@ -145,8 +145,14 @@ export default {
           dispatch("getTopFiveInSevenDays",{num:6,day:7});
         }
       for (let x of state.recentplayed) {
-         x.id == params.idFav ? dispatch("getRecentplayed",6):''} }
+        console.log('ขเ้า')
+        if(x.track.id == params.idFav){ 
+          console.log('ขเ้าจริง')
+          dispatch("getRecentplayed",6);
+        }
+      }
       for (let x of state.recentReleases) { x.id == params.idFav ? dispatch("getRecentReleases"):''} 
+      }
     }
     ,
     async getRecentReleases({ commit }){

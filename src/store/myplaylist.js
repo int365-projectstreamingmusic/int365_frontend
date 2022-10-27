@@ -73,9 +73,18 @@ export default {
     },
   },
   actions: {
-    async getAllMyPlaylist({commit,rootGetters},pagenum = 0){
+    async getAllMyPlaylist({commit,rootGetters},params){
+      let pagenum = 0
+      let pagesize = 17
+      console.log(params)
+      if(params != undefined){
+        pagenum = params.pagenum
+      }
+      if(params != undefined){
+        pagesize = params.pagesize
+      }
       commit("SET_MYPLAYLIST", '');
-      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist?page=${pagenum}&pageSize=17`,
+      await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist?page=${pagenum}&pageSize=${pagesize}`,
       {    
         headers: {
           'Authorization': 'Bearer ' + rootGetters['authentication/token']
@@ -131,9 +140,9 @@ export default {
       })
     },
     async addOrDelPlayground({dispatch},music){
-      if(music.favorite == false){
+      if(music.playground == false){
         await dispatch('addPlayground',music.id)
-      } else if(music.favorite == true) {
+      } else if(music.playground == true) {
         await dispatch('delPlayground',music.id) 
       }
     },
@@ -149,6 +158,7 @@ export default {
       }) 
     },
     async addPlayground({commit,rootGetters,dispatch},id){
+      console.log('add plyground')
       commit("SET_PLAYGROUND",'');
       await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
       { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
