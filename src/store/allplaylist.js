@@ -52,13 +52,8 @@ export default {
   actions: {
     async getAllPlaylist({commit},pagenum = 0){
       commit("SET_ALLPLAYLIST",'')
-      console.log(pagenum)
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/playlist?page=${pagenum}&pageSize=18`)
       .then((res) =>{
-        console.log(res.data)
-        console.log(res.data.totalPages)
-        console.log(res.data.totalElements)
-   
         commit("SET_NOTFOUNDAPL", false);
         commit("SET_ALLPLAYLIST", res.data.content)
         commit("SET_TOTALPAGEAPL",res.data.totalPages)
@@ -74,12 +69,9 @@ export default {
     async getPlaylist({commit},id){
       // ต้องมี check ว่า login ไหม ถึง playlist ส่วนตัว
       commit("SET_PLAYLIST",'')
-      console.log(id)
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/playlist/${id}`)
       .then((res) =>{
-        console.log(res.data)
         if(res.data.tracksInfo.content){
-          console.log('เพลงในplaylist')
           commit("SET_PLAYLIST", res.data.tracksInfo.content)
         }
         

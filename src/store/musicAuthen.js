@@ -97,7 +97,7 @@ export default {
             commit("SET_MYHISTORY", '')
             await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/MyHistory?page=${pagenumMyHis}`)
                 .then((res) => {
-                    console.log(res.data);
+
                     commit("SET_TOTALPAGEMYHISTORY", res.data.totalPages)
                     commit("SET_TOTALSONGMYHISTORY", res.data.totalElements);
                     commit("SET_NOTFOUNDMYHISTORY", false);

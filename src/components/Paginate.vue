@@ -29,11 +29,9 @@ export default {
   },
   watch: { 
     totalItems: function(newVal) { 
-      console.log(newVal)
       this.addPage()
     },
     sizePage: function(newVal){
-      console.log(newVal)
       this.addSize(newVal)
     }
   },
@@ -51,7 +49,6 @@ export default {
       handleView: 'homepage/handleView',
     }),
     selectPage(page){
-      console.log(page)
       this.currentPage = page
       this.$emit('pageNum',page)
     },
@@ -59,16 +56,14 @@ export default {
       if((this.max) < (this.totalItems/this.itemsPerPage) ){
         this.min = this.min+this.maxPagesShow
         this.max = this.max+this.maxPagesShow      
-      }else{
-        console.log(this.max)         
+      }else{      
       }
     },
     previous(){
       if((this.min) > 0 ){
         this.min = this.min-this.maxPagesShow
         this.max = this.max-this.maxPagesShow       
-      }else{
-        console.log(this.min)         
+      }else{       
       }
     },
     addSize(p){
@@ -82,7 +77,6 @@ export default {
   },
   created(){
     this.addPage()
-    console.log(this.max)
     this.handleView();
     window.addEventListener("resize", this.handleView);
   }

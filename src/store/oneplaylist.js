@@ -27,7 +27,6 @@ export default {
   },
   actions: {
     async getOnePlaylist({commit,rootGetters,state}){
-      console.log('playlist',state.id)
       commit("SET_ONEPLAYLIST", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/${state.id}`,
       {    
@@ -36,7 +35,6 @@ export default {
         }
       })
       .then((res) =>{
-        console.log(res.data)
         commit("SET_ONEPLAYLIST", res.data);
       }).catch((err) => {
         console.log(err)

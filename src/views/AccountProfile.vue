@@ -7,8 +7,8 @@
           <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start my-7">
             Account
           </div>
-          <div class="flex flex-col lg:flex-row justify-center items-center">
-            <div class="rounded-lg flex flex-col justify-center items-center">
+          <div class="flex flex-col lg:flex-row justify-center md:items-start items-center">
+            <div class="rounded-lg flex flex-col  ">
               <img v-if="image == '' && data.profileIamge == ''" src="../assets/user_icon.png"
                 style="width: 262px; height: 175px; object-fit: cover" />
               <img v-show="!imageholderEnable" :src="url + 'api/streaming/image/' + data.profileIamge"
@@ -26,32 +26,33 @@
               </label>
             </div>
 
-            <div class="font-sansation-light text-sm md:w-4/6 w-full md:ml-10 my-5">
+            <div
+              class="font-sansation-light text-sm md:w-4/6 w-82  md:ml-10 my-5 flex justify-center flex-col items-center md:items-start">
               <div class="flex flex-row justify-start items-start">
                 <p class="text-xs text-gray-500 font-bold tracking-wide">
                   Profile
                 </p>
               </div>
-              <div class="space-y-2 my-3 flex flex-col">
-                <div class="flex flex-row space-x-3">
-                  <p class="w-20">Full name</p>
-                  <p class="w-81 pl-3" v-if="data.firstName != null">
+              <div class="space-y-2 my-3 flex flex-col   ">
+                <div class="flex flex-row space-x-3 justify-center md:justify-start ">
+                  <div class="w-20">Full name</div>
+                  <div class="pl-3" v-if="data.firstName != null">
                     {{ data.firstName }} {{ data.lastName }}
-                  </p>
-                  <p class="w-81 pl-3" v-else>{{ UserName }}</p>
+                  </div>
+                  <div class=" pl-3" v-else>{{ UserName }}</div>
                 </div>
                 <div class="flex flex-row space-x-3">
                   <p class="w-20">Username</p>
-                  <p class="w-81 pl-3">{{ data.username }}</p>
+                  <p class="pl-3">{{ data.username }}</p>
                 </div>
                 <div class="flex flex-row space-x-3">
                   <p class="w-20">Email</p>
-                  <p class="w-81 px-3 text-left break-all">
+                  <p class="px-3 text-left break-all">
                     {{ data.email }}
                   </p>
                 </div>
               </div>
-              <div class="flex flex-row space-x-5">
+              <div class="flex flex-row space-x-5  ">
                 <div @click="editProfile" v-if="!isEdit && !isChange"
                   class="cursor-pointer text-sm w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
                   edit profile
@@ -62,139 +63,142 @@
                   chagne password
                 </div>
               </div>
+              <div class="font-sansation-light text-sm flex justify-center items-center">
+                <div v-if="isChange" class="w-82 flex justify-center md:items-start flex-col">
+                  <div>
+                    <p class="text-xs text-gray-500 font-bold tracking-wide">
+                      Change Password
+                    </p>
+                  </div>
+                  <form @submit.prevent="userChangePassword">
+                    <div class="my-2 flex flex-row">
+                      <div class="text-md my-2 md:mx-5 mx-2 w-32">
+                        Current Password :
+                      </div>
+                      <input v-model="passwordForm.oldPassword" type="password" name="Current Password"
+                        placeholder="Current Password" required
+                        class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        " />
+                    </div>
+                    <div class="my-2 flex flex-row">
+                      <p class="text-md my-2 md:mx-5 mx-2 w-32">New Password :</p>
+                      <input v-model="passwordForm.newPassword" type="password" name="NewPassword"
+                        placeholder="New Password" required
+                        class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        " />
+                    </div>
+                    <div class="my-2 flex flex-row">
+                      <p class="text-md my-2 md:mx-5 mx-2 w-32">
+                        Confrim Password :
+                      </p>
+                      <input v-model="passwordForm.confirmationPassword" type="password" name="confirmationPassword"
+                        placeholder="Confrim Password" required
+                        class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        " />
+                    </div>
+                    <div class="text-red-500 text-sm font-mono mx-5">
+                      {{ this.invalid.duplicated.errorMessage }}
+                    </div>
+                    <div class="flex md:justify-end md:items-end justify-center items-center flex-row space-x-5">
+                      <button
+                        class="cursor-pointer text-sm md:w-48 w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                        save
+                      </button>
+                      <button @click="editClose"
+                        class="cursor-pointer text-sm md:w-48 w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                        cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <div v-if="isEdit" class="w-82 ">
+                  <div>
+                    <p class="text-xs text-gray-500 font-bold tracking-wide">
+                      Edit Profile
+                    </p>
+                  </div>
+                  <form @submit.prevent="userEditProfile">
+                    <div class="my-2 flex flex-row">
+                      <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                        Profile Name :
+                      </p>
+                      <input v-model="profileForm.profileName" type="text" name="profileName" placeholder="ProfileName"
+                        class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        " />
+                    </div>
+                    <div class="my-2 flex flex-row">
+                      <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                        Firstname :
+                      </p>
+                      <input v-model="profileForm.firstName" type="text" name="firstName" placeholder="Firstname"
+                        class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        " />
+                    </div>
+                    <div class="my-2 flex flex-row">
+                      <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
+                        Lastname :
+                      </p>
+                      <input v-model="profileForm.lastName" type="text" name="lastName" placeholder="Lastname"
+                        class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        " />
+                    </div>
+                    <div class="my-2 flex flex-row">
+                      <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">Bio :</p>
+                      <textarea v-model="profileForm.userBios" type="text" name="userBios" placeholder="userBios"
+                        class="w-48 h-24 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
+                        :class="
+                          this.invalid.duplicated.showErrorBox
+                            ? 'border-red-500'
+                            : ''
+                        ">
+                  </textarea>
+                    </div>
+                    <div class="text-red-500 text-sm font-mono mx-5">
+                      {{ this.invalid.duplicated.errorMessage }}
+                    </div>
+                    <div class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5">
+                      <button
+                        class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                        save
+                      </button>
+                      <button @click="editClose"
+                        class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
+                        cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
+
+
           </div>
 
-          <div class="lg:ml-75 font-sansation-light text-sm md:-mt-8 -mt-5">
-            <div v-if="isChange" class="w-82 md:ml-8">
-              <div>
-                <p class="text-xs text-gray-500 font-bold tracking-wide">
-                  Change Password
-                </p>
-              </div>
-              <form @submit.prevent="userChangePassword">
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 w-32">
-                    Current Password :
-                  </p>
-                  <input v-model="passwordForm.oldPassword" type="password" name="Current Password"
-                    placeholder="Current Password" required
-                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    " />
-                </div>
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 w-32">New Password :</p>
-                  <input v-model="passwordForm.newPassword" type="password" name="NewPassword"
-                    placeholder="New Password" required
-                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    " />
-                </div>
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 w-32">
-                    Confrim Password :
-                  </p>
-                  <input v-model="passwordForm.confirmationPassword" type="password" name="confirmationPassword"
-                    placeholder="Confrim Password" required
-                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    " />
-                </div>
-                <div class="text-red-500 text-sm font-mono mx-5">
-                  {{ this.invalid.duplicated.errorMessage }}
-                </div>
-                <div class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5">
-                  <button
-                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
-                    save
-                  </button>
-                  <button @click="editClose"
-                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
-                    cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-            <div v-if="isEdit" class="w-82 md:ml-8">
-              <div>
-                <p class="text-xs text-gray-500 font-bold tracking-wide">
-                  Edit Profile
-                </p>
-              </div>
-              <form @submit.prevent="userEditProfile">
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
-                    Profile Name :
-                  </p>
-                  <input v-model="profileForm.profileName" type="text" name="profileName" placeholder="ProfileName"
-                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    " />
-                </div>
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
-                    Firstname :
-                  </p>
-                  <input v-model="profileForm.firstName" type="text" name="firstName" placeholder="Firstname"
-                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    " />
-                </div>
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
-                    Lastname :
-                  </p>
-                  <input v-model="profileForm.lastName" type="text" name="lastName" placeholder="Lastname"
-                    class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    " />
-                </div>
-                <div class="my-2 flex flex-row">
-                  <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">Bio :</p>
-                  <textarea v-model="profileForm.userBios" type="text" name="userBios" placeholder="userBios"
-                    class="w-48 h-24 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                    :class="
-                      this.invalid.duplicated.showErrorBox
-                        ? 'border-red-500'
-                        : ''
-                    ">
-                  </textarea>
-                </div>
-                <div class="text-red-500 text-sm font-mono mx-5">
-                  {{ this.invalid.duplicated.errorMessage }}
-                </div>
-                <div class="flex md:justify-end md:items-end justify-start items-start flex-row space-x-5">
-                  <button
-                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
-                    save
-                  </button>
-                  <button @click="editClose"
-                    class="cursor-pointer text-sm md:w-48 w-36 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
-                    cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+
         </div>
         <!-- Account Profile chagne password -->
         <!-- My song -->
@@ -219,7 +223,7 @@
               <p class="w-6/12 md:w-3/6 flex justify-start">Name</p>
               <p class="w-1/12 invisible lg:visible md:w-2/6">Album</p>
               <p class="w-3/12 md:w-1/6">Release</p>
-              <span class="w-12 flex justify-center items-center material-icons text-red-600 " @click="editStatus()">
+              <span class="w-20 flex justify-center items-center material-icons text-red-600 " @click="editStatus()">
                 edit
               </span>
             </div>
@@ -238,7 +242,7 @@
               <p class="truncate w-3/12 md:w-1/6 sm:text-sm text-xs">
                 {{ item.timestamp.substr(0, 10) }}
               </p>
-              <div class="w-12 flex flex-row ">
+              <div class="w-20 flex flex-row ">
                 <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="deleteMusic(item.id)">
                     delete
                   </span></div>
@@ -312,7 +316,7 @@ export default {
     Paginate,
     Loading,
     musicAuthen
-  }, 
+  },
   emits: ['music'],
   data() {
     return {
@@ -350,13 +354,13 @@ export default {
   },
   methods: {
     resPageNum(e) {
-      this.$store.dispatch('musicAuthen/getMySong', e-1)
+      this.$store.dispatch('musicAuthen/getMySong', e - 1)
     },
     acceptData(e) {
       this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     resPageNumHis(e) {
-      this.$store.dispatch('musicAuthen/getMyHistory', e-1)
+      this.$store.dispatch('musicAuthen/getMyHistory', e - 1)
     },
     editProfile() {
       this.isEdit = !this.isEdit;

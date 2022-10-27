@@ -202,9 +202,7 @@
     //   }   
     // },
     async addOrDelPlayground(music){
-      console.log(music)
       if(this.authenticated){
-        console.log(music.id)
         let boolean = music.playground
         await this.$store.dispatch('myplaylist/addOrDelPlayground',music)
         await this.$store.dispatch('homepage/checkFavAndPlay',{idFav:music.id,booleanFav:boolean})
@@ -214,10 +212,10 @@
     },
     async addOrDelFavorite(music){
       // ทำต่อ
-      console.log(music)
+
       // console.log(feature)
       if(this.authenticated){
-        console.log(music.id)
+
         let boolean = music.favorite
         await this.$store.dispatch('favoritepage/addOrDelFavorites',music)
         await this.$store.dispatch('homepage/checkFavAndPlay',{idFav:music.id,booleanFav:boolean})
@@ -231,7 +229,6 @@
       }
     },
     acceptData(e) {
-        console.log(e);
         this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
     },
     getContent(){
