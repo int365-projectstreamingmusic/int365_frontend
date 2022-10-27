@@ -199,67 +199,76 @@
         <!-- Account Profile chagne password -->
         <!-- My song -->
         <div class="flex flex-row items-end font-sansation-light justify-between mt-36 mx-3 md:mx-36">
-          <div class="flex flex-row items-end" @click="page1('up')">
-            <div class="md:text-xl text-base md:mr-12 mr-3">My Song</div>
-            <router-link to="/addmusic"
-              class="text-sm font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">
-              upload song
-            </router-link>
+          <div class="flex flex-row justify-center items-end " @click="page1('up')">
+            <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start">My Song
+              <router-link to="/addmusic"
+                class="text-sm font-sansation-regular pt-2 pl-5 flex justify-center text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">
+                upload song
+              </router-link>
+            </div>
+
           </div>
           <div class="text-sm">filter</div>
         </div>
-        <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <div class="sm:my-4 my-2">
+        <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
+          <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
+          <div v-if="mySong != ''" class="sm:my-4 my-2 ">
             <div
-              class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
-              <p class="w-1/12 md:w-1/6">#</p>
+              class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none  pb-1 space-x-1">
+              <p class="w-8 md:w-16">#</p>
               <p class="w-6/12 md:w-3/6 flex justify-start">Name</p>
-              <p class="w-2/12 md:w-1/6">Album</p>
-              <p class="w-2/12 md:w-1/6">Release</p>
-              <span class="w-16 material-icons text-red-600" @click="deleteStatus()">
-                delete
+              <p class="w-1/12 invisible lg:visible md:w-2/6">Album</p>
+              <p class="w-3/12 md:w-1/6">Release</p>
+              <span class="w-12 flex justify-center items-center material-icons text-red-600 " @click="editStatus()">
+                edit
               </span>
             </div>
+
             <div v-for="(item, index) in mySong" :key="index"
-              class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
-              <p class="w-1/12 md:w-1/6 sm:text-sm text-xs">{{index+1}}</p>
-              <p class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start">
-                {{item.trackName}}
+              class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer  py-2 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
+              <p class="w-8 md:w-16 sm:text-sm text-xs">{{ index + 1 }}</p>
+              <p @click="acceptData(item)"
+                class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start overflow-x-scroll">
+                {{ item.trackName }}
               </p>
-              <p class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">Honne</p>
-              <p class="truncate w-2/12 md:w-1/6 sm:text-sm text-xs">
-                {{item.timestamp.substr(0, 10)}}
+              <p v-if="item.albums != null" class="truncate w-1/12 md:w-2/6 sm:text-sm text-xs invisible lg:visible">
+                {{ item.albums.albumName }}
               </p>
-              <span v-if="statusDelete" class="w-16 material-icons text-red-600" @click="deleteMusic(item.id)">
-                delete
-              </span>
+              <p v-else class="truncate w-1/12 md:w-2/6 sm:text-sm text-xs invisible lg:visible">-</p>
+              <p class="truncate w-3/12 md:w-1/6 sm:text-sm text-xs">
+                {{ item.timestamp.substr(0, 10) }}
+              </p>
+              <div class="w-12 flex flex-row ">
+                <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="deleteMusic(item.id)">
+                    delete
+                  </span></div>
+                <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="editMusic(item.id)">
+                    edit
+                  </span></div>
+              </div>
             </div>
           </div>
-          <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 2xl:mb-10">
-            <div class="icon-navbar-outside">
-              <span class="material-icons md:text-2xl text-lg">chevron_left</span>
-            </div>
-            <div>
-              <p class="page-number-outside">1</p>
-            </div>
-            <div class="icon-navbar-outside">
-              <span class="material-icons md:text-2xl text-lg">chevron_right</span>
-            </div>
-          </div>
+          <paginate :totalItems="totalSongMySong" :sizePage="totalPageMySong" :itemsPerPage="15" :maxPagesShow="4"
+            @pageNum="resPageNum"></paginate>
         </div>
         <!-- My song -->
         <!-- History -->
+
         <div class="flex flex-row items-end font-sansation-light mt-10 md:mx-36 mx-3">
           <div class="flex flex-row items-end">
-            <div class="md:text-xl text-base md:mr-12 mr-3">History</div>
-            <div @click="clearHistory()"
-              class="text-sm font-sansation-regular text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">
-              clear history
+            <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start my-7">History
+              <div @click="clearHistory()"
+                class="text-sm font-sansation-regular pt-2 pl-5 text-violetlight hover:text-violetdark transition duration-200 cursor-pointer">
+                clear history
+              </div>
             </div>
+
           </div>
         </div>
+
         <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <div class="sm:my-4 my-2">
+          <loading v-if="myHitory == ''"></loading>
+          <div v-if="myHitory != ''" class="sm:my-4 my-2">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
               <p class="w-1/12 md:w-1/6">#</p>
@@ -267,29 +276,24 @@
               <p class="w-3/12 md:w-2/6">album</p>
               <p class="w-2/12 md:w-1/6">release</p>
             </div>
-            <div v-for="(item, index) in this.history" :key="index"
+
+            <div v-for="(item, index) in myHitory" :key="index"
               class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
-              <p class="w-1/12 md:w-1/6 sm:text-sm text-xs">{{index+1}}</p>
+              <p class="w-1/12 md:w-1/6 sm:text-sm text-xs">{{ index + 1 }}</p>
               <p class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start">
-                {{item.track.trackName}}
+                {{ item.track.trackName }}
               </p>
-              <p class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">Honne</p>
+              <p v-if="item.albums != null" class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">
+                {{ item.albums.albumName }}
+              </p>
+              <p v-else class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">-</p>
               <p class="truncate w-2/12 md:w-1/6 sm:text-sm text-xs">
-                {{item.timestamp.substr(0, 10)}}
+                {{ item.timestamp.substr(0, 10) }}
               </p>
             </div>
           </div>
-          <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 2xl:mb-10">
-            <div class="icon-navbar-outside">
-              <span class="material-icons md:text-2xl text-lg">chevron_left</span>
-            </div>
-            <div>
-              <p class="page-number-outside">1</p>
-            </div>
-            <div class="icon-navbar-outside">
-              <span class="material-icons md:text-2xl text-lg">chevron_right</span>
-            </div>
-          </div>
+          <paginate :totalItems="totalElementsMyHistory" :sizePage="totalPagesMyHistory" :itemsPerPage="15"
+            :maxPagesShow="4" @pageNum="resPageNumHis"></paginate>
         </div>
         <!-- History -->
       </div>
@@ -300,8 +304,16 @@
 <script>
 import { mapGetters } from "vuex";
 import axios from "axios";
+import { musicAuthen } from "../store/musicAuthen.js";
+import Paginate from "../components/Paginate.vue";
+import Loading from "../components/Loading.vue"
 export default {
-
+  components: {
+    Paginate,
+    Loading,
+    musicAuthen
+  }, 
+  emits: ['music'],
   data() {
     return {
       path: "",
@@ -324,7 +336,6 @@ export default {
           errorMessage: "",
         },
       },
-      mySong: {},
       file: "",
       image: "",
       history: {},
@@ -332,11 +343,21 @@ export default {
       url: `${process.env.VUE_APP_MY_ENV_VARIABLE}`,
       profileIamge: "",
       imageholderEnable: false,
-      statusDelete: false,
+      statusEdit: false,
+
 
     };
   },
   methods: {
+    resPageNum(e) {
+      this.$store.dispatch('musicAuthen/getMySong', e-1)
+    },
+    acceptData(e) {
+      this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
+    },
+    resPageNumHis(e) {
+      this.$store.dispatch('musicAuthen/getMyHistory', e-1)
+    },
     editProfile() {
       this.isEdit = !this.isEdit;
       this.getProfile();
@@ -353,14 +374,19 @@ export default {
         confirmationPassword: null,
       };
     },
+    editMusic(data) {
+      localStorage.setItem("idTrack", data);
+      localStorage.setItem("addOrUp", "editMusic");
+      this.$router.push('/addmusic')
+    },
     page1(data) {
       localStorage.setItem("addOrUp", data);
       this.$router.go();
     },
-    deleteStatus(){
-      this.statusDelete = !this.statusDelete
+    editStatus() {
+      this.statusEdit = !this.statusEdit
     },
-    async deleteMusic(id){
+    async deleteMusic(id) {
       await axios
         .delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track/delete?trackId=${id}`)
         .then((response) => {
@@ -380,15 +406,7 @@ export default {
         pic.src = reader.result;
       });
       this.imageholderEnable = true;
-      let formData = new FormData();
-      formData.append("profileImage", this.image);
-      await axios
-        .put(
-          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/profile-image`,
-          formData
-        )
-        .then((response) => {
-        });
+
     },
     async userChangePassword() {
       let regisJson = JSON.stringify(this.passwordForm);
@@ -427,17 +445,19 @@ export default {
       }
     },
     async userEditProfile() {
-      let regisJson = JSON.stringify(this.profileForm);
+      const regisJson = new Blob([JSON.stringify(this.profileForm)], {
+        type: 'application/json'
+      })
+      let formData = new FormData;
+      formData.append('profile', regisJson)
+      if (this.image != null && this.image != "") {
+        formData.append('profileImage', this.image)
+      }
       let errorCode = 0;
       await axios
         .put(
           `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/myProfile`,
-          regisJson,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          formData,
         )
         .then(function () {
           errorCode = 0;
@@ -466,7 +486,6 @@ export default {
       await axios
         .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/myProfile`)
         .then((response) => {
-          this.profileForm = response.data;
           this.profileForm.firstName = response.data.firstName;
           this.profileForm.lastName = response.data.lastName;
           this.profileForm.userBios = response.data.userBios;
@@ -474,25 +493,10 @@ export default {
           this.profileIamge = response.data.profileIamge;
         });
     },
-    async getHistory() {
-      await axios
-        .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/MyHistory`)
-        .then((response) => {
-          this.history = response.data.content;
-        });
-    },
     async clearHistory() {
       await axios
         .delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/Clear`)
         .then((response) => {
-        });
-    },
-    async getMySong() {
-      await axios
-        .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track?page=0&pageSize=0&searchContent`)
-        .then((response) => {
-          this.mySong = response.data.content;
-
         });
     },
   },
@@ -502,12 +506,26 @@ export default {
       data: "authentication/data",
       sideBarShow: "homepage/sideBarShow",
       smView: "homepage/smView",
+      mySong: 'musicAuthen/mySong',
+      notfoundMySong: 'musicAuthen/notfoundMySong',
+      totalSongMySong: 'musicAuthen/totalSongMySong',
+      totalPageMySong: 'musicAuthen/totalPageMySong',
+      myHitory: 'musicAuthen/myHitory',
+      notfoundMyHitory: 'musicAuthen/notfoundMyHitory',
+      totalSongMyHitory: 'musicAuthen/totalSongMyHitory',
+      totalPageMyHitory: 'musicAuthen/totalPageMyHitory'
     }),
+    getContent() {
+      if (this.authenticated) {
+        this.$store.dispatch('homepage/getRecentplayed', 6)
+      }
+      this.$store.dispatch('musicAuthen/getMySong')
+      this.$store.dispatch('musicAuthen/getMyHistory')
+    }
   },
-  mounted() {
-    this.getHistory();
-    this.getMySong();
-  },
+  async created() {
+    this.getContent();
+  }
 };
 </script>
 <style>
