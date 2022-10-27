@@ -88,7 +88,6 @@ export default {
      this.$emit('music',{name:'audio1.mp3',image:'sadasd'})
     },
     resPageNum(e){
-      console.log(e-1)
       this.pageCurrent = e-1
       this.$store.dispatch('favoritepage/getAllFavorites',e-1)
     },
@@ -99,7 +98,6 @@ export default {
       this.$store.dispatch('favoritepage/getAllFavorites')
     },
     acceptData(e) {
-      console.log(e);
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
     },
   },

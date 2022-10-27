@@ -234,12 +234,9 @@ export default {
       }
     },
     acceptData(e) {
-      console.log(e);
-      console.log(e.trackName, e.trackFile, e.trackThumbnail)
       this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     resPageNumPG(e) {
-      console.log(e - 1)
       this.pageCurrent = e - 1
       this.$store.dispatch('myplaylist/getAllFavorites', e - 1)
     },

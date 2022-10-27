@@ -66,17 +66,13 @@ export default {
       this.$router.go();
     },
     acceptData(e) {
-      console.log(e);
-      console.log(e.trackName,e.trackFile,e.trackThumbnail)
       this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
     },
     resPageNum(e){
-      console.log(e-1)
       this.pageCurrent = e-1
       this.$store.dispatch('myplaylist/getAllFavorites',e-1)
     },
     resPageNumPL(e){
-      console.log(e-1)
       this.pageCurrent = e-1
       this.$store.dispatch('myplaylist/getAllMyPlaylist',e-1)
     },

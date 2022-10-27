@@ -143,23 +143,17 @@ export default {
   },
   watch: { 
     playlist: function(newVal) {
-      console.log(newVal)
       if(this.checkPlayer()){
-        console.log('checktrue')
         this.$store.dispatch('homepage/setMediaPlayer',true)
-        console.log(newVal[0])
         this.playApi.splice(0, 0,newVal[0])
         this.fristPlayed = true
         this.stopPlayer()
         for (let index = 0; index < newVal.length; index++) {
           if(index != 1){
-            console.log(newVal[index])
             this.playApi.push(newVal[index])
           }
         }
-        console.log(this.playApi.value)
       }else{
-        console.log('checkApi')
         for (let index = 0; index < newVal.length; index++) {
          this.playApi.push(newVal[index])
         }
@@ -177,16 +171,13 @@ export default {
       // this.fristPlayed = true
       // this.stopPlayer()
       // }
-      console.log(newVal)
       if(this.checkPlayer()){
-        console.log('checktrue')
         this.$store.dispatch('homepage/setMediaPlayer',true)
         this.playApi.splice(0, 0,newVal)
         this.fristPlayed = true
         this.stopPlayer()
         
       }else{
-        console.log(newVal)
         this.playApi.push(newVal)
         
       }
@@ -341,8 +332,6 @@ export default {
         if(hisAndView.value == true){
           hisAndView.value = false
           let name = playNow.value
-          console.log(name)
-          console.log(playNow.value)
           store.dispatch("allsong/addHisAndView",name);
           // this.$store.dispatch('',)
         }
@@ -422,7 +411,6 @@ export default {
           playNow.value = played.value[played.value.length-2].name
           playImage.value = played.value[played.value.length-2].image
           nameMusic.value[0] = played.value[played.value.length-2].nameShow
-          console.log(playApi.value[0])
           played.value = played.value.filter((m) => m != played.value[played.value.length-1]  )
         //  && m != played.value[played.value.length-2]
           // console.log(playApi.value)
@@ -435,7 +423,6 @@ export default {
       playTest();
     }
     function next(index) {
-      console.log(playApi.value[0])
       if(index == 'NEXT'){
         loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL': loopType.value = 'NOTLOOP'
         next()

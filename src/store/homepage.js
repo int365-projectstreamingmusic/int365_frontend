@@ -111,17 +111,14 @@ export default {
       commit("SET_TOPFIVESEVENDAYS", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/top?days=${params.day}&numberOfTracks=${params.num}`)
       .then((res) =>{
-        console.log(res.data)
         commit("SET_TOPFIVESEVENDAYS", res.data);
-        console.log('getTopFiveInSevenDays')
+
       }).catch((err) => {
         console.log(err)
       })
     },
     async getRecentplayed({ commit,rootGetters, state },params){
       commit("SET_RECENTPLAYED", '');
-      console.log(params)
-      console.log(rootGetters['authentication/token'])
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/LastVisited?numberOfRecord=${params}`,
       {         
         headers: {
@@ -129,7 +126,6 @@ export default {
         }
       })
       .then((res) =>{
-        console.log(res.data)
         commit("SET_RECENTPLAYED", res.data);
         // console.log(state.recentplayed)
       }).catch((err) => {
@@ -139,15 +135,13 @@ export default {
       })
     },
     checkFavAndPlay({state,dispatch},params){
-      console.log(params.idFav)
+
       for (let x of state.topFiveInSevenDays) { 
         if(x.id == params.idFav){ 
           dispatch("getTopFiveInSevenDays",{num:6,day:7});
         }
       for (let x of state.recentplayed) {
-        console.log('ขเ้า')
         if(x.track.id == params.idFav){ 
-          console.log('ขเ้าจริง')
           dispatch("getRecentplayed",6);
         }
       }
@@ -159,9 +153,7 @@ export default {
       commit("SET_RECENTRELEASES", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/latest`)
       .then((res) =>{
-        console.log(res.data)
         commit("SET_RECENTRELEASES", res.data);
-        console.log('getRecentReleases')
       }).catch((err) => {
         console.log(err)
       })
@@ -171,7 +163,6 @@ export default {
       commit("SET_MEDIAPLAYER",boolean)
     },
     hideSideBar({ commit,state }){
-      console.log(state.sideBarShow)
       commit("SET_SIDEBARSHOW",!state.sideBarShow)
     },
     setTopOne({commit},boolean){

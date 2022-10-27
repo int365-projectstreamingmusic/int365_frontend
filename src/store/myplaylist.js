@@ -76,7 +76,6 @@ export default {
     async getAllMyPlaylist({commit,rootGetters},params){
       let pagenum = 0
       let pagesize = 17
-      console.log(params)
       if(params != undefined){
         pagenum = params.pagenum
       }
@@ -92,8 +91,6 @@ export default {
       })
       .then((res) =>{
         // console.log(res.data)
-        console.log('playlist'+res.data.totalPages)
-        console.log('playlist'+res.data.totalElements)
         commit("SET_TOTALPAGEPL",res.data.totalPages)
         commit("SET_TOTALPL", res.data.totalElements);
         commit("SET_NOTFOUNDPL", false);
@@ -125,8 +122,6 @@ export default {
         }
       })
       .then((res) =>{
-        console.log('playground'+res.data.totalPages)
-        console.log('playground'+res.data.totalElements)
         commit("SET_TOTALPAGEPG",res.data.totalPages)
         commit("SET_TOTALPG", res.data.totalElements);
         commit("SET_NOTFOUNDPG", false);
@@ -151,19 +146,16 @@ export default {
       await axios.delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
       { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
       .then((res) =>{
-        console.log(res.data)
         dispatch("getAllPlayground");
       }).catch((err) => {
         console.log(err)
       }) 
     },
     async addPlayground({commit,rootGetters,dispatch},id){
-      console.log('add plyground')
       commit("SET_PLAYGROUND",'');
       await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
       { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
       .then((res) =>{
-        console.log(res.data)
         dispatch("getAllPlayground");
       }).catch((err) => {
         console.log(err)
