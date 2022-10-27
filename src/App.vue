@@ -1,8 +1,8 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <router-view @music="acceptData" @musicQ="passMusicQeue"></router-view>
-    <SideBar :music="music" :addQueue="addQueue"></SideBar>
+    <router-view @music="acceptData" @playlist="acceptArr"  @musicQ="passMusicQeue"></router-view>
+    <SideBar :music="music" :playlist="playlist" :addQueue="addQueue"></SideBar>
   </div>
 </template>
 <script>
@@ -19,12 +19,17 @@ export default {
   data() {
     return {
       music: null,
+      playlist:null,
       addQueue: null,
     };
   },
   mounted() {},
   computed: {},
   methods: {
+    acceptArr(e){
+      console.log(e)
+      this.playlist = e;
+    },
     acceptData(e) {
       this.music = e;
     },

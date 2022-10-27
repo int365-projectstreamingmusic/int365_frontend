@@ -7,6 +7,9 @@ import myplaylist from "./myplaylist";
 import allsong from "./allsong";
 import favoritepage from "./favoritepage";
 import musicAuthen from "./musicAuthen";
+import oneplaylist from "./oneplaylist";
+import allplaylist from "./allplaylist";
+
 
 export default createStore({
   state: {},
@@ -21,6 +24,8 @@ export default createStore({
     myplaylist,
     allsong,
     favoritepage,
-    musicAuthen
+    musicAuthen,
+    oneplaylist,
+    allplaylist
   },
 });

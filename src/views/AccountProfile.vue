@@ -283,8 +283,8 @@
               <p class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start">
                 {{ item.track.trackName }}
               </p>
-              <p v-if="item.albums != null" class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">
-                {{ item.albums.albumName }}
+              <p v-if="item.track.albums != null" class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">
+                {{ item.track.albums.albumName }}
               </p>
               <p v-else class="truncate w-3/12 md:w-2/6 sm:text-sm text-xs">-</p>
               <p class="truncate w-2/12 md:w-1/6 sm:text-sm text-xs">
@@ -519,8 +519,8 @@ export default {
       if (this.authenticated) {
         this.$store.dispatch('homepage/getRecentplayed', 6)
       }
-      this.$store.dispatch('musicAuthen/getMySong')
-      this.$store.dispatch('musicAuthen/getMyHistory')
+      this.$store.dispatch('musicAuthen/getMySong');
+      this.$store.dispatch('musicAuthen/getMyHistory');
     }
   },
   async created() {

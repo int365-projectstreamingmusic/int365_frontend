@@ -14,11 +14,11 @@
           <div class="font-sansation-light text-xxs tracking-wider">BOWKYLION</div>          
         </div>
         <div class="flex flex-row  items-center" :class="authenticated?'justify-between':'justify-center'">   
-          <span v-if="authenticated" @click="addFavorite(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">grade</span>
+          <span v-if="authenticated" @click="passAddOrDelFavorite(musicDes)" :class="musicDes.favorite?'text-yellow-400 hover:text-white' : 'text-white hover:text-yellow-400'" class="material-icons md:text-3xl text-2xl  transition duration-500">grade</span>
           <div @click="passMusic(musicDes)" class=" cursor-pointer text-white md:w-12 md:h-12 w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-white hover:text-violetlight transition duration-500 ">
               <span class="material-icons md:text-4xl text-3xl">play_arrow</span>
           </div> 
-          <span v-if="authenticated" @click="addPlayground(musicDes.id)" class="material-icons md:text-3xl text-2xl text-white hover:text-yellow-400 transition duration-500">playlist_add</span>   
+          <span v-if="authenticated" @click="passAddOrDelPlayground(musicDes)" :class="musicDes.playground?'text-yellow-400 hover:text-white' : 'text-white hover:text-yellow-400'" class="material-icons md:text-3xl text-2xl transition duration-500">playlist_add</span>   
         </div> 
       </div>
     </div>
@@ -29,7 +29,6 @@
 </template>
 <script>
 import { mapGetters,mapActions } from "vuex";
-import axios from "axios";
 export default {
   props:{
     musicDes: {type:Object, required: true},
@@ -47,33 +46,11 @@ export default {
     }
   },
   methods:{
-    async addFavorite(id){
-      if(this.authenticated){
-        console.log(id)
-        await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite?trackId=${id}`,
-         { headers: { 'Authorization': 'Bearer ' + this.token}})
-        .then((res) =>{
-        console.log(res.data)
-        }).catch((err) => {
-          console.log(err)
-        })
-      }else{
-        this.$router.push({ name: 'login' })
-      }
+    passAddOrDelPlayground(e){
+      this.$emit('passAddOrDelPlayground',e)
     },
-    async addPlayground(id){
-      if(this.authenticated){
-        console.log(id)
-        await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?trackId=${id}`,
-         { headers: { 'Authorization': 'Bearer ' + this.token}})
-          .then((res) =>{
-          console.log(res.data)
-        }).catch((err) => {
-          console.log(err)
-        })
-      }else{
-        this.$router.push({ name: 'login' })
-      }
+    passAddOrDelFavorite(e){
+      this.$emit('passAddOrDelFavorite',e)
     },
     passMusic(e){
      this.$emit('music',{trackFile:e.trackFile,trackThumbnail:e.trackThumbnail,trackName:e.trackName})

@@ -1,104 +1,47 @@
 <template>
   <div class="h-screen" :class="sideBarShow ?'lg:ml-75':''">
     <div class="flex flex-col w-full">
-      <div class="flex justify-center mb-44">
+      <div class="flex justify-center ">
         <div class="flex 2xl:flex-row flex-col lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 my-6 2xl:space-x-1 ">
-          <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80 ">
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 ">Playground</div>
-            <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 2xl:h-full bg-gray-50 rounded-2xl  px-5 2xl:py-10 md:py-5 py-3 flex flex-col font-sansation-light space-y-2">
-              <div v-if="notfound" class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
+            <div class="2xl:w-466 xgl:w-962 md:w-698 sm:w-466 w-80 my-6  bg-gray-50 rounded-2xl  px-5 2xl:py-10 md:py-5 py-3 flex flex-col font-sansation-light space-y-2">
+              <div v-if="notfoundPG" class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
                 "you not have music in your playground"
               </div>
-              <div v-if="!notfound">         
+              <loading v-if="playground == '' && !notfoundPG"></loading>
+              <div v-if="!notfoundPG" class="space-y-1.5">         
                 <div v-for="(playgrounds,index) in playground" :key="playgrounds.track.id" class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base md:text-sm text-xxs ">
-                  <div class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
+                  <div @click="acceptData(playgrounds.track)" class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200">
                     <div class="w-5 text-center">{{index+1}}.</div>
-                    <p class="2xl:w-52 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">{{playgrounds.track.trackName}}</p>                
+                    <p class="2xl:w-56 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">{{playgrounds.track.trackName}}</p>                
                   </div>
                   <div class="flex flex-row md:space-x-1 space-x-2">
-                    <div class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
+                    <div class="md:w-17 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
                     <div @click="deletePlayground(playgrounds.track.id)" class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
                   </div>
                 </div>
               </div>   
             </div>
-            <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 2xl:mb-10 mb-5">
-              <div class="icon-navbar-outside">
-                <span class="material-icons md:text-2xl text-lg">chevron_left</span>
-              </div>
-              <div>
-                <p class="page-number-outside ">1</p>
-              </div>
-              <div>
-                <p class="page-number-outside ">2</p>
-              </div>
-              <div>
-                <p class="page-number-outside ">3</p>
-              </div>
-              <div>
-                <p class="page-number-outside ">4</p>
-              </div>
-              <div class="icon-navbar-outside">
-                <span class="material-icons md:text-2xl text-lg">chevron_right</span>
-              </div>
-            </div>
+            <paginate :totalItems="totalPG" :sizePage="totalPagePG" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNum"></paginate>
           </div>
-          <div class="2xl:w-720 xgl:w-962 md:w-698 sm:w-466 w-80">
+          <div class="2xl:w-720 xgl:w-962 md:w-698 sm:w-466 w-80 ">
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 ">My Playlist</div>
-            <div class="2xl:w-720  xgl:w-962 md:w-698 sm:w-466 w-80 my-6 h-full bg-gray-50 rounded-2xl  md:px-10 md:py-10 p-5 flex flex-col justify-between font-sansation-light">
-              <div class="grid md:gap-x-10 md:gap-y-6.5 gap-y-3 gap-x-3 md:grid-cols-3 grid-cols-2  justify-items-center">
-                <!-- <music-card></music-card>
-                <music-card></music-card>  
-                <music-card></music-card>  
-                <music-card></music-card>  
-                <music-card></music-card>
-                <music-card></music-card> -->
-                <empty-card></empty-card>           
+            <div class="2xl:w-720  xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl  md:px-10 md:py-10 p-5 flex flex-col justify-between font-sansation-light">
+              <div  class="grid md:gap-x-10 md:gap-y-6.5 gap-y-3 gap-x-3 md:grid-cols-3 grid-cols-2  justify-items-center">
+                <div @click="page1('add')">
+                  <router-link to="/addmusic" >
+                    <empty-card></empty-card> 
+                  </router-link>
+                </div>  
+                <loading v-if="myplaylist == '' && !notfoundPL"></loading>
+                <div v-for="(playlist) in myplaylist" :key="playlist.id">
+                  <playlist-card v-if="myplaylist != ''" :musicDes="playlist" @music="acceptData" ></playlist-card>
+                </div>        
               </div>  
             </div>
-            <div class="flex flex-row justify-center items-center font-sansation-light space-x-4 2xl:mb-10">
-              <div class="icon-navbar-outside">
-                <span class="material-icons md:text-2xl text-lg">chevron_left</span>
-              </div>
-              <div>
-                <p class="page-number-outside ">1</p>
-              </div>
-              <div>
-                <p class="page-number-outside ">2</p>
-              </div>
-              <div>
-                <p class="page-number-outside ">3</p>
-              </div>
-              <div>
-                <p class="page-number-outside ">4</p>
-              </div>
-              <div class="icon-navbar-outside">
-                <span class="material-icons md:text-2xl text-lg">chevron_right</span>
-              </div>
-            </div>
-          </div>
-        <!-- my playlist -->
-        <!-- <div class="bg-gray-50 rounded-2xl">
-          <div class="mx-10 w-640 mt-6 my-6 space-y-3">
-            <div class="flex flex-row justify-between items-end">
-              <div class="flex flex-row justify-between items-end space-x-3">
-                <div class="font-sansation-light text-2xl">Recent Played</div>
-                <div class="font-sansation-light ">add song</div>
-              </div>
-              <div class="underline underline-offset-1 font-sansation-light text-violetlight hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl">see more</div>               
-            </div>
-            <div class="grid grid-cols-3 gap-x-10 gap-y-6.5 ">
-              <music-card></music-card>
-              <music-card></music-card>  
-              <music-card></music-card>  
-              <music-card></music-card>  
-              <music-card></music-card>
-              <music-card></music-card>
-              <empty-card></empty-card>           
-            </div>
-          </div>
-        </div> -->
-        <!-- my playlist -->  
+            <paginate :totalItems="totalPL" :sizePage="totalPagePL" :itemsPerPage="15" :maxPagesShow="4" @pageNum="resPageNumPL"></paginate>
+          </div> 
         </div>
       </div>
     </div>
@@ -106,20 +49,36 @@
 </template>
 <script>
 import { mapGetters,mapActions } from "vuex";
-import MusicCard from "../components/MusicCard.vue";
+import PlaylistCard from "../components/PlaylistCard.vue";
 import EmptyCard from "../components/EmptyCard.vue";
+import Loading from "../components/Loading.vue";
+import Paginate from "../components/Paginate.vue";
 export default {
   components: {
-    MusicCard,
-    EmptyCard
+    PlaylistCard,
+    EmptyCard,
+    Paginate,
+    Loading
   },
     methods:{
-    optionPlaylist(e){
-      if(e == 'option'){
-        this.optionPlayl = !this.optionPlayl 
-      }else{
-        this.optionPlayl = false
-      }
+    page1(data){
+      localStorage.setItem("addOrUp", data);
+      this.$router.go();
+    },
+    acceptData(e) {
+      console.log(e);
+      console.log(e.trackName,e.trackFile,e.trackThumbnail)
+      this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
+    },
+    resPageNum(e){
+      console.log(e-1)
+      this.pageCurrent = e-1
+      this.$store.dispatch('myplaylist/getAllFavorites',e-1)
+    },
+    resPageNumPL(e){
+      console.log(e-1)
+      this.pageCurrent = e-1
+      this.$store.dispatch('myplaylist/getAllMyPlaylist',e-1)
     },
     deletePlaylist(e){
       if(e == 'del' ){
@@ -129,12 +88,20 @@ export default {
         this.delPlayl = false 
       }  
     },
+    optionPlaylist(e){
+      if(e == 'option'){
+        this.optionPlayl = !this.optionPlayl 
+      }else{
+        this.optionPlayl = false
+      }
+    },
     ...mapActions({
       hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne',
-      getPlayground: 'myplaylist/getPlayground',
-      deletePlayground: 'myplaylist/deletePlayground'
+      getPlayground: 'myplaylist/getAllPlayground',
+      deletePlayground: 'myplaylist/delPlayground',
+      getAllMyPlaylist: 'myplaylist/getAllMyPlaylist'
     }),
   },
   computed: {
@@ -146,13 +113,20 @@ export default {
       logo: 'homepage/logo', 
       topOne: 'homepage/topOne',
       smView: 'homepage/smView',
-      notfound: 'myplaylist/notfound',
-      playground: 'myplaylist/playground'
+      notfoundPG: 'myplaylist/notfoundPG',
+      playground: 'myplaylist/playground',
+      totalPG: 'myplaylist/totalPG',
+      totalPagePG: 'myplaylist/totalPagePG',
+      myplaylist: 'myplaylist/myplaylist',
+      totalPL: 'myplaylist/totalPL',
+      totalPagePL: 'myplaylist/totalPagePL',
+      notfoundPL: 'myplaylist/notfoundPL'
     })
   },
   async created() {
     this.handleView();
-    this.getPlayground();
+    this.getPlayground({pagenum:0,pagesize:20});
+    this.getAllMyPlaylist();
     window.addEventListener("resize", this.handleView);
  }
 }

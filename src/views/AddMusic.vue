@@ -147,18 +147,19 @@
                         <div v-else class="font-sansation-bold md:text-2xl text-xl text-blackcoal ">Found "{{ searchName
                         }} "</div>
                         <div v-if="this.music != null"
-                          class="flex flex-col h-36 space-y-2 overflow-y-auto bg-neutral-100 rounded-lg ">
+                          class="flex flex-col h-36 overflow-y-auto bg-neutral-100 rounded-lg py-1 px-2">
                           <div v-for="(item, index) in this.music" :key="index"
                             class="sm:h-7 h-5 flex flex-row items-center lg:text-base sm:text-sm text-xxs font-sansation-light mt-5">
                             <div
                               class="flex flex-row justify-between w-full hover:text-violetdark cursor-pointer transition duration-200 items-center">
                               <div class="w-5 text-center">{{ index + 1 }}</div>
-                              <p @click="acceptData(item)"  class="w-4/6 h-5 truncate ">{{ item.trackName }}</p>
+                              <div @click="acceptData(item)" class="w-4/6 h-5 truncate ">{{ item.trackName }}</div>
+                              <div @click="addTracks(item)"
+                                class="w-1/6 sm:h-6 h-5 text-center flex items-center justify-center lg:text-base sm:text-sm text-xxs bg-violet-500 text-white rounded-full cursor-pointer">
+                                add
+                              </div>
                             </div>
-                            <div @click="addTracks(item)"
-                              class="w-1/6 sm:h-6 h-5 text-center flex items-center justify-center lg:text-base sm:text-sm text-xxs bg-violet-500 text-white rounded-full cursor-pointer">
-                              add
-                            </div>
+
                           </div>
                         </div>
                         <div @click="closeSearch()"
@@ -168,7 +169,9 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="this.trackIdList != null && this.trackIdList != '' || this.trackList != null" class="my-5">
+                  <div
+                    v-if="this.trackIdList != null && this.trackIdList != '' || this.trackList != null && this.trackList != ''"
+                    class="my-5">
                     <p class="">Music In Playlist</p>
                     <div v-if="this.music != null"
                       class="flex flex-col h-36 overflow-y-auto bg-neutral-100 rounded-lg py-1 px-2">
@@ -177,7 +180,7 @@
                         <div
                           class="flex flex-row justify-between w-full hover:text-violetdark cursor-pointer transition duration-200 items-center">
                           <div class="w-5 text-center">{{ index + 1 }}</div>
-                          <div  @click="acceptData(item)" class="w-4/6 h-5 truncate ">{{ item.trackName }}</div>
+                          <div @click="acceptData(item)" class="w-4/6 h-5 truncate ">{{ item.trackName }}</div>
                           <div @click="deleteTracks(index)"
                             class="w-1/6 sm:h-6 h-5 text-center flex items-center justify-center lg:text-base sm:text-sm text-xxs bg-violet-500 text-white rounded-full cursor-pointer">
                             Delete
@@ -306,7 +309,6 @@ export default {
       });
     },
     acceptData(e) {
-      console.log(e)
       this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     showMessageClicked(value) {

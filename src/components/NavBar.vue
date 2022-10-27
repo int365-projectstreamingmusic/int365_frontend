@@ -22,10 +22,10 @@
               <input type="text"
                 class="bg-neutral-100 rounded-full appearance-none border-2 border-gray-100 md:h-8 h-5 2xl:w-504 lg:w-64 md:w-32 sm:w-24 w-20 md:pl-6 sm:pl-2 pl-1 font-sansation-light md:text-sm text-xxs  focus:outline-none focus:bg-white focus:border-violetlight"
                 placeholder="Search" v-model="searchName" />
-              <div
+              <div @click="searchMusic()"
                 v-bind:class="this.searchName == '' ? 'bg-neutral-100 text-neutral-500' : 'bg-neutral-100 hover:text-violetlight  hover:bg-blackcoal'"
                 class="flex items-center md:text-base  cursor-pointer sm:text-xs text-xxs justify-center  hover:font-sansation-regular  transition duration-300 rounded-full 2xl:w-36 md:w-24 md:h-8 sm:w-15 w-11 h-5">
-                <p class="font-sansation-light" @click="searchMusic">Search</p>
+                <p class="font-sansation-light">Search</p>
               </div>
               <router-link to="/allsong" @click="pathPage('/allsong')">
                 <div v-bind:class="this.path == '/allsong' ? 'bg-blackcoal text-violetlight' : 'bg-neutral-100'"
@@ -96,12 +96,13 @@
               class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
               <input type="radio" @click="addTracks(item.id)">
               <div class="sm:w-10 w-5 text-center">{{ index + 1 }}</div>
-              <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52    truncate ">{{ item.trackName }}</p>
+              <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52  truncate ">{{ item.trackName }}</p>
+              <div @click="acceptData(item)"
+                class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">
+                play
+              </div>
             </div>
-            <div
-              class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">
-              play
-            </div>
+
           </div>
         </div>
       </div>
@@ -145,6 +146,7 @@
 import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 export default {
+  emits: ['music'],
   data() {
     return {
       path: "",
@@ -159,7 +161,7 @@ export default {
         id: '',
         trackIdList: [],
       },
-      trackForPlaylist:[],
+      trackForPlaylist: [],
       favorite: '',
       playground: '',
     };
@@ -169,10 +171,12 @@ export default {
       this.path = path;
       this.role = false;
     },
+    acceptData(e) {
+      this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
+    },
     routerLogin(active) {
       localStorage.setItem("logInActive", active);
     },
-
     ...mapActions({
       signOutAction: "authentication/singOut",
       hideSideBar: 'homepage/hideSideBar',
@@ -195,7 +199,6 @@ export default {
     addTracks(data) {
       this.trackForPlaylist.push(({ "trackId": data }));
       this.trackIdList.trackId.push((data));
-
     },
     addPlayground() {
       this.playground = true;
@@ -223,7 +226,7 @@ export default {
         })
     },
     async sendData() {
-      if (this.setTrack.id != null||this.setTrack.id!='') {
+      if (this.setTrack.id != null || this.setTrack.id != '') {
         this.setTrack.trackIdList = this.trackForPlaylist;
         axios
           .put(
@@ -250,7 +253,7 @@ export default {
       }
     },
     closeSearch() {
-      this.searchName='';
+      this.searchName = '';
       this.found = !this.found
     }
   },
