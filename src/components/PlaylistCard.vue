@@ -61,7 +61,7 @@ export default {
     idPlaylist(id){
       console.log(id)
       // this.$store.commit('oneplaylist/SET_ID',id)
-      this.$store.commit('oneplaylist/SET_ID',4)
+      this.$store.commit('oneplaylist/SET_ID',id)
     },
     passAddOrDelPlayground(e){
       this.$emit('passAddOrDelPlayground',e)
@@ -71,7 +71,7 @@ export default {
     },
     async passMusic(e){
       console.log(e)
-      await this.getPlaylist(4)
+      await this.getPlaylist(e.id)
       console.log(this.playlist)
       let arrPlaylist = []
       for (let index = 0; index < this.playlist.length; index++) {
