@@ -123,11 +123,11 @@
                     </div>
                   </form>
                 </div>
-                <div v-if="isEdit" class="w-82 ">
-                  <div>
-                    <p class="text-xs text-gray-500 font-bold tracking-wide">
+                <div v-if="isEdit" class="w-82 flex flex-col md:items-start items-center ">
+                  <div class="flex md:items-start items-center">
+                    <div class="text-xs text-gray-500 font-bold tracking-wide ">
                       Edit Profile
-                    </p>
+                    </div>
                   </div>
                   <form @submit.prevent="userEditProfile">
                     <div class="my-2 flex flex-row">
@@ -194,11 +194,7 @@
                 </div>
               </div>
             </div>
-
-
           </div>
-
-
         </div>
         <!-- Account Profile chagne password -->
         <!-- My song -->
