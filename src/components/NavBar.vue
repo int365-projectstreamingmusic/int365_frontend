@@ -96,7 +96,7 @@
               class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
               <input type="radio" @click="addTracks(item.id)">
               <div class="sm:w-10 w-5 text-center">{{ index + 1 }}</div>
-              <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52  truncate ">{{ item.trackName }}</p>
+              <p  class="2xl:w-800 xgl:w-504 xl:w-100 w-52  truncate ">{{ item.trackName }}</p>
               <div @click="acceptData(item)"
                 class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">
                 play
@@ -172,6 +172,7 @@ export default {
       this.role = false;
     },
     acceptData(e) {
+      console.log(e.trackFile,e.trackThumbnail,e.trackName);
       this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     routerLogin(active) {

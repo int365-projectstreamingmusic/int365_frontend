@@ -1,7 +1,7 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
-    <router-view @music="acceptData" @playlist="acceptArr"  @musicQ="passMusicQeue"></router-view>
+    <nav-bar @music="acceptData"></nav-bar>
+    <router-view @music="acceptData" @playlist="acceptArr" @musicQ="passMusicQeue"></router-view>
     <SideBar :music="music" :playlist="playlist" :addQueue="addQueue"></SideBar>
   </div>
 </template>
@@ -15,19 +15,17 @@ export default {
     SideBar,
     LogIn,
   },
-
   data() {
     return {
       music: null,
-      playlist:null,
+      playlist: null,
       addQueue: null,
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {},
   methods: {
-    acceptArr(e){
-
+    acceptArr(e) {
       this.playlist = e;
     },
     acceptData(e) {
@@ -46,7 +44,9 @@ export default {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 </style>
