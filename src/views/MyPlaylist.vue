@@ -17,7 +17,7 @@
                     <p class="2xl:w-56 xgl:w-504 xl:w-100 md:w-74 sm:w-44 w-32 truncate ">{{playgrounds.track.trackName}}</p>                
                   </div>
                   <div class="flex flex-row md:space-x-1 space-x-2">
-                    <div class="md:w-17 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
+                    <div @click="preAddMusic(playgrounds.track)" class="md:w-17 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer">add</div>
                     <div @click="deletePlayground(playgrounds.track.id)" class="md:w-20 sm:w-17 w-12 text-center bg-red-500 font-sansation-light text-white rounded-full cursor-pointer">delete</div>
                   </div>
                 </div>
@@ -36,7 +36,7 @@
                 </div>  
                 <loading v-if="myplaylist == '' && !notfoundPL"></loading>
                 <div v-for="(playlist) in myplaylist" :key="playlist.id">
-                  <playlist-card v-if="myplaylist != ''" :musicDes="playlist" @music="acceptData" ></playlist-card>
+                  <playlist-card v-if="myplaylist != ''" :musicDes="playlist" @playlist="acceptDataArr" ></playlist-card>
                 </div>        
               </div>  
             </div>
@@ -44,6 +44,43 @@
           </div> 
         </div>
       </div>
+    </div>
+  </div>
+  <div v-if="showPopupAdd" class="fixed z-40 inset-0 overflow-y-auto font-sansation-light">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-neutral-50 bg-opacity-75 transition-opacity"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+        <div class="border-2 border-gray-700 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+          <div class="mx-8 mt-8 ">
+            <div class="flex justify-center items-center text-xl ">ADD "{{track.trackName}}" To</div>
+            <!-- <div class="flex flex-col mt-8  overflow-y-scroll">
+              <div class="flex justify-center" v-for="(playlist,index) in myplaylist" :key="playlist.id">
+                <div class="flex flex-row w-80 my-1 space-x-2">
+                  <div>{{index+1}}.</div>
+                  <div>{{playlist.playlistName}}</div>
+                </div>
+              </div>
+            </div> -->
+            <div class="flex justify-center my-5">
+              <select v-model="selected" class="rounded-lg bg-neutral-100 w-80 h-6 text-center" >
+                <option :value="null" disabled selected class="hidden">
+                  - Select Playlist -
+                </option> 
+                <option v-for="playlist in myplaylist" :key="playlist.id" :value="playlist.id">
+                  {{ playlist.playlistName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="flex flex-row space-x-3 justify-center items-center mb-5 select-none">
+            <div @click="addToPlaylist()" class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-green-400 text-white flex justify-center item-center font-sansation-bold">
+              add
+            </div>
+            <div @click="changeShowpopup()" class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-red-400 text-white flex justify-center item-center font-sansation-bold">
+              cancel
+            </div>
+          </div>
+        </div>
     </div>
   </div>  
 </template>
@@ -60,7 +97,30 @@ export default {
     Paginate,
     Loading
   },
-    methods:{
+  emits: ["music", "musicQ", "playlist"],
+  data() {
+    return {
+      showPopupAdd : false,
+      track: '',
+      selected: null
+    }
+  },
+  methods:{
+    addToPlaylist(){
+      console.log(this.selected)
+    },
+    changeShowpopup(){
+      this.showPopupAdd = !this.showPopupAdd
+      this.selected = null
+    },
+    preAddMusic(music){
+      this.changeShowpopup()
+      this.track = music
+      console.log(music)
+    },
+    acceptDataArr(e) {
+      this.$emit('playlist', e)
+    },
     page1(data){
       localStorage.setItem("addOrUp", data);
       this.$router.go();
@@ -74,7 +134,7 @@ export default {
     },
     resPageNumPL(e){
       this.pageCurrent = e-1
-      this.$store.dispatch('myplaylist/getAllMyPlaylist',e-1)
+      this.$store.dispatch('myplaylist/getAllMyPlaylist',{pagenum:e-1,pagesize:17})
     },
     deletePlaylist(e){
       if(e == 'del' ){
