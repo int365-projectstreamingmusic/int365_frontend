@@ -160,6 +160,27 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+    async addMusicToPalylist({rootGetters},data){
+      console.log(data)
+      
+      let body = JSON.stringify({id:data.id,trackIdList:data.trackIdList})
+      console.log(body)
+      return await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
+        body,
+        { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token'],
+                      "Content-Type": "application/json"
+          }
+        }
+      ).then((res) =>{
+        console.log(res)
+        if(res.status == 200){
+          return true 
+        }
+      }).catch((err) => {
+        console.log(err)
+        return false
+      })
     }
   }
 }

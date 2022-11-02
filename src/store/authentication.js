@@ -37,6 +37,17 @@ export default {
     },
     token(state){
       return state.token
+    },
+    userId(state){
+      if(state.data != null){
+        console.log(state.data)
+        console.log('id ma')
+        return state.data.accountId
+      }else{
+        console.log('mai ma')
+        return null
+      }
+      
     }
   },
   actions: {

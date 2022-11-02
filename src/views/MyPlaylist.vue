@@ -46,13 +46,31 @@
       </div>
     </div>
   </div>
-  <div v-if="showPopupAdd" class="fixed z-40 inset-0 overflow-y-auto font-sansation-light">
+  <div v-if="showPopupAdd" class="fixed z-40 sm:top-0 sm:bottom-0 sm:left-0 sm:right-0  -top-65 bottom-0 left-0 right-0  font-sansation-light">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-neutral-50 bg-opacity-75 transition-opacity"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
         <div class="border-2 border-gray-700 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-          <div class="mx-8 mt-8 ">
-            <div class="flex justify-center items-center text-xl ">ADD "{{track.trackName}}" To</div>
+          <div v-if="!loadingAdd && (confirm || errorAdd)" class="m-8">
+            <div v-if="!loadingAdd && confirm" class="flex justify-center mb-5">
+              SUCCESSFULLY
+            </div>
+            <div v-if="!loadingAdd && errorAdd" class="flex justify-center mb-5">
+              ERROR
+            </div>
+            <div  class="flex justify-center">
+              <div @click="changeShowpopup()" class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-violetdark text-white flex justify-center item-center font-sansation-regular">
+                close
+              </div>
+            </div> 
+          </div>
+          <loading v-if="loadingAdd && !confirm" class="my-8"></loading>
+          <div v-if="!loadingAdd && !confirm && !errorAdd" class="m-8">
+            <div v-for="track in track" :key="track.id">
+              <div class="flex justify-center">
+                <div class=" w-80 flex flex-row justify-center items-center space-x-1 text-sm"><div >ADD</div><div class="truncate text-violetdark text-base">{{track.trackName}}</div><div>To</div></div> 
+              </div>             
+            </div>
             <!-- <div class="flex flex-col mt-8  overflow-y-scroll">
               <div class="flex justify-center" v-for="(playlist,index) in myplaylist" :key="playlist.id">
                 <div class="flex flex-row w-80 my-1 space-x-2">
@@ -71,15 +89,16 @@
                 </option>
               </select>
             </div>
+            <div class="flex flex-row space-x-3 justify-center items-center select-none">
+              <div @click="addToPlaylist()" class="w-36 h-9 cursor-pointer transition duration-200 rounded-md bg-green-500 text-white flex justify-center item-center font-sansation-regular">
+                add
+              </div>
+              <div @click="changeShowpopup()" class="w-36 h-9 cursor-pointer transition duration-200 rounded-md bg-red-500 text-white flex justify-center item-center font-sansation-regular">
+                cancel
+              </div>
+            </div> 
           </div>
-          <div class="flex flex-row space-x-3 justify-center items-center mb-5 select-none">
-            <div @click="addToPlaylist()" class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-green-400 text-white flex justify-center item-center font-sansation-bold">
-              add
-            </div>
-            <div @click="changeShowpopup()" class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-red-400 text-white flex justify-center item-center font-sansation-bold">
-              cancel
-            </div>
-          </div>
+
         </div>
     </div>
   </div>  
@@ -97,37 +116,57 @@ export default {
     Paginate,
     Loading
   },
-  emits: ["music", "musicQ", "playlist"],
+  emits: ["music", "playlist"],
   data() {
     return {
       showPopupAdd : false,
-      track: '',
-      selected: null
+      track: [],
+      selected: null,
+      loadingAdd: false,
+      confirm:false,
+      errorAdd:false
     }
   },
   methods:{
-    addToPlaylist(){
+    async addToPlaylist(){
       console.log(this.selected)
+      let trackList = []
+      for (let index = 0; index < this.track.length; index++) {
+        trackList.push({trackId:this.track[index].id})
+      }
+      this.loadingAdd = true
+      var boolean = await this.addMusicToPalylist({ "id":this.selected,"trackIdList": trackList })
+      console.log(boolean)
+      if(boolean){
+        console.log('asd')
+        this.confirm = true
+        this.loadingAdd = false
+      }else{
+        this.loadingAdd = false
+        this.errorAdd = true
+      }
     },
     changeShowpopup(){
       this.showPopupAdd = !this.showPopupAdd
       this.selected = null
+      this.track = []
     },
     preAddMusic(music){
       this.changeShowpopup()
-      this.track = music
+      this.track.push(music)
       console.log(music)
     },
     acceptDataArr(e) {
       this.$emit('playlist', e)
     },
+    acceptData(e) {
+      this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
+    },
     page1(data){
       localStorage.setItem("addOrUp", data);
       this.$router.go();
     },
-    acceptData(e) {
-      this.$emit('music',{name:e.trackFile,image:e.trackThumbnail,nameShow:e.trackName})
-    },
+
     resPageNum(e){
       this.pageCurrent = e-1
       this.$store.dispatch('myplaylist/getAllFavorites',e-1)
@@ -157,7 +196,8 @@ export default {
       setTopOne: 'homepage/setTopOne',
       getPlayground: 'myplaylist/getAllPlayground',
       deletePlayground: 'myplaylist/delPlayground',
-      getAllMyPlaylist: 'myplaylist/getAllMyPlaylist'
+      getAllMyPlaylist: 'myplaylist/getAllMyPlaylist',
+      addMusicToPalylist: 'myplaylist/addMusicToPalylist'
     }),
   },
   computed: {

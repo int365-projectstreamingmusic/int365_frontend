@@ -3,37 +3,37 @@
     <div class="flex flex-col w-full">
       <div class="flex justify-center h-full">
         <div>
-          <div
-            class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl sm:pt-10 pt-5 pb-5">
-            <div class="sm:mx-10 mx-5 flex flex-row justify-between relative">
+          <div class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl  pt-5 pb-5">
+            <loading v-if="onePlaylist == ''"></loading>
+            <div v-if="onePlaylist != ''"  class="sm:mx-10 mx-5 flex flex-row justify-between relative">
               <div class=" flex flex-row ">
                 <div
                   class="overflow-hidden rounded-2xl shadow-lg xgl:w-44.5 xgl:h-52.5 md:w-36 md:h-40 sm:w-28 sm:h-32 w-20 h-24">
-                  <img
-                    v-show="this.onePlaylist.playlist.thumbnail != '' && this.onePlaylist.playlist.thumbnail != null && this.onePlaylist.playlist.thumbnail != undefined"
-                    :src="url + 'api/streaming/image/' + this.onePlaylist.playlist.thumbnail"
+                  <img  v-if="onePlaylist != ''"
+                    :src="url + 'api/streaming/image/' + onePlaylist.playlist.thumbnail"
                     class="xgl:w-44.5 xgl:h-52.5 md:w-36 md:h-40 sm:w-28 sm:h-32 w-20 h-24"
                     style=" object-fit: cover;" />
-
                 </div>
                 <div class="flex items-end ">
-                  <div
-                    class="xgl:w-96 md:w-80 sm:w-54 w-40 xgl:ml-7 sm:ml-4 ml-2 xgl:mr-7 xgl:space-y-3 space-y-1 flex flex-col ">
+                  <div class="xgl:w-600 md:w-100 sm:w-54 w-40 xgl:ml-7 sm:ml-4 ml-2 xgl:mr-7 xgl:space-y-3 space-y-1 flex flex-col ">
                     <div
-                      class="font-sansation-bold text-blackTopFive leading-tight xgl:text-lg md:text-base sm:text-ss text-mxs">
-                      {{ this.onePlaylist.playlist.playlistName }}</div>
-                    <div class="font-sansation-regular md:text-ss ms:text-xs sm:text-ss text-mxs text-blackTopFive">
-                      {{ this.onePlaylist.playlist.playlistDesc }}</div>
-                    <div
+                      class="font-sansation-bold text-blackTopFive leading-tight xgl:text-lg md:text-base text-ss truncate">
+                      {{ this.onePlaylist.playlist.playlistName }} Lorem ipsum dolor sit amet,</div>
+                    <div class="font-sansation-regular md:text-ss ms:text-xs sm:text-ss text-mxs  text-blackTopFive sm:h-20 h-11 text-clip overflow-y-scroll">
+                      {{ this.onePlaylist.playlist.playlistDesc }} Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
+                        Nisi, velit luctus ultrices in leo. Sit id interdum tempus, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
+                        Nisi, velit luctus ultrices in leo. Sit id interdum tempus, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
+                        Nisi, velit luctus ultrices in leo. Sit id interdum tempus, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies eget proin arcu pulvinar. 
+                        Nisi, velit luctus ultrices in leo. Sit id interdum tempus, </div>
+                    <div @click="acceptDataArr()"
                       class="md:w-24 md:h-6 sm:h-5 h-4 sm:w-20 w-15 font-sansation-light bg-violetdark md:text-ss sm:text-xs text-xxs text-white flex justify-center item-center rounded-3xl cursor-pointer">
                       <p>play now</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="cursor-pointer select-none z-30 static">
-                <span
-                  class="material-icons active:text-violetdark hover:text-violetdark transition duration-200 flex justify-end lg:text-3xl md:text-2xl sm:text-xl text-lg"
+              <div v-if="userId != null && userId == onePlaylist.playlist.userAccountModel.accountId" class="cursor-pointer select-none z-30 static">
+                <span class="material-icons active:text-violetdark hover:text-violetdark transition duration-200 flex justify-end lg:text-3xl md:text-2xl sm:text-xl text-lg"
                   @click="optionPlaylist('option')">more_vert</span>
                 <transition name="fade">
                   <div v-if="optionPlayl"
@@ -46,7 +46,7 @@
                     <div @click="managePlaylist('manage')"
                       class="text-right text-blackcoal hover:text-shadow-xl hover:text-violetdark p-1 xgl:pl-8 md:pr-2 pr-1 mx-2 hover:bg-gray-100 transition duration-200 rounded-md">
                       manage playlist</div>
-                    <div @click="deletePlaylist('del')"
+                    <div @click="changeShowpopup()"
                       class="text-right text-red-500 hover:text-shadow-xl  p-1 xgl:pl-8 md:pr-2 pr-1 mx-2 hover:bg-gray-100 transition duration-200 rounded-md">
                       delete playlist</div>
                   </div>
@@ -54,55 +54,93 @@
                 <!-- v-if="optionPlayl" -->
               </div>
             </div>
-            <div class=" font-sansation-light sm:mx-10 mx-5 mt-7">
-              <div class="2xl:w-1120 w-full text-center h-full  overflow-y-auto">
+            <div v-if="onePlaylist != '' "  class=" font-sansation-light sm:mx-10 mx-5 sm:mt-7 mt-4">
+              <div class="2xl:w-1120 w-full text-center h-full">
                 <div class="border-b-2 border-violetdark sm:text-sm text-xxs ">
-                  <div class="2xl:w-1120 w-full h-9 flex flex-row">
-                    <div class="w-6 pb-1 pr-1"></div>
+                  <div class="2xl:w-1120  xl:w-full md:w-600 w-full sm:h-9 h-6 flex flex-row justify-center items-center">
+                    <!-- <div class="w-6 pb-1 pr-1"></div> -->
                     <div class="2xl:w-10 w-4  pb-1">#</div>
-                    <div class="text-left md:px-3 sm:px-2 px-1 pb-1 2xl:w-669 ">name</div>
-                    <div class="2xl:w-54 pb-1  md:w-36 sm:w-20 w-15">album</div>
+                    <div class="text-left md:px-3 sm:px-2 px-1 pb-1 2xl:w-669 xl:w-504 md:w-74 w-36">name</div>
+                    <div class="2xl:w-54 pb-1 xl:w-36 md:w-32 sm:w-20 w-15">album</div>
                     <div class="2xl:w-32 pb-1 md:w-28 sm:w-24 w-17">release</div>
                   </div>
                 </div>
+                <!-- <span class="material-icons text-sm text-blackcoal">radio_button_unchecked</span> -->
                 <div class="sm:text-sm text-xxs">
-                  <div v-for="(item, index) in this.onePlaylist.tracksInfo.content" :key="index"
-                    class="2xl:w-1120 w-full h-9 my-2 flex flex-row">
-                    <div v-show="!manPlaylist" class="w-6 pr-1"></div>
+                  <div @click="acceptData(item)" v-for="(item, index) in onePlaylist.tracksInfo.content" :key="index"
+                    class="2xl:w-1120  xl:w-full md:w-600 w-full sm:h-9 h-6 md:my-2 my-1 flex flex-row justify-center items-center hover:text-violetdark hover:bg-slate-100 cursor-pointer transition duration-200 rounded-full">
+                    <!-- <div v-show="!manPlaylist" class="w-6 pr-1"></div>
                     <div v-show="manPlaylist" class="w-6 pr-1 cursor-pointer">
-                      <!-- <span class="material-icons text-sm text-blackcoal">radio_button_unchecked</span> -->
-                      <span
-                        class="material-icons  text-violetdark  xl:text-xl sm:text-base text-sm ">check_circle</span>
-                    </div>
+                      
+                      <span class="material-icons  text-violetdark  xl:text-xl sm:text-base text-sm ">check_circle</span>
+                    </div> -->
                     <div class="2xl:w-10 w-4">{{ index + 1 }}</div>
-                    <div class="2xl:w-669 md:px-3 sm:px-2 px-1 text-left  truncate ">{{ item.trackName }}</div>
-                    <div class="2xl:w-54 md:w-36 sm:w-20 w-15 truncate">xxxxxxxxxxxx</div>
+                    <div class="2xl:w-669 xl:w-504 md:w-74 w-36 md:px-3 sm:px-2 px-1 text-left  truncate ">{{ item.trackName }}</div>
+                    <div class="2xl:w-54 xl:w-36 md:w-32 sm:w-20 w-15 truncate">xxxxxxxxxxxx</div>
                     <div class="2xl:w-32  md:w-28 sm:w-24 w-17">14-08-2000</div>
                   </div>
                 </div>
               </div>
-              <div class="flex flex-row justify-between mt-8 items-center">
-                <div class="sm:text-base text-xxs text-gray-400 font-sansation-regular tracking-wider">
-                  {{ this.onePlaylist.tracksInfo.content.length }}/20</div>
-                <div v-show="delPlayl"
-                  class="flex flex-row  sm:space-x-3 space-x-2 justify-end xl:text-sm sm:text-ss text-xxs">
-                  <div
-                    class="bg-black text-center xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 rounded-full text-white flex items-center justify-center cursor-pointer">
-                    Delete</div>
-                  <div @click="deletePlaylist()"
-                    class="bg-black xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 text-center  rounded-full text-white flex items-center justify-center cursor-pointer">
-                    Cancel</div>
+            </div>
+          </div>
+          <div v-if="showPopupDel" class="fixed z-40 sm:top-0 sm:bottom-0 sm:left-0 sm:right-0  -top-65 bottom-0 left-0 right-0 font-sansation-light">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-neutral-50 bg-opacity-75 transition-opacity"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+                <div class="border-2 border-gray-700 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+                  <div v-if="!loadingDel && (confirm || errorDel)" class="m-8">
+                    <div v-if="!loadingDel && confirm" class="flex justify-center mb-5">
+                      SUCCESSFULLY
+                    </div>
+                    <div v-if="!loadingDel && errorDel" class="flex justify-center mb-5">
+                      ERROR
+                    </div>
+                    <div  class="flex justify-center">
+                      <div @click="changeShowpopup('myplaylist')" class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-violetdark text-white hover:shadow-xl hover:border-violet-800 hover:text-shadow-xl hover:border-2 flex justify-center item-center font-sansation-regular">
+                        close
+                      </div>
+                    </div> 
+                  </div>
+                  <loading v-if="loadingDel && !confirm" class="my-8"></loading>
+                  <div v-if="!loadingDel && !confirm && !errorDel" class="m-8">
+                    <div class="flex justify-center text-sm" >
+                        please type text
+                    </div>
+                    <div v-if="onePlaylist != ''" class="flex justify-center text-lg font-semibold select-none" >
+                       "{{this.onePlaylist.playlist.playlistName}}" 
+                    </div>
+                    <div class="flex justify-center text-sm" >
+                        for confirm to delete
+                    </div>
+                    <div class="flex justify-center mt-5 " :class="textWrong? 'mb-3':'mb-5'">
+                      <input v-model="message" placeholder="write your playlist name" :class="textWrong?'border-2 border-red-500 text-red-500':''" class="w-80 h-10 text-center hover-focus-input transition duration-200 rounded-md border-2 text-sm md:text-base" />
+                    </div>
+                    <div v-show="textWrong" class="text-sm text-red-500 text-center mb-3">error: does not match with text </div>
+                    <!-- <div v-for="track in track" :key="track.id">
+                      <div class="flex justify-center">
+                        <div class=" w-80 flex flex-row justify-center items-center space-x-1 text-sm"><div >ADD</div><div class="truncate text-violetdark text-base">{{track.trackName}}</div><div>To</div></div> 
+                      </div>             
+                    </div> -->
+                    <!-- <div class="flex justify-center my-5">
+                      <select v-model="selected" class="rounded-lg bg-neutral-100 w-80 h-6 text-center" >
+                        <option :value="null" disabled selected class="hidden">
+                          - Select Playlist -
+                        </option> 
+                        <option v-for="playlist in myplaylist" :key="playlist.id" :value="playlist.id">
+                          {{ playlist.playlistName }}
+                        </option>
+                      </select>
+                    </div> -->
+                    <div class="flex flex-row space-x-3 justify-center items-center select-none">
+                      <div @click="changeShowpopup()" class="w-36 h-9 cursor-pointer transition duration-200 rounded-md bg-neutral-500 hover:shadow-xl hover:border-blackcoal hover:border-2 hover:text-shadow-xl  text-white flex justify-center item-center font-sansation-light">
+                        cancel
+                      </div>
+                      <div @click="delToPlaylist()" class="w-36 h-9 cursor-pointer transition duration-200 rounded-md bg-red-500 hover:shadow-xl hover:border-red-700 hover:text-shadow-xl hover:border-2  text-white flex justify-center item-center font-sansation-ligth">
+                        delete
+                      </div>                      
+                    </div> 
+                  </div>
                 </div>
-                <div v-show="manPlaylist"
-                  class="flex flex-row  sm:space-x-3 space-x-2 justify-end xl:text-sm sm:text-ss text-xxs">
-                  <div
-                    class="bg-black text-center xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 rounded-full text-white flex items-center justify-center cursor-pointer">
-                    Delete</div>
-                  <div @click="managePlaylist()"
-                    class="bg-black xl:w-24 xl:h-7 sm:w-20 w-14 sm:h-6 h-4 text-center  rounded-full text-white flex items-center justify-center cursor-pointer">
-                    Cancel</div>
-                </div>
-              </div>
             </div>
           </div>
           <!-- <div class="mx-10 w-1200">
@@ -125,10 +163,8 @@
                 <music-card></music-card>         
               </div>
           </div> -->
-          <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 lg:mx-10">Playground
-          </div>
-          <div
-            class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl h-fit sm:px-10 px-5 py-5 flex flex-col space-y-2 font-sansation-light">
+          <div v-if="authenticated && onePlaylist != '' && userId == onePlaylist.playlist.userAccountModel.accountId" class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5 lg:mx-10">Playground</div>
+          <div v-if="authenticated && onePlaylist != '' && userId == onePlaylist.playlist.userAccountModel.accountId" class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 my-6 bg-gray-50 rounded-2xl h-fit sm:px-10 px-5 py-5 flex flex-col space-y-2 font-sansation-light">
             <div v-if="notfoundPG"
               class="sm:h-7 h-5 flex flex-row items-center justify-center lg:text-base md:text-sm text-xxs ">
               "you not have music in your playground"
@@ -155,7 +191,7 @@
               </div>
             </div>
           </div>
-          <paginate :totalItems="totalPG" :sizePage="totalPagePG" :itemsPerPage="15" :maxPagesShow="4"
+          <paginate v-if="authenticated && onePlaylist != '' && userId == onePlaylist.playlist.userAccountModel.accountId" :totalItems="totalPG" :sizePage="totalPagePG" :itemsPerPage="15" :maxPagesShow="4"
             @pageNum="resPageNumPG"></paginate>
           <div class="2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 mb-20 ">
             <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg text-blackcoal my-5">Comment</div>
@@ -200,16 +236,66 @@ export default {
     Paginate,
     Loading
   },
+  emits: ["music", "playlist"],
   data() {
     return {
+      focused:false,
       optionPlayl: false,
       delPlayl: false,
       manPlaylist: false,
       pic: require('../assets/948523.png'),
       url: `${process.env.VUE_APP_MY_ENV_VARIABLE}`,
+      id: this.$route.params.id,
+      showPopupDel: false,
+      message: '',
+      textWrong: false,
+      loadingDel: false,
+      confirm: false,
+      errorDel: false
     }
   },
   methods: {
+    async delToPlaylist(){
+      console.log(this.onePlaylist.playlist.playlistName )
+      console.log(this.message )
+      if(this.onePlaylist.playlist.playlistName === this.message){
+        // console.log(true)
+        this.loadingDel = true
+        this.textWrong = false
+        var boolean = await this.delOnePlaylist()
+        console.log(boolean)
+        if(boolean){
+          this.confirm = true
+          this.loadingDel = false
+        }else{
+          this.loadingDel = false
+          this.errorDel = true
+        }        
+      } else {
+        this.textWrong = true
+      }
+       
+
+    },
+    changeShowpopup(e){
+      this.showPopupDel = !this.showPopupDel
+      if(e== 'myplaylist'){
+        this.$router.push({
+          name: e,
+        });
+      }
+    },
+    acceptDataArr() {
+      let playlist = this.onePlaylist.tracksInfo.content
+      let arrPlaylist = []
+      for (let index = 0; index < playlist.length; index++) {
+        arrPlaylist.push({name:playlist[index].trackFile,image:playlist[index].trackThumbnail,nameShow:playlist[index].trackName})
+      }
+      this.$emit('playlist', arrPlaylist)
+    },
+    acceptData(e) {
+      this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
+    },
     optionPlaylist(e) {
       if (e == 'option') {
         this.optionPlayl = !this.optionPlayl
@@ -224,17 +310,6 @@ export default {
       } else {
         this.manPlaylist = false
       }
-    },
-    deletePlaylist(e) {
-      if (e == 'del') {
-        this.delPlayl = true
-        this.optionPlaylist()
-      } else {
-        this.delPlayl = false
-      }
-    },
-    acceptData(e) {
-      this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     resPageNumPG(e) {
       this.pageCurrent = e - 1
@@ -251,6 +326,7 @@ export default {
       getOnePlaylist: 'oneplaylist/getOnePlaylist',
       getPlayground: 'myplaylist/getAllPlayground',
       deletePlayground: 'myplaylist/delPlayground',
+      delOnePlaylist: 'oneplaylist/delOnePlaylist'
     }),
   },
   computed: {
@@ -267,12 +343,16 @@ export default {
       playground: 'myplaylist/playground',
       totalPG: 'myplaylist/totalPG',
       totalPagePG: 'myplaylist/totalPagePG',
+      userId: 'authentication/userId',
+      authenticated: "authentication/authenticated",
     })
   },
   async created() {
-    this.getPlayground({ pagenum: 0, pagesize: 10 });
+    if(this.authenticated){
+      this.getPlayground({ pagenum: 0, pagesize: 10 });
+    }
     this.handleView();
-    this.getOnePlaylist();
+    this.getOnePlaylist(this.id);
     window.addEventListener("resize", this.handleView);
   }
 }
