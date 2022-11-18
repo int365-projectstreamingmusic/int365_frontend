@@ -42,9 +42,10 @@ const routes = [
     component: MyPlaylist
   },
   {
-    path: '/oneplaylist',
+    path: '/oneplaylist/:id',
     name: 'onePlaylist',
-    component: OnePlaylist
+    component: OnePlaylist,
+    props:true
   },
   {
     path: '/login',

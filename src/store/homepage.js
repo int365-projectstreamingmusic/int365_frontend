@@ -14,9 +14,13 @@ export default {
     logo:false,
     topOne:false,
     smView:false,
-    notfoundRP: false
+    notfoundRP: false,
+    path: ''
   },
   mutations: {
+    SET_PATH(state,path){
+      state.path = path
+    },
     SET_NOTFOUNDRP(state,notfoundRP){
       state.notfoundRP = notfoundRP
     },
@@ -55,6 +59,9 @@ export default {
     }
   },
   getters:{
+    path(state){
+      return state.path
+    },
     notfoundRP(state){
       return state.notfoundRP
     },

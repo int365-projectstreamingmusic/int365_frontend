@@ -8,13 +8,12 @@
       </div>
     </div>
     <div v-else class="absolute md:w-44.5 md:h-52.5 w-36 h-40 bg-blackcoal bg-opacity-60 z-10 flex flex-row justify-center items-center rounded-3xl">
-      <router-link to="/oneplaylist">
-        <div @click="idPlaylist(musicDes.id)" class="absolute top-5 right-5 w-6 h-6 rounded-sm bg-blackcoal hover:bg-white flex transition duration-500 items-center justify-center">
+      <!-- <router-link to="/oneplaylist"> -->
+        <div @click="idPlaylist(musicDes.id)" class="absolute top-4 right-4 w-5 h-5 rounded-sm  hover:bg-white flex transition duration-500 items-center justify-center">
           <span class="material-symbols-outlined text-white hover:text-violetlight hover:shadow-2xl transition duration-500">open_in_new</span>
         </div>
-      </router-link>
+      <!-- </router-link> -->
       <div class="space-y-2 md:w-36 w-28">
-        
         <div class="text-white ">
           <div v-if="musicDes && musicDes.playlistName" class="font-sansation-light text-sm tracking-wider truncate">{{musicDes.playlistName}}</div>
           <div v-if="musicDes && musicDes.userAccountModel" class="font-sansation-light text-xxs tracking-wider">{{musicDes.userAccountModel.profileName}}</div>          
@@ -59,7 +58,11 @@ export default {
       getPlaylist: 'allplaylist/getPlaylist'
     }),
     idPlaylist(id){
-      this.$store.commit('oneplaylist/SET_ID',id)
+        this.$router.push({
+          name: "onePlaylist",
+          params: { id:id },
+        });
+      // this.$store.commit('oneplaylist/SET_ID',id)
     },
     passAddOrDelPlayground(e){
       this.$emit('passAddOrDelPlayground',e)
