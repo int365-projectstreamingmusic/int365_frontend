@@ -116,7 +116,7 @@ export default {
     Paginate,
     Loading
   },
-  emits: ["music", "playlist"],
+  emits: ["music", "playlist","musicQ"],
   data() {
     return {
       showPopupAdd : false,
@@ -169,7 +169,7 @@ export default {
 
     resPageNum(e){
       this.pageCurrent = e-1
-      this.$store.dispatch('myplaylist/getAllFavorites',e-1)
+      this.$store.dispatch('myplaylist/getAllPlayground',{pagenum:e-1,pagesize:20})
     },
     resPageNumPL(e){
       this.pageCurrent = e-1
