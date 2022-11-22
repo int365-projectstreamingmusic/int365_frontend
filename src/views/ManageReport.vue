@@ -56,7 +56,7 @@
                 Now this feature with a problem. The team is working to fix it.
               </div>
               <div  v-if="this.notfoundComment===404" class="flex justify-center items-center font-sansation-light my-3 text-base">
-                " Hmm.. , Now have not report !!"
+                " Hmm.. , Now have no report !!"
               </div>
               <paginate :totalItems="totalComment" :sizePage="totalPageComment" :itemsPerPage="5" :maxPagesShow="4"
                 @pageNum="resPageNumComment"></paginate>
@@ -102,7 +102,7 @@
                 Now this feature with a problem. The team is working to fix it.
               </div>
               <div  v-if="this.notfoundTrack===404" class="flex justify-center items-center font-sansation-light my-3 text-base">
-                " Hmm.. , Now have not report !!"
+                " Hmm.. , Now have no report !!"
               </div>
               <paginate :totalItems="totalTrack" :sizePage="totalPageTrack" :itemsPerPage="5" :maxPagesShow="5"
                 @pageNum="resPageNumTrack"></paginate>
