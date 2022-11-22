@@ -440,8 +440,10 @@ export default {
             }
           }else{
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
-            played.value = []
-            next(0)
+            if(loopType.value != 'ONLYONE'){
+              played.value = []
+              next(0)              
+            }
           }  
         }else{
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
