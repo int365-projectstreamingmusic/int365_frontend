@@ -40,9 +40,9 @@
                 <div
                   class="flex flex-row items-center justify-between sm:px-2 px-1 md:mt-1 space-x-1 focus:text-violetlight hover:text-violetlight"
                   @click="isOpen = !isOpen">
-                  <img src="../assets/ImgTmp1.png" class="rounded-xl md:h-6 md:w-6  w-3 h-3"
+                  <img :src="url + 'api/streaming/image/' + data.profileIamge" class="rounded-xl md:h-6 md:w-6  w-3 h-3"
                     style="object-fit: cover" />
-                  <p class="lg:w-32 sm:w-20 w-15 truncate md:text-base sm:text-xs text-mxs">{{ UserName }}</p>
+                  <p class="lg:w-32 sm:w-20 w-15 truncate md:text-base sm:text-xs text-mxs">{{ username }}</p>
                   <span class="material-icons md:text-lg text-sm" v-if="isOpen">expand_less</span>
                   <span class="material-icons md:text-lg text-sm" v-else> expand_more </span>
                 </div>
@@ -82,61 +82,70 @@
         </div>
       </div>
     </div>
-    <div v-if="found"
+
+    <div
       class="text-gray-700  mt-2 mb-5 flex flex-col items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 h-full z-20"
       :class="sideBarShow ? '2xl:ml-75 lg:ml-64' : ''">
-      <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2 sm:pl-3.5">
-        <div v-if="this.music == null" class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Not Found
-          {{ searchName }}</div>
-        <div v-else class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " {{ searchName }} "</div>
-        <div v-if="this.music != null" class="flex flex-col h-32 space-y-2 overflow-y-auto ">
-          <div v-for="(item, index) in this.music" :key="index"
-            class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs font-sansation-light">
-            <div
-              class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
-              <input type="radio" @click="addTracks(item.id)">
-              <div class="sm:w-10 w-5 text-center">{{ index + 1 }}</div>
-              <p  class="2xl:w-800 xgl:w-504 xl:w-100 w-52  truncate ">{{ item.trackName }}</p>
-              <div @click="acceptData(item)"
-                class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">
-                play
-              </div>
-            </div>
-
-          </div>
+      <div v-if="this.loading"
+        class="fixed flex justify-center items-center h-1/6 w-full bg-neutral-50 bg-opacity-75 transition-opacity">
+        <div class="flex justify-center">
+          <div class="loader animate-prixClipFix"></div>
         </div>
       </div>
-      <!-- v-if="this.music != null" -->
-      <div class="flex flex-row bg-white 2xl:w-1200 sm:space-x-3 space-x-1 w-full">
-        <div
-          class="space-x-1 sm:w-32 w-20 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
-          <input type="radio" @click="addPlayground()">
-          <div>playground</div>
+      <div v-if="found">
+        <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2 sm:pl-3.5">
+          <div v-if="this.music == null" class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Not Found
+            {{ searchName }}</div>
+          <div v-else class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " {{ searchName }} "</div>
+          <div v-if="this.music != null" class="flex flex-col h-32 space-y-2 overflow-y-auto ">
+            <div v-for="(item, index) in this.music" :key="index"
+              class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs font-sansation-light">
+              <div
+                class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
+                <input type="radio" @click="addTracks(item.id)">
+                <div class="sm:w-10 w-5 text-center">{{ index + 1 }}</div>
+                <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52  truncate ">{{ item.trackName }}</p>
+                <div @click="acceptData(item)"
+                  class="md:w-20 sm:w-15 w-10 text-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer sm:h-6 h-4 flex items-center justify-center">
+                  play
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
-        <div
-          class="space-x-1 sm:w-24 w-16 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
-          <input type="radio" @click="addFavorite()">
-          <div>favorite</div>
-        </div>
-        <div class="flex flex-row items-center sm:h-6 h-5 font-sansation-light space-x-4 ">
-          <select v-model="setTrack.id"
-            class="rounded-full bg-neutral-100 md:w-36 sm:w-22 w-17 h-6 text-center lg:text-base sm:text-sm text-xxs">
-            <option value="" disabled selected class="hidden ">My Playlist</option>
-            <option v-for="(item, index) in this.playList" :key="index" :value="item.id">
-              {{ item.playlistName }}
-            </option>
-            <!-- <option>Counted: min > max</option>
+        <!-- v-if="this.music != null" -->
+        <div class="flex flex-row bg-white 2xl:w-1200 sm:space-x-3 space-x-1 w-full">
+          <div
+            class="space-x-1 sm:w-32 w-20 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
+            <input type="radio" @click="addPlayground()">
+            <div>playground</div>
+          </div>
+          <div
+            class="space-x-1 sm:w-24 w-16 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
+            <input type="radio" @click="addFavorite()">
+            <div>favorite</div>
+          </div>
+          <div class="flex flex-row items-center sm:h-6 h-5 font-sansation-light space-x-4 ">
+            <select v-model="setTrack.id"
+              class="rounded-full bg-neutral-100 md:w-36 sm:w-22 w-17 h-6 text-center lg:text-base sm:text-sm text-xxs">
+              <option value="" disabled selected class="hidden ">My Playlist</option>
+              <option v-for="(item, index) in this.playList" :key="index" :value="item.id">
+                {{ item.playlistName }}
+              </option>
+              <!-- <option>Counted: min > max</option>
             <option>Counted: max > min</option>
             <option>Latest</option> -->
-          </select>
-        </div>
-        <div @click="sendData()"
-          class="md:w-20 sm:w-15 w-10 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
-          add
-        </div>
-        <div @click="closeSearch()"
-          class="md:w-20 sm:w-17 w-13 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
-          cancel
+            </select>
+          </div>
+          <div @click="sendData()"
+            class="md:w-20 sm:w-15 w-10 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
+            add
+          </div>
+          <div @click="closeSearch()"
+            class="md:w-20 sm:w-17 w-13 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
+            cancel
+          </div>
         </div>
       </div>
     </div>
@@ -164,6 +173,8 @@ export default {
       trackForPlaylist: [],
       favorite: '',
       playground: '',
+      url: `${process.env.VUE_APP_MY_ENV_VARIABLE}`,
+      loading: false,
     };
   },
   methods: {
@@ -172,7 +183,6 @@ export default {
       this.role = false;
     },
     acceptData(e) {
-      console.log(e.trackFile,e.trackThumbnail,e.trackName);
       this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     routerLogin(active) {
@@ -191,8 +201,8 @@ export default {
       });
     },
     checkRole() {
-      roles.forEach(element => {
-        if (element === "admin") {
+      this.roles.forEach(element => {
+        if (element.roles.roles === "admin") {
           this.role = true;
         }
       });
@@ -208,11 +218,13 @@ export default {
       this.favorite = true;
     },
     async searchMusic() {
+      this.loading = true;
       await axios
         .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track?page=0&pageSize=0&searchContent=${this.searchName}`)
         .then((response) => {
           this.music = response.data.content;
-          this.found = !this.found
+          this.found = !this.found;
+          this.loading = false;
         }).catch((error) => {
           this.music = null
           this.found = !this.found
@@ -227,6 +239,7 @@ export default {
         })
     },
     async sendData() {
+      this.loading = true;
       if (this.setTrack.id != null || this.setTrack.id != '') {
         this.setTrack.trackIdList = this.trackForPlaylist;
         axios
@@ -234,15 +247,15 @@ export default {
             `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
             this.setTrack,
           ).then((response) => {
-            this.showPopupConfirm()
+            this.closeSearch()
           });
       }
-
       if (this.playground == true) {
         axios
           .post(
             `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground/add`, this.trackIdList
           ).then((response) => {
+            this.closeSearch()
           });
       }
       if (this.favorite == true) {
@@ -250,19 +263,21 @@ export default {
           .post(
             `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite/add`, this.trackIdList
           ).then((response) => {
+            this.closeSearch()
           });
       }
     },
     closeSearch() {
       this.searchName = '';
-      this.found = !this.found
+      this.found = false;
     }
   },
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
-      UserName: "authentication/UserName",
+      username: "authentication/UserName",
       roles: "authentication/roles",
+      data: "authentication/data",
       sideBarShow: 'homepage/sideBarShow',
       logo: 'homepage/logo',
       smView: 'homepage/smView',
@@ -270,9 +285,7 @@ export default {
   },
   async created() {
     this.getPlaylist();
+    this.checkRole();
   }
-
 };
-
-
 </script>

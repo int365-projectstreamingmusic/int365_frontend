@@ -37,12 +37,12 @@
     </div>
     <div v-show="mediaPlayer">
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
-      <div class="flex flex-row justify-center py-8">
+      <div class="flex flex-row justify-center pt-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
         <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" style="object-fit: cover;"/>
       </div>
-      <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-black px-7 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
-      <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div>
+      <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-blackcoal px-7 py-5 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
+      <!-- <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div> -->
       <div class="px-7 w-75">
         <div @click="seek($event)" ref="progress" class="h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-400">
           <div class="flex w-full justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-700 rounded-full " :style="{'width' : step + '%'}"></div>
@@ -149,7 +149,7 @@ export default {
         this.fristPlayed = true
         this.stopPlayer()
         for (let index = 0; index < newVal.length; index++) {
-          if(index != 1){
+          if(index != 0){
             this.playApi.push(newVal[index])
           }
         }
@@ -196,12 +196,13 @@ export default {
   computed: {
     ...mapGetters({
       mediaPlayer: 'homepage/mediaPlayer',
-      sideBarShow: 'homepage/sideBarShow'
+      sideBarShow: 'homepage/sideBarShow',
+      path: 'homepage/path'
     })
   },
   data() {
     return {
-      path:'',
+      // path:'',
       showVolBar:false,
       // mediaPlayer:false,
       url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
@@ -215,13 +216,14 @@ export default {
       hideSideBar: 'homepage/hideSideBar' // map `this.add()` to `this.$store.dispatch('increment')`
     }),
     pathPage(path){
-      this.path = path
+      this.$store.commit('homepage/SET_PATH',path )
     }
 
   },
   mounted(){
     // const route=useRoute();
-    this.path = window.location.pathname
+    this.$store.commit('homepage/SET_PATH', window.location.pathname)
+    // this.path = window.location.pathname
     // console.log()
     
     // if(this.music != null && this.music != undefined){
@@ -438,8 +440,10 @@ export default {
             }
           }else{
             loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
-            played.value = []
-            next(0)
+            if(loopType.value != 'ONLYONE'){
+              played.value = []
+              next(0)              
+            }
           }  
         }else{
           loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'

@@ -37,6 +37,17 @@ export default {
     },
     token(state){
       return state.token
+    },
+    userId(state){
+      if(state.data != null){
+        console.log(state.data)
+        console.log('id ma')
+        return state.data.accountId
+      }else{
+        console.log('mai ma')
+        return null
+      }
+      
     }
   },
   actions: {
@@ -80,7 +91,7 @@ export default {
           }
         );
         commit("SET_USERNAME", response.data.username);
-        commit("SET_ROLES", response.data.roles);
+        commit("SET_ROLES", response.data.userRoles);
         commit("SET_DATA",response.data)
       } catch (error) {
         commit("SET_TOKEN", null);

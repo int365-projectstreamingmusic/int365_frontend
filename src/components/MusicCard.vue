@@ -8,10 +8,13 @@
       </div>
     </div>
     <div v-else class="absolute md:w-44.5 md:h-52.5 w-36 h-40 bg-blackcoal bg-opacity-60 z-10 flex flex-row justify-center items-center rounded-3xl">
+      <div @click="addReportTrack(musicDes)" class="absolute top-4 right-4 w-5 h-5 rounded-sm  select-none active:text-violet-800 flex transition duration-500 items-center justify-center">
+          <span class="material-icons text-white hover:text-violet-500  hover:shadow-2xl transition duration-500">report</span>
+      </div>
       <div class="space-y-2 md:w-36 w-28">
         <div class="text-white ">
           <div v-if="musicDes && musicDes.trackName" class="font-sansation-light text-sm tracking-wider truncate">{{musicDes.trackName}}</div>
-          <div class="font-sansation-light text-xxs tracking-wider">BOWKYLION</div>          
+          <div v-if="musicDes && musicDes.artistTracks[0]" class="font-sansation-light text-xxs tracking-wider">{{musicDes.artistTracks[0].artistsModel.artistName}}</div>          
         </div>
         <div class="flex flex-row  items-center" :class="authenticated?'justify-between':'justify-center'">   
           <span v-if="authenticated" @click="passAddOrDelFavorite(musicDes)" :class="musicDes.favorite?'text-yellow-400 hover:text-white' : 'text-white hover:text-yellow-400'" class="material-icons md:text-3xl text-2xl  transition duration-500">grade</span>
@@ -46,6 +49,19 @@ export default {
     }
   },
   methods:{
+    ...mapActions({
+      addReport: 'oneplaylist/addReport', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+    }),
+    addReportTrack(data){
+      console.log(data)
+      this.addReport({
+        reportMsg: 'This music copyright infringement',
+        reportGroupId: 0,
+        reportTitle: '',
+        reportType: 1001,
+        targetRef: data.id
+      })
+    },
     passAddOrDelPlayground(e){
       this.$emit('passAddOrDelPlayground',e)
     },

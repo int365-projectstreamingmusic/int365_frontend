@@ -125,7 +125,8 @@ export default {
       myplaylist: 'myplaylist/myplaylist',
       totalPL: 'myplaylist/totalPL',
       totalPagePL: 'myplaylist/totalPagePL',
-      notfoundPL: 'myplaylist/notfoundPL'
+      notfoundPL: 'myplaylist/notfoundPL',
+      authenticated: "authentication/authenticated",
     }),
   },
   methods: {
@@ -156,7 +157,9 @@ export default {
   async created() {
     this.handleView();
     this.getAllPlaylist();
-    this.getAllMyPlaylist({ pagenum: 0, pagesize: 5 });
+    if(this.authenticated){
+      this.getAllMyPlaylist({ pagenum: 0, pagesize: 5 });
+    }
     window.addEventListener("resize", this.handleView);
   },
 };

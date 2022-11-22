@@ -267,8 +267,8 @@
         </div>
 
         <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <loading v-if="myHitory == ''"></loading>
-          <div v-if="myHitory != ''" class="sm:my-4 my-2">
+          <loading v-if="myHistory == ''"></loading>
+          <div v-if="myHistory != ''" class="sm:my-4 my-2">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
               <p class="w-1/12 md:w-1/6">#</p>
@@ -277,7 +277,7 @@
               <p class="w-2/12 md:w-1/6">release</p>
             </div>
 
-            <div v-for="(item, index) in myHitory" :key="index"
+            <div v-for="(item, index) in myHistory" :key="index"
               class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
               <p class="w-1/12 md:w-1/6 sm:text-sm text-xs">{{ index + 1 }}</p>
               <p class="truncate w-6/12 md:w-3/6 sm:text-sm text-xs flex justify-start">
@@ -292,7 +292,7 @@
               </p>
             </div>
           </div>
-          <paginate :totalItems="totalElementsMyHistory" :sizePage="totalPagesMyHistory" :itemsPerPage="15"
+          <paginate :totalItems="totalSongMyHistory" :sizePage="totalPageMyHistory" :itemsPerPage="15"
             :maxPagesShow="4" @pageNum="resPageNumHis"></paginate>
         </div>
         <!-- History -->
@@ -510,10 +510,10 @@ export default {
       notfoundMySong: 'musicAuthen/notfoundMySong',
       totalSongMySong: 'musicAuthen/totalSongMySong',
       totalPageMySong: 'musicAuthen/totalPageMySong',
-      myHitory: 'musicAuthen/myHitory',
-      notfoundMyHitory: 'musicAuthen/notfoundMyHitory',
-      totalSongMyHitory: 'musicAuthen/totalSongMyHitory',
-      totalPageMyHitory: 'musicAuthen/totalPageMyHitory'
+      myHistory: 'musicAuthen/myHistory',
+      notfoundMyHistory: 'musicAuthen/notfoundMyHistory',
+      totalSongMyHistory: 'musicAuthen/totalSongMyHistory',
+      totalPageMyHistory: 'musicAuthen/totalPageMyHistory'
     }),
     getContent() {
       if (this.authenticated) {
@@ -523,9 +523,6 @@ export default {
       this.$store.dispatch('musicAuthen/getMyHistory');
     }
   },
-  async created() {
-    this.getContent();
-  }
 };
 </script>
 <style>

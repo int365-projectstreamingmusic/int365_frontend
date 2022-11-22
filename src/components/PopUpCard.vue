@@ -6,17 +6,23 @@
             <div
                 class="border-2 border-gray-700 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
                 <div class="m-8">
-                    <div class="flex justify-center items-center text-xl ">{{message.header}}</div>
-                    <div class="flex justify-center items-center my-8">{{message.body}}</div>
+                    <div class="flex justify-center items-center text-xl ">{{ message.header }}</div>
+                    <div class="flex justify-center items-center my-6">{{ message.body }}</div>
                 </div>
+                <!-- <div v-if="this.message.status" class="flex justify-center items-center ">
+                    <textarea v-model="msgData" type="text" name="msgData" placeholder="Report"
+                        class="w-3/4 h-16 pl-6 py-2 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base" />
+                </div> -->
+
                 <div class="flex flex-row space-x-3 justify-center items-center my-5">
-                    <button @click="confirmCurrentModal" v-if="this.message.button1!='' && this.message.button1!=null"
+                    <button @click="confirmCurrentModal"
+                        v-if="this.message.button1 != '' && this.message.button1 != null"
                         class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-green-400 text-white flex justify-center item-center font-sansation-bold">
-                        {{message.button1}}
+                        {{ message.button1 }}
                     </button>
-                    <button @click="closeCurrentModal" v-if="message.button2!=''||message.button2!=null"
+                    <button @click="closeCurrentModal" v-if="message.button2 != '' || message.button2 != null"
                         class="w-36 h-12 cursor-pointer transition duration-200 rounded-md bg-red-400 text-white flex justify-center item-center font-sansation-bold">
-                        {{message.button2}}
+                        {{ message.button2 }}
                     </button>
                 </div>
             </div>
@@ -29,7 +35,8 @@ export default {
     emits: ["close", "confirm"],
     props: ["message"],
     data() {
-        return {};
+        return {
+        };
     },
     methods: {
         closeCurrentModal() {
