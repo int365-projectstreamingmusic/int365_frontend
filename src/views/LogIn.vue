@@ -5,7 +5,7 @@
         <div @click="click('1')" class="cursor-pointer hover:text-violetlight transition duration-300" key=""
           :class="this.localbox == 1 ? 'text-violetlight' : ''">
           <p v-if="isChange">Reset Password</p>
-          <p v-else>Sign in</p>
+          <p v-else>Log in</p>
         </div>
         <p v-if="!isChange">|</p>
         <p v-if="!isChange" @click="click('2')" class="cursor-pointer hover:text-violetlight transition duration-300"
@@ -243,11 +243,11 @@ export default {
     },
     editClose() {
       this.isChange = false;
-      passwordForm = {
-        oldPassword: null,
-        newPassword: null,
-        confirmationPassword: null,
-      };
+      // passwordForm = {
+      //   oldPassword: null,
+      //   newPassword: null,
+      //   confirmationPassword: null,
+      // };
     },
     async doLogin() {
       let response = await this.signIn(JSON.stringify(this.logform));

@@ -26,7 +26,7 @@
           </div>
         </div>
       </router-link>
-      <router-link to="/favorite"  @click="pathPage('/favorite')">
+      <router-link to="/favorite"  @click="pathPage('/favorite')" v-if="authenticated">
         <div class=" pl-10 border-l-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
           <div class="flex flex-row space-x-2"  >
               <span class="material-icons" v-bind:class="(this.path == '/favorite')?'text-violetlight':'text-blackcoal'">grade</span>
@@ -197,7 +197,8 @@ export default {
     ...mapGetters({
       mediaPlayer: 'homepage/mediaPlayer',
       sideBarShow: 'homepage/sideBarShow',
-      path: 'homepage/path'
+      path: 'homepage/path',
+      authenticated: "authentication/authenticated",
     })
   },
   data() {
