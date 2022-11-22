@@ -211,6 +211,7 @@
           <div class="text-sm">filter</div>
         </div>
         <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
+          {{mySong}}
           <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
           <div v-if="mySong != ''" class="sm:my-4 my-2 ">
             <div
@@ -239,13 +240,15 @@
                 {{ item.timestamp.substr(0, 10) }}
               </p>
               <div class="w-20 flex flex-row ">
-                <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="deleteMusic(item.id)">
+                <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="showPopupConfirm()">
                     delete
                   </span></div>
                 <div><span v-if="statusEdit" class="mx-1 material-icons text-red-600" @click="editMusic(item.id)">
                     edit
                   </span></div>
               </div>
+              <popupCard v-if="showClicked" :message="this.message" @close="closeClicked()"
+                  @confirm="deleteMusic(item.id)"></popupCard>
             </div>
           </div>
           <paginate :totalItems="totalSongMySong" :sizePage="totalPageMySong" :itemsPerPage="15" :maxPagesShow="4"
@@ -307,11 +310,13 @@ import axios from "axios";
 import { musicAuthen } from "../store/musicAuthen.js";
 import Paginate from "../components/Paginate.vue";
 import Loading from "../components/Loading.vue"
+import PopupCard from '../components/PopUpCard.vue';
 export default {
   components: {
     Paginate,
     Loading,
-    musicAuthen
+    musicAuthen,
+    PopupCard
   },
   emits: ['music'],
   data() {
@@ -344,8 +349,14 @@ export default {
       profileIamge: "",
       imageholderEnable: false,
       statusEdit: false,
-
-
+      showClicked: false,
+      message: {
+        header: '',
+        body: '',
+        status: '',
+        button1: '',
+        button2: '',
+      },
     };
   },
   methods: {
@@ -382,6 +393,16 @@ export default {
     page1(data) {
       localStorage.setItem("addOrUp", data);
       this.$router.go();
+    },
+    closeClicked() {
+      this.showClicked = false;
+    },
+    showPopupConfirm() {
+        this.showClicked = true;
+        this.message.header = "Are sure for delete music ?"
+        this.message.body = ""
+        this.message.button1 = 'Confirm'
+        this.message.button2 = 'Cancle'
     },
     editStatus() {
       this.statusEdit = !this.statusEdit

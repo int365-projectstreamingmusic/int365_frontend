@@ -2,6 +2,12 @@
   <div class="h-screen flex justify-center" :class="sideBarShow ? 'lg:ml-75' : ''">
     <div class="flex justify-center flex-col w-full font-sansation-light">
       <div class="flex justify-center h-full">
+        <div v-if="this.finishPopup"
+          class="fixed flex justify-center items-center h-full w-full bg-neutral-50 bg-opacity-75 transition-opacity">
+          <div class="flex justify-center">
+            <div class="loader animate-prixClipFix"></div>
+          </div>
+        </div>
         <div class="2xl:w-1200 xgl:w-962 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
           <div class="2xl:w-1200 lg:mx-10 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3 flex justify-center flex-col">
             <div class="flex justify-between items-center">
@@ -275,6 +281,7 @@ export default {
         trackIdList: [],
       },
       musicInPlaylist: [],
+      finishPopup: false,
     };
   },
   methods: {
@@ -365,20 +372,24 @@ export default {
         if (this.addOrUp == "up" && this.musicInfo.id != null) {
           formData.append('newTrack', regisJson)
           formData.append('trackFile', this.file)
+          this.finishPopup=true;
           await axios
             .post(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track`,
               formData,
             ).then((response) => {
+              this.finishPopup=false;
               this.showPopupConfirm()
             });
         } else {
           formData.append('track', regisJson)
+          this.finishPopup=true;
           await axios
             .put(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track/edit`,
               formData,
             ).then((response) => {
+              this.finishPopup=false;
               this.showPopupConfirm()
             });
         }
@@ -395,6 +406,7 @@ export default {
         formData.append('form', regisJson)
         formData.append('image', this.image)
         if (this.playlistInfo.id != null && this.playlistInfo.id != '' && this.playlistInfo.id != undefined) {
+          this.finishPopup=true;
           await axios
             .put(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist`,
@@ -407,10 +419,12 @@ export default {
                   `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
                   this.setTrack,
                 ).then((response) => {
+                  this.finishPopup=false;
                   this.showPopupConfirm()
                 });
             });
         } else {
+          this.finishPopup=true;
           await axios
             .post(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist`,
@@ -423,6 +437,7 @@ export default {
                   `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
                   this.setTrack,
                 ).then((response) => {
+                  this.finishPopup=false;
                   this.showPopupConfirm()
                 });
             });

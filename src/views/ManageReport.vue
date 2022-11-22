@@ -1,8 +1,6 @@
 <template>
   <div class="h-screen" :class="sideBarShow ? 'lg:ml-75' : ''">
-
     <div class="flex flex-col w-full">
-
       <div class="flex justify-center h-full">
         <div v-if="this.finishPopup"
           class="fixed flex justify-center items-center h-full w-full bg-neutral-50 bg-opacity-75 transition-opacity">
@@ -28,8 +26,6 @@
             </div>
             <!-- head -->
             <!-- body -->
-
-
             <div v-if="reportComment">
               <loading v-if="reportCommentList == '' && !notfoundComment"></loading>
               <div v-for="(info, index) in reportCommentList" :key="index"
@@ -107,10 +103,8 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 </template>
 
 <script>
@@ -232,7 +226,6 @@ export default {
         this.message.button2 = 'Cancle'
         this.message.status = condition
       }
-
     },
   },
   computed: {
