@@ -51,14 +51,18 @@
                 <popupCard v-if="showClicked" :message="this.message" @close="closeClicked()"
                   @confirm="routerClicked(info)"></popupCard>
               </div>
-              <div v-if="notfoundComment" class="flex justify-center items-center font-sansation-light my-3 text-base">
+              <div v-if="this.notfoundComment===500"
+                class="flex justify-center items-center font-sansation-light my-3 text-base">
                 Now this feature with a problem. The team is working to fix it.
+              </div>
+              <div  v-if="this.notfoundComment===404" class="flex justify-center items-center font-sansation-light my-3 text-base">
+                " Hmm.. , Now have not report !!"
               </div>
               <paginate :totalItems="totalComment" :sizePage="totalPageComment" :itemsPerPage="5" :maxPagesShow="4"
                 @pageNum="resPageNumComment"></paginate>
             </div>
             <div v-if="reportLicense">
-              <loading v-if="reportTrackList == '' && !notfoundTrack"></loading>
+              <loading v-if="reportTrackList == '' && !this.notfoundTrack"></loading>
               <div v-for="(info, index) in reportTrackList" :key="index"
                 class="bg-neutral-50  rounded-lg font-sansation-light my-3 py-5 sm:px-10 px-5 space-y-4 md:text-base text-sm">
                 <div class="flex md:flex-row flex-col md:space-x-5 space-x-0 md:space-y-0 space-y-5">
@@ -75,7 +79,7 @@
                       <div>Created : {{ info.recentDate.substr(0, 10) }}</div>
                     </div>
                     <div>Owner Music : {{ info.track.owner.username }}</div>
-                    <div v-for="(report, index) in info.reports" :key="index" >
+                    <div v-for="(report, index) in info.reports" :key="index">
                       Copyright Infringement Details : {{ report.reportText }}
                     </div>
                     <div>Reported Count : {{ info.numberOfReport }}</div>
@@ -89,12 +93,16 @@
                     class="cursor-pointer text-sm sm:w-24 w-20 h-6 flex items-center justify-center rounded-lg bg-passgreen text-white text-center">
                     pass</div>
                 </div>
-                <div v-if="notfoundTrack" class="flex justify-center items-center font-sansation-light my-3 text-base">
-                  Now this feature with a problem. The team is working to fix it.
-                </div>
                 <popupCard v-if="showClicked" :message="this.message" @close="closeClicked()"
                   @confirm="routerClicked(info)">
                 </popupCard>
+              </div>
+              <div v-if="this.notfoundTrack===500"
+                class="flex justify-center items-center font-sansation-light my-3 text-base">
+                Now this feature with a problem. The team is working to fix it.
+              </div>
+              <div  v-if="this.notfoundTrack===404" class="flex justify-center items-center font-sansation-light my-3 text-base">
+                " Hmm.. , Now have not report !!"
               </div>
               <paginate :totalItems="totalTrack" :sizePage="totalPageTrack" :itemsPerPage="5" :maxPagesShow="5"
                 @pageNum="resPageNumTrack"></paginate>
@@ -254,6 +262,7 @@ export default {
   },
   async created() {
     this.handleView();
+    this.getContent();
     window.addEventListener("resize", this.handleView);
   }
 }

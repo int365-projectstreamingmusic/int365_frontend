@@ -8,12 +8,12 @@ export default {
     reportCommentList: '',
     totalComment: '',
     totalPageComment: '',
-    notfoundComment: false,
+    notfoundComment: '',
     // track
     reportTrackList: '',
     totalTrack: '',
     totalPageTrack: '',
-    notfoundTrack: false,
+    notfoundTrack: '',
   },
   mutations: {
     SET_REPORTCOMMENT(state, reportComment) {
@@ -89,7 +89,7 @@ export default {
       commit("SET_REPORTLICENSE", false);
       await axios
         .get(
-          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/manager/report?page=${pagenumComment}&pageSize=5&searchKey&reportType=200`,
+          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/manager/report?page=${pagenumComment}&pageSize=5&reportType=200`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -111,8 +111,10 @@ export default {
           commit("SET_REPORTCOMMENTLIST", datacomment)
         })
         .catch((err) => {
-          if (err.response.status == 404||err.response.status==500) {
-            commit("SET_NOTFOUNDCOMMENT", true);
+          if (err.response.status == 404) {
+            commit("SET_NOTFOUNDCOMMENT", 404);
+          }if(err.response.status==500){
+            commit("SET_NOTFOUNDCOMMENT", 500);
           }
         })
 
@@ -122,7 +124,7 @@ export default {
       commit("SET_REPORTLICENSE", true);
       await axios
         .get(
-          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/manager/report?page=${pagenumTrack}&pageSize=5&searchKey&reportType=1001`,
+          `${process.env.VUE_APP_MY_ENV_VARIABLE}api/manager/report?page=${pagenumTrack}&pageSize=5&reportType=1001`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -137,7 +139,9 @@ export default {
         })
         .catch((err) => {
           if (err.response.status == 404) {
-            commit("SET_NOTFOUNDCOMMENT", true);
+            commit("SET_NOTFOUNDTRACK", 404);
+          }if(err.response.status==500){
+            commit("SET_NOTFOUNDTRACK", 500);
           }
         }
         );
