@@ -206,11 +206,13 @@
                 upload song
               </router-link>
             </div>
+
           </div>
           <div class="text-sm">filter</div>
         </div>
+
         <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
+          <loading v-if="mySong == ''|| this.notfoundMySong==''" class="flex items-center justify-center"></loading>
           <div v-if="mySong != ''" class="sm:my-4 my-2 ">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none  pb-1 space-x-1">
@@ -249,6 +251,14 @@
                 @confirm="deleteMusic(item.id)"></popupCard>
             </div>
           </div>
+          <div v-if="this.notfoundMySong === 500"
+            class="flex justify-center items-center font-sansation-light xgl:text-2xl md:text-xl text-lg">
+            " Now this feature with a problem. The team is working to fix it. "
+          </div>
+          <div v-if="this.notfoundMySong === 404"
+            class="flex justify-center items-center font-sansation-light xgl:text-2xl md:text-xl text-lg">
+            " Hmm.. , Now have no music ."
+          </div>
           <paginate :totalItems="totalSongMySong" :sizePage="totalPageMySong" :itemsPerPage="15" :maxPagesShow="4"
             @pageNum="resPageNum"></paginate>
         </div>
@@ -266,7 +276,7 @@
           </div>
         </div>
         <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <loading v-if="myHistory == '' && notfoundMyHistory === ''"></loading>
+          <loading v-if="myHistory == '' || notfoundMyHistory == ''"></loading>
           <div v-if="myHistory != ''" class="sm:my-4 my-2">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
@@ -293,13 +303,12 @@
           </div>
 
           <div v-if="this.notfoundMyHistory === 500"
-            class="flex justify-center items-center font-sansation-light my-3 text-base">
-            Now this feature with a problem. The team is working to fix it.
+            class="flex justify-center items-center font-sansation-light xgl:text-2xl md:text-xl text-lg">
+            " Now this feature with a problem. The team is working to fix it. "
           </div>
           <div v-if="this.notfoundMyHistory === 404"
-            class="flex justify-center items-center font-sansation-light my-3 text-base">
-            " Hmm.. , Now have not history "<br>Cilck Here ->
-            All Song Page
+            class="flex justify-center items-center font-sansation-light xgl:text-2xl md:text-xl text-lg">
+            " Hmm.. , Now have no history ."
           </div>
           <paginate :totalItems="totalSongMyHistory" :sizePage="totalPageMyHistory" :itemsPerPage="15" :maxPagesShow="4"
             @pageNum="resPageNumHis"></paginate>
@@ -525,6 +534,7 @@ export default {
       await axios
         .delete(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/Clear`)
         .then((response) => {
+          this.getContent();
         });
     },
   },
