@@ -42,7 +42,7 @@
                   @click="isOpen = !isOpen">
                   <img src="../assets/ImgTmp1.png" class="rounded-xl md:h-6 md:w-6  w-3 h-3"
                     style="object-fit: cover" />
-                  <p class="lg:w-32 sm:w-20 w-15 truncate md:text-base sm:text-xs text-mxs">{{ UserName }}</p>
+                  <p class="lg:w-32 sm:w-20 w-15 truncate md:text-base sm:text-xs text-mxs">{{ username }}</p>
                   <span class="material-icons md:text-lg text-sm" v-if="isOpen">expand_less</span>
                   <span class="material-icons md:text-lg text-sm" v-else> expand_more </span>
                 </div>
@@ -172,7 +172,6 @@ export default {
       this.role = false;
     },
     acceptData(e) {
-      console.log(e.trackFile,e.trackThumbnail,e.trackName);
       this.$emit('music', { name: e.trackFile, image: e.trackThumbnail, nameShow: e.trackName })
     },
     routerLogin(active) {
@@ -191,8 +190,8 @@ export default {
       });
     },
     checkRole() {
-      roles.forEach(element => {
-        if (element === "admin") {
+      this.roles.forEach(element => {
+        if (element.roles.roles === "admin") {
           this.role = true;
         }
       });
@@ -261,7 +260,7 @@ export default {
   computed: {
     ...mapGetters({
       authenticated: "authentication/authenticated",
-      UserName: "authentication/UserName",
+      username: "authentication/UserName",
       roles: "authentication/roles",
       sideBarShow: 'homepage/sideBarShow',
       logo: 'homepage/logo',
@@ -270,6 +269,7 @@ export default {
   },
   async created() {
     this.getPlaylist();
+    this.checkRole();
   }
 
 };

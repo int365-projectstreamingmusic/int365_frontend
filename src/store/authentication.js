@@ -91,7 +91,7 @@ export default {
           }
         );
         commit("SET_USERNAME", response.data.username);
-        commit("SET_ROLES", response.data.roles);
+        commit("SET_ROLES", response.data.userRoles);
         commit("SET_DATA",response.data)
       } catch (error) {
         commit("SET_TOKEN", null);

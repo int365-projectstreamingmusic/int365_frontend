@@ -7,10 +7,10 @@ export default {
         totalSongMySong: '',
         totalPageMySong: '',
         notfoundMySong: false,
-        myHitory: '',
-        totalSongMyHitory: '',
-        totalPageMyHitory: '',
-        notfoundMyHitory: false,
+        myHistory: '',
+        totalSongMyHistory: '',
+        totalPageMyHistory: '',
+        notfoundMyHistory: false,
     },
     mutations: {
         SET_NOTFOUNDMYSONG(state, notfoundMySong) {
@@ -27,17 +27,17 @@ export default {
         },
 
 
-        SET_NOTFOUNDMYHISTORY(state, notfoundMyHitory) {
-            state.notfoundMyHitory = notfoundMyHitory
+        SET_NOTFOUNDMYHISTORY(state, notfoundMyHistory) {
+            state.notfoundMyHistory = notfoundMyHistory
         },
-        SET_MYHISTORY(state, MyHitory) {
-            state.MyHitory = MyHitory
+        SET_MYHISTORY(state, myHistory) {
+            state.myHistory = myHistory
         },
-        SET_TOTALSONGMYHISTORY(state, totalSongMyHitory) {
-            state.totalSongMyHitory = totalSongMyHitory
+        SET_TOTALSONGMYHISTORY(state, totalSongMyHistory) {
+            state.totalSongMyHistory = totalSongMyHistory
         },
-        SET_TOTALPAGEMYHISTORY(state, totalPageMyHitory) {
-            state.totalPageMyHitory = totalPageMyHitory
+        SET_TOTALPAGEMYHISTORY(state, totalPageMyHistory) {
+            state.totalPageMyHistory = totalPageMyHistory
         },
     },
     getters: {
@@ -58,20 +58,20 @@ export default {
             }
         },
 
-        notfoundMyHitory(state) {
-            return state.notfoundMyHitory
+        notfoundMyHistory(state) {
+            return state.notfoundMyHistory
         },
-        myHitory(state) {
-            return state.MyHitory
+        myHistory(state) {
+            return state.myHistory
         },
-        totalSongMyHitory(state) {
-            if (state.totalSongMyHitory != '') {
-                return state.totalSongMyHitory
+        totalSongMyHistory(state) {
+            if (state.totalSongMyHistory != '') {
+                return state.totalSongMyHistory
             }
         },
-        totalPageMyHitory(state) {
-            if (state.totalPageMyHitory != '') {
-                return state.totalPageMyHitory
+        totalPageMyHistory(state) {
+            if (state.totalPageMyHistory != '') {
+                return state.totalPageMyHistory
             }
         },
 
