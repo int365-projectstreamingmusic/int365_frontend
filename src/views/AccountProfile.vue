@@ -211,7 +211,6 @@
           <div class="text-sm">filter</div>
         </div>
         <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          {{mySong}}
           <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
           <div v-if="mySong != ''" class="sm:my-4 my-2 ">
             <div
