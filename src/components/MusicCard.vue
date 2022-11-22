@@ -4,7 +4,7 @@
     <div v-if="!upHere" class=" absolute flex flex-row justify-center items-center text-shadow-2xl text-center z-10 md:w-44.5 w-36 bg-blackcoal bg-opacity-60 md:h-16 h-12 text-white rounded-b-3xl">
       <div class="space-y-1 mx-6 mb-1">
         <div v-if="musicDes && musicDes.trackName" class=" md:w-40 w-28 font-sansation-light text-sm tracking-wider truncate">{{musicDes.trackName}}</div>
-        <div class="font-sansation-light md:text-xxs text-mxs tracking-wider">BOWKYLION</div>     
+        <div v-if="musicDes && musicDes.artistTracks[0]" class="font-sansation-light md:text-xxs text-mxs tracking-wider">{{musicDes.artistTracks[0].artistsModel.artistName}}</div>     
       </div>
     </div>
     <div v-else class="absolute md:w-44.5 md:h-52.5 w-36 h-40 bg-blackcoal bg-opacity-60 z-10 flex flex-row justify-center items-center rounded-3xl">

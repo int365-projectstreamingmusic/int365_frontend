@@ -201,11 +201,13 @@ export default {
       });
     },
     checkRole() {
-      this.roles.forEach(element => {
-        if (element.roles.roles === "admin") {
-          this.role = true;
-        }
-      });
+      if (this.authenticated) {
+        this.roles.forEach(element => {
+          if (element.roles.roles === "admin") {
+            this.role = true;
+          }
+        });
+      }
     },
     addTracks(data) {
       this.trackForPlaylist.push(({ "trackId": data }));
@@ -232,39 +234,43 @@ export default {
         );
     },
     async getPlaylist() {
-      await axios
-        .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist`)
-        .then((response) => {
-          this.playList = response.data.content;
-        })
+      if (this.authenticated) {
+        await axios
+          .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist`)
+          .then((response) => {
+            this.playList = response.data.content;
+          })
+      }
     },
     async sendData() {
       this.loading = true;
-      if (this.setTrack.id != null || this.setTrack.id != '') {
-        this.setTrack.trackIdList = this.trackForPlaylist;
-        axios
-          .put(
-            `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
-            this.setTrack,
-          ).then((response) => {
-            this.closeSearch()
-          });
-      }
-      if (this.playground == true) {
-        axios
-          .post(
-            `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground/add`, this.trackIdList
-          ).then((response) => {
-            this.closeSearch()
-          });
-      }
-      if (this.favorite == true) {
-        axios
-          .post(
-            `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite/add`, this.trackIdList
-          ).then((response) => {
-            this.closeSearch()
-          });
+      if (this.authenticated) {
+        if (this.setTrack.id != null || this.setTrack.id != '') {
+          this.setTrack.trackIdList = this.trackForPlaylist;
+          axios
+            .put(
+              `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
+              this.setTrack,
+            ).then((response) => {
+              this.closeSearch()
+            });
+        }
+        if (this.playground == true) {
+          axios
+            .post(
+              `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground/add`, this.trackIdList
+            ).then((response) => {
+              this.closeSearch()
+            });
+        }
+        if (this.favorite == true) {
+          axios
+            .post(
+              `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite/add`, this.trackIdList
+            ).then((response) => {
+              this.closeSearch()
+            });
+        }
       }
     },
     closeSearch() {
