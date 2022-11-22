@@ -198,7 +198,6 @@
         </div>
         <!-- Account Profile chagne password -->
         <!-- My song -->
-        {{this.mySong}}
         <div class="flex flex-row items-end font-sansation-light justify-between mt-36 mx-3 md:mx-36">
           <div class="flex flex-row justify-center items-end " @click="page1('up')">
             <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start">My Song
@@ -207,11 +206,9 @@
                 upload song
               </router-link>
             </div>
-
           </div>
           <div class="text-sm">filter</div>
         </div>
-        
         <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
           <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
           <div v-if="mySong != ''" class="sm:my-4 my-2 ">
@@ -269,7 +266,7 @@
           </div>
         </div>
         <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <loading v-if="myHistory == ''&& notfoundMyHistory===''"></loading>
+          <loading v-if="myHistory == '' && notfoundMyHistory === ''"></loading>
           <div v-if="myHistory != ''" class="sm:my-4 my-2">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
@@ -294,7 +291,7 @@
               </p>
             </div>
           </div>
-          
+
           <div v-if="this.notfoundMyHistory === 500"
             class="flex justify-center items-center font-sansation-light my-3 text-base">
             Now this feature with a problem. The team is working to fix it.
@@ -307,7 +304,7 @@
           <paginate :totalItems="totalSongMyHistory" :sizePage="totalPageMyHistory" :itemsPerPage="15" :maxPagesShow="4"
             @pageNum="resPageNumHis"></paginate>
         </div>
-        {{this.notfoundMyHistory}}
+        {{ this.notfoundMyHistory }}
         <!-- History -->
       </div>
     </div>
