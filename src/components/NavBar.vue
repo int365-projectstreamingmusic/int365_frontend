@@ -53,7 +53,7 @@
                     class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                     <router-link to="/accountprofile">Account</router-link>
                   </div>
-                  <div @click="isOpen = !isOpen" v-if="role"
+                  <div @click="isOpen = !isOpen" v-if="this.admin"
                     class="font-sansation-regular hover:text-violetdark hover:underline underline-offset-1 py-1 rounded-xl hover:bg-slate-100 w-full pr-4 text-right">
                     <router-link to="/managereport">Manage Report</router-link>
                   </div>
@@ -94,15 +94,21 @@
       </div>
       <div v-if="found">
         <div class="flex flex-col justify-center bg-white 2xl:w-1200 w-full mb-3 space-y-2 sm:pl-3.5">
-          <div v-if="this.music == null" class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Not Found
-            {{ searchName }}</div>
-          <div v-else class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " {{ searchName }} "</div>
+          <div class="flex flex-row">
+            <div v-if="this.music == null" class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Not Found
+              {{ searchName }}</div>
+            <div v-else class="font-sansation-bold md:text-2xl text-xl text-blackcoal">Found " {{ searchName }} "</div>
+            <div @click="closeSearch()"
+              class="px-2 ml-16 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-neutral-100 font-sansation-bold text-violetdark rounded-full cursor-pointer flex flex-row">
+              Cancel
+            </div>
+          </div>
           <div v-if="this.music != null" class="flex flex-col h-32 space-y-2 overflow-y-auto ">
             <div v-for="(item, index) in this.music" :key="index"
               class="sm:h-7 h-5 flex flex-row items-center justify-between lg:text-base sm:text-sm text-xxs font-sansation-light">
               <div
                 class="flex flex-row space-x-2 mr-2 hover:text-violetdark cursor-pointer transition duration-200 items-center">
-                <input type="radio" @click="addTracks(item.id)">
+                <input v-if="authenticated" type="radio" @click="addTracks(item.id)">
                 <div class="sm:w-10 w-5 text-center">{{ index + 1 }}</div>
                 <p class="2xl:w-800 xgl:w-504 xl:w-100 w-52  truncate ">{{ item.trackName }}</p>
                 <div @click="acceptData(item)"
@@ -110,12 +116,15 @@
                   play
                 </div>
               </div>
-
             </div>
           </div>
+          <!-- <div @click="closeSearch()"
+                  class="md:w-20 sm:w-17 w-13 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
+                  cancel
+                </div> -->
         </div>
         <!-- v-if="this.music != null" -->
-        <div class="flex flex-row bg-white 2xl:w-1200 sm:space-x-3 space-x-1 w-full">
+        <div v-if="authenticated" class="flex flex-row bg-white 2xl:w-1200 sm:space-x-3 space-x-1 w-full">
           <div
             class="space-x-1 sm:w-32 w-20 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
             <input type="radio" @click="addPlayground()">
@@ -200,15 +209,6 @@ export default {
         });
       });
     },
-    checkRole() {
-      if (this.authenticated) {
-        this.roles.forEach(element => {
-          if (element.roles.roles === "admin") {
-            this.role = true;
-          }
-        });
-      }
-    },
     addTracks(data) {
       this.trackForPlaylist.push(({ "trackId": data }));
       this.trackIdList.trackId.push((data));
@@ -220,6 +220,7 @@ export default {
       this.favorite = true;
     },
     async searchMusic() {
+      this.getPlaylist();
       this.loading = true;
       await axios
         .get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track?page=0&pageSize=0&searchContent=${this.searchName}`)
@@ -284,14 +285,11 @@ export default {
       username: "authentication/UserName",
       roles: "authentication/roles",
       data: "authentication/data",
+      admin: "authentication/admin",
       sideBarShow: 'homepage/sideBarShow',
       logo: 'homepage/logo',
       smView: 'homepage/smView',
     }),
   },
-  async created() {
-    this.getPlaylist();
-    this.checkRole();
-  }
 };
 </script>
