@@ -198,6 +198,7 @@
         </div>
         <!-- Account Profile chagne password -->
         <!-- My song -->
+        {{this.mySong}}
         <div class="flex flex-row items-end font-sansation-light justify-between mt-36 mx-3 md:mx-36">
           <div class="flex flex-row justify-center items-end " @click="page1('up')">
             <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start">My Song
@@ -210,6 +211,7 @@
           </div>
           <div class="text-sm">filter</div>
         </div>
+        
         <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
           <loading v-if="mySong == ''" class="flex items-center justify-center"></loading>
           <div v-if="mySong != ''" class="sm:my-4 my-2 ">
@@ -247,7 +249,7 @@
                   </span></div>
               </div>
               <popupCard v-if="showClicked" :message="this.message" @close="closeClicked()"
-                  @confirm="deleteMusic(item.id)"></popupCard>
+                @confirm="deleteMusic(item.id)"></popupCard>
             </div>
           </div>
           <paginate :totalItems="totalSongMySong" :sizePage="totalPageMySong" :itemsPerPage="15" :maxPagesShow="4"
@@ -264,12 +266,10 @@
                 clear history
               </div>
             </div>
-
           </div>
         </div>
-
         <div class="font-sansation-light px-10 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <loading v-if="myHistory == ''"></loading>
+          <loading v-if="myHistory == ''&& notfoundMyHistory===''"></loading>
           <div v-if="myHistory != ''" class="sm:my-4 my-2">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 pb-1 space-x-1">
@@ -294,9 +294,20 @@
               </p>
             </div>
           </div>
-          <paginate :totalItems="totalSongMyHistory" :sizePage="totalPageMyHistory" :itemsPerPage="15"
-            :maxPagesShow="4" @pageNum="resPageNumHis"></paginate>
+          
+          <div v-if="this.notfoundMyHistory === 500"
+            class="flex justify-center items-center font-sansation-light my-3 text-base">
+            Now this feature with a problem. The team is working to fix it.
+          </div>
+          <div v-if="this.notfoundMyHistory === 404"
+            class="flex justify-center items-center font-sansation-light my-3 text-base">
+            " Hmm.. , Now have not history "<br>Cilck Here ->
+            All Song Page
+          </div>
+          <paginate :totalItems="totalSongMyHistory" :sizePage="totalPageMyHistory" :itemsPerPage="15" :maxPagesShow="4"
+            @pageNum="resPageNumHis"></paginate>
         </div>
+        {{this.notfoundMyHistory}}
         <!-- History -->
       </div>
     </div>
@@ -397,11 +408,11 @@ export default {
       this.showClicked = false;
     },
     showPopupConfirm() {
-        this.showClicked = true;
-        this.message.header = "Are sure for delete music ?"
-        this.message.body = ""
-        this.message.button1 = 'Confirm'
-        this.message.button2 = 'Cancle'
+      this.showClicked = true;
+      this.message.header = "Are sure for delete music ?"
+      this.message.body = ""
+      this.message.button1 = 'Confirm'
+      this.message.button2 = 'Cancle'
     },
     editStatus() {
       this.statusEdit = !this.statusEdit
@@ -543,7 +554,7 @@ export default {
       this.$store.dispatch('musicAuthen/getMyHistory');
     }
   },
-  mounted(){
+  mounted() {
     this.getContent();
   }
 };

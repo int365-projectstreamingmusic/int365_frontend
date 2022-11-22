@@ -6,11 +6,11 @@ export default {
         mySong: '',
         totalSongMySong: '',
         totalPageMySong: '',
-        notfoundMySong: false,
+        notfoundMySong: '',
         myHistory: '',
         totalSongMyHistory: '',
         totalPageMyHistory: '',
-        notfoundMyHistory: false,
+        notfoundMyHistory: '',
     },
     mutations: {
         SET_NOTFOUNDMYSONG(state, notfoundMySong) {
@@ -84,29 +84,29 @@ export default {
                 .then((res) => {
                     commit("SET_TOTALPAGEMYSONG", res.data.totalPages)
                     commit("SET_TOTALSONGMYSONG", res.data.totalElements);
-                    commit("SET_NOTFOUNDMYSONG", false);
                     commit("SET_MYSONG", res.data.content)
+                    console.log(res.data.content);
                 }).catch((err) => {
                     if (err.response.status == 404) {
-                        commit("SET_NOTFOUNDMYSONG", true);
+                        commit("SET_NOTFOUNDMYSONG", 404);
+                    } if (err.response.status == 500) {
+                        commit("SET_NOTFOUNDMYSONG", 500);
                     }
-                    console.log(err)
                 })
         },
         async getMyHistory({ commit }, pagenumMyHis = 0) {
             commit("SET_MYHISTORY", '')
             await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/MyHistory?page=${pagenumMyHis}`)
                 .then((res) => {
-
                     commit("SET_TOTALPAGEMYHISTORY", res.data.totalPages)
                     commit("SET_TOTALSONGMYHISTORY", res.data.totalElements);
-                    commit("SET_NOTFOUNDMYHISTORY", false);
                     commit("SET_MYHISTORY", res.data.content)
                 }).catch((err) => {
                     if (err.response.status == 404) {
-                        commit("SET_NOTFOUNDMYHISTORY", true);
+                        commit("SET_NOTFOUNDMYHISTORY", 404);
+                    } if (err.response.status == 500) {
+                        commit("SET_NOTFOUNDMYHISTORY", 500);
                     }
-                    console.log(err)
                 })
         }
     }

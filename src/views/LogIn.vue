@@ -175,7 +175,7 @@ export default {
       isChange: false,
     };
   },
-  mounted() {
+  created() {
     this.localbox = localStorage.getItem("logInActive");
     this.localbox == 1 ? (this.logIn = true) : (this.logIn = false);
   },
