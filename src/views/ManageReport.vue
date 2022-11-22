@@ -261,7 +261,6 @@ export default {
   },
   async created() {
     this.handleView();
-    this.getContent();
     window.addEventListener("resize", this.handleView);
   }
 }

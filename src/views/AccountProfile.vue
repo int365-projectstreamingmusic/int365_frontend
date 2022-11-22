@@ -523,9 +523,6 @@ export default {
       this.$store.dispatch('musicAuthen/getMyHistory');
     }
   },
-  async created() {
-    this.getContent();
-  }
 };
 </script>
 <style>
