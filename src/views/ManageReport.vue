@@ -62,7 +62,7 @@
                 @pageNum="resPageNumComment"></paginate>
             </div>
             <div v-if="reportLicense">
-              <loading v-if="reportTrackList == '' && !this.notfoundTrack"></loading>
+              <loading v-if="reportTrackList == '' && this.notfoundTrack!=''"></loading>
               <div v-for="(info, index) in reportTrackList" :key="index"
                 class="bg-neutral-50  rounded-lg font-sansation-light my-3 py-5 sm:px-10 px-5 space-y-4 md:text-base text-sm">
                 <div class="flex md:flex-row flex-col md:space-x-5 space-x-0 md:space-y-0 space-y-5">
@@ -101,7 +101,7 @@
                 class="flex justify-center items-center font-sansation-light my-3 text-base">
                 Now this feature with a problem. The team is working to fix it.
               </div>
-              <div  v-if="this.notfoundTrack===404" class="flex justify-center items-center font-sansation-light my-3 text-base">
+              <div  v-if="this.notfoundTrack===404 || reportTrackList == ''" class="flex justify-center items-center font-sansation-light my-3 text-base">
                 " Hmm.. , Now have no report !!"
               </div>
               <paginate :totalItems="totalTrack" :sizePage="totalPageTrack" :itemsPerPage="5" :maxPagesShow="5"
