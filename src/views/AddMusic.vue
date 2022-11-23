@@ -322,7 +322,7 @@ export default {
       this.showClicked = !value;
     },
     routerClicked() {
-      this.$router.push('/hometest')
+      this.$router.push('/accountprofile')
     },
     closeClicked() {
       this.showClicked = false;
