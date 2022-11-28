@@ -76,8 +76,6 @@ export default {
     }
   },
   created(){
-    console.log(this.totalItems)
-    console.log(this.sizePage)
     this.addPage()
     this.handleView();
     window.addEventListener("resize", this.handleView);

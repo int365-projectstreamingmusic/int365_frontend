@@ -9,11 +9,6 @@
                     <div class="flex justify-center items-center text-xl ">{{ message.header }}</div>
                     <div class="flex justify-center items-center my-6">{{ message.body }}</div>
                 </div>
-                <!-- <div v-if="this.message.status" class="flex justify-center items-center ">
-                    <textarea v-model="msgData" type="text" name="msgData" placeholder="Report"
-                        class="w-3/4 h-16 pl-6 py-2 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base" />
-                </div> -->
-
                 <div class="flex flex-row space-x-3 justify-center items-center my-5">
                     <button @click="confirmCurrentModal"
                         v-if="this.message.button1 != '' && this.message.button1 != null"

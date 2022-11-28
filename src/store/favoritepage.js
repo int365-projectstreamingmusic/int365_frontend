@@ -75,7 +75,6 @@ export default {
         await axios.post(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Favorite?trackId=${id}`,
           { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}
         })
-        // เอาออก
         dispatch("getAllFavorites");
       } catch(err){
           console.log(err)
@@ -88,8 +87,6 @@ export default {
       { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token']}})
       .then((res) =>{
         console.log(res)
-        // dispatch('homepage/checkFavAndPlay',{idFav:id,booleanFav:false}, { root: true })
-         // เอาออก
         dispatch("getAllFavorites");
       }).catch((err) => {
         console.log(err)

@@ -39,8 +39,6 @@
                 <input id="input-image" type="file" class="hidden" accept="image/*"
                   @change="handleImageUpload($event)" />
               </label>
-
-              <!-- <form @submit.prevent="addImage"> -->
               <form @submit.prevent="addOrUpMusicInfo()" class="w-4/6 my-5">
                 <div class="my-2">
                   <p class="text-md my-2">Title*</p>
@@ -79,8 +77,6 @@
                     </option>
                   </select>
                 </div>
-
-                <!-- </form> -->
                 <div class="flex md:flex-row md:justify-start flex-col items-center w-full space-x-4 mt-4"
                   v-if="addOrUp == 'up' || addOrUp == 'editMusic'">
                   <div class="bg-neutral-100 p-2 rounded-xl" v-if="this.addOrUp != 'editMusic'">
@@ -125,11 +121,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div v-if="addOrUp == 'add'">
-                  <input type="radio" v-model="autoAdd" value="true" />
-                  <label for="autoAdd" class="mx-2">Auto add music in this playlist
-                  </label>
-                </div> -->
                 <div v-if="addOrUp == 'add' || addOrUp == 'editPlaylist'">
                   <input type="radio" v-model="confirm" value="true" />
                   <label for="confirm" class="mx-2">Search music to add in playlist
@@ -192,7 +183,6 @@
                             Delete
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -372,24 +362,24 @@ export default {
         if (this.addOrUp == "up" && this.musicInfo.id != null) {
           formData.append('newTrack', regisJson)
           formData.append('trackFile', this.file)
-          this.finishPopup=true;
+          this.finishPopup = true;
           await axios
             .post(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track`,
               formData,
             ).then((response) => {
-              this.finishPopup=false;
+              this.finishPopup = false;
               this.showPopupConfirm()
             });
         } else {
           formData.append('track', regisJson)
-          this.finishPopup=true;
+          this.finishPopup = true;
           await axios
             .put(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/artist/track/edit`,
               formData,
             ).then((response) => {
-              this.finishPopup=false;
+              this.finishPopup = false;
               this.showPopupConfirm()
             });
         }
@@ -406,7 +396,7 @@ export default {
         formData.append('form', regisJson)
         formData.append('image', this.image)
         if (this.playlistInfo.id != null && this.playlistInfo.id != '' && this.playlistInfo.id != undefined) {
-          this.finishPopup=true;
+          this.finishPopup = true;
           await axios
             .put(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist`,
@@ -419,12 +409,12 @@ export default {
                   `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
                   this.setTrack,
                 ).then((response) => {
-                  this.finishPopup=false;
+                  this.finishPopup = false;
                   this.showPopupConfirm()
                 });
             });
         } else {
-          this.finishPopup=true;
+          this.finishPopup = true;
           await axios
             .post(
               `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist`,
@@ -437,7 +427,7 @@ export default {
                   `${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
                   this.setTrack,
                 ).then((response) => {
-                  this.finishPopup=false;
+                  this.finishPopup = false;
                   this.showPopupConfirm()
                 });
             });
@@ -534,9 +524,7 @@ export default {
             })
         }
       }
-
     }
-
   },
   mounted() {
     this.addOrUp = localStorage.getItem("addOrUp");
@@ -552,11 +540,9 @@ export default {
   async created() {
     this.handleView();
     window.addEventListener("resize", this.handleView);
-  },
-  async created() {
     this.getMoodList();
     this.getGenreList();
     this.getTrack();
-  }
+  },
 };
 </script>

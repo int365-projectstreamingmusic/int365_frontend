@@ -85,7 +85,6 @@ export default {
                     commit("SET_TOTALPAGEMYSONG", res.data.totalPages)
                     commit("SET_TOTALSONGMYSONG", res.data.totalElements);
                     commit("SET_MYSONG", res.data.content)
-                    console.log(res.data.content);
                 }).catch((err) => {
                     if (err.response.status == 404) {
                         commit("SET_NOTFOUNDMYSONG", 404);

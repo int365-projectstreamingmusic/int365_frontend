@@ -114,16 +114,13 @@
             <input v-model="regisform.user_passcode" type="password" name="user_passcode" placeholder="PASSWORD"
               required
               class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
-              :class="
-                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
               " />
           </div>
           <div class="my-2">
             <input v-model="confirmPass" type="password" name="confirmPass" placeholder="CONFIRM PASSWORD" required
               class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
-              :class="
-                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-              " />
+              :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
           </div>
           <div class="text-red-500 text-sm font-mono">
             {{ this.invalid.duplicated.errorMessage }}
@@ -243,11 +240,6 @@ export default {
     },
     editClose() {
       this.isChange = false;
-      // passwordForm = {
-      //   oldPassword: null,
-      //   newPassword: null,
-      //   confirmationPassword: null,
-      // };
     },
     async doLogin() {
       let response = await this.signIn(JSON.stringify(this.logform));
