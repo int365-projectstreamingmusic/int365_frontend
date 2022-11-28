@@ -160,6 +160,7 @@ module.exports = {
             '1/6': '16.666667%'
         },
         animation: {
+            prixClipFix: 'prixClipFix 1.5s infinite linear;',
             none: 'none',
             spin: 'spin 1s linear infinite',
             ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
@@ -257,9 +258,11 @@ module.exports = {
         borderWidth: {
             DEFAULT: '1px',
             0: '0px',
+            1: '1px',
             2: '2px',
             4: '4px',
             8: '8px',
+            10: '10px'
         },
         boxShadow: {
             sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
@@ -618,6 +621,13 @@ module.exports = {
             full: '100%',
         }),
         keyframes: {
+            prixClipFix: {
+                '0%': {'clip-path':'polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)'},
+                '25%':  {'clip-path':'polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)'},
+                '50%':  {'clip-path':'polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)'},
+                '75%': {'clip-path':'polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)'},
+                '100%':{'clip-path':'polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)'}
+            },
             spin: {
                 to: {
                     transform: 'rotate(360deg)',

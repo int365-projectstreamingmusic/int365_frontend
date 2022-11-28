@@ -2,10 +2,13 @@ import { createStore } from "vuex";
 import authentication from "./authentication";
 import homepage from "./homepage";
 import managereport from "./managereport";
-import search from "./search";
 import myplaylist from "./myplaylist";
 import allsong from "./allsong";
 import favoritepage from "./favoritepage";
+import musicAuthen from "./musicAuthen";
+import oneplaylist from "./oneplaylist";
+import allplaylist from "./allplaylist";
+
 
 export default createStore({
   state: {},
@@ -16,9 +19,11 @@ export default createStore({
     authentication,
     homepage,
     managereport,
-    search,
     myplaylist,
     allsong,
-    favoritepage
+    favoritepage,
+    musicAuthen,
+    oneplaylist,
+    allplaylist
   },
 });

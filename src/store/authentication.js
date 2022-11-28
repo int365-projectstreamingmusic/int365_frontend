@@ -7,6 +7,7 @@ export default {
     roles: null,
     UserName: null,
     data: null,
+    admin:false,
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -20,6 +21,9 @@ export default {
     },
     SET_DATA(state, data) {
       state.data = data;
+    },
+    SET_ADMIN(state, admin) {
+      state.admin = admin;
     },
   },
   getters: {
@@ -35,8 +39,19 @@ export default {
     data(state) {
       return state.data;
     },
+    admin(state) {
+      return state.admin;
+    },
     token(state){
       return state.token
+    },
+    userId(state){
+      if(state.data != null){
+        return state.data.accountId
+      }else{
+        return null
+      }
+      
     }
   },
   actions: {
@@ -79,14 +94,20 @@ export default {
             }
           }
         );
+        response.data.userRoles.forEach(element => {
+          if (element.roles.roles === "admin") {
+            commit("SET_ADMIN",true)
+          }
+        });
         commit("SET_USERNAME", response.data.username);
-        commit("SET_ROLES", response.data.roles);
+        commit("SET_ROLES", response.data.userRoles);
         commit("SET_DATA",response.data)
       } catch (error) {
         commit("SET_TOKEN", null);
         commit("SET_USERNAME", null);
         commit("SET_ROLES", null);
         commit("SET_DATA", null);
+        commit("SET_ADMIN", null);
       }
     },
     async singOut({ commit }) {

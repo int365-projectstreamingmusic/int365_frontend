@@ -14,8 +14,16 @@ export default {
     logo:false,
     topOne:false,
     smView:false,
+    notfoundRP: false,
+    path: ''
   },
   mutations: {
+    SET_PATH(state,path){
+      state.path = path
+    },
+    SET_NOTFOUNDRP(state,notfoundRP){
+      state.notfoundRP = notfoundRP
+    },
     SET_SMVIEW(state,smView){
       state.smView = smView
     },
@@ -51,6 +59,12 @@ export default {
     }
   },
   getters:{
+    path(state){
+      return state.path
+    },
+    notfoundRP(state){
+      return state.notfoundRP
+    },
     smView(state){
       return state.smView
     },
@@ -89,8 +103,6 @@ export default {
     async getTopFive({ commit },num){
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/topall?numberOfTracks=${num}`)
       .then((res) =>{
-        // console.log(res.data)
-        // console.log(res.data[0])
         commit("SET_TOPFRIST", res.data[0])
         res.data.splice(0,1)
         commit("SET_TOPFIVE", res.data);
@@ -100,18 +112,17 @@ export default {
       })
     },
     async getTopFiveInSevenDays({ commit },params){
-      // console.log(params)
+      commit("SET_TOPFIVESEVENDAYS", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/top?days=${params.day}&numberOfTracks=${params.num}`)
       .then((res) =>{
-        // console.log(res.data)
         commit("SET_TOPFIVESEVENDAYS", res.data);
+
       }).catch((err) => {
         console.log(err)
       })
     },
-    async getRecentplayed({ commit,rootGetters },params){
-      console.log(params)
-      console.log(rootGetters['authentication/token'])
+    async getRecentplayed({ commit,rootGetters, state },params){
+      commit("SET_RECENTPLAYED", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/history/LastVisited?numberOfRecord=${params}`,
       {         
         headers: {
@@ -119,28 +130,41 @@ export default {
         }
       })
       .then((res) =>{
-        // console.log(res.data)
         commit("SET_RECENTPLAYED", res.data);
       }).catch((err) => {
         console.log(err)
+        commit("SET_RECENTPLAYED", 'NOTFOUNDRP');
+        commit("SET_NOTFOUNDRP", true)
       })
     },
+    checkFavAndPlay({state,dispatch},params){
+
+      for (let x of state.topFiveInSevenDays) { 
+        if(x.id == params.idFav){ 
+          dispatch("getTopFiveInSevenDays",{num:6,day:7});
+        }
+      for (let x of state.recentplayed) {
+        if(x.track.id == params.idFav){ 
+          dispatch("getRecentplayed",6);
+        }
+      }
+      for (let x of state.recentReleases) { x.id == params.idFav ? dispatch("getRecentReleases"):''} 
+      }
+    }
+    ,
     async getRecentReleases({ commit }){
-      // console.log(params)
+      commit("SET_RECENTRELEASES", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/latest`)
       .then((res) =>{
-        // console.log(res.data)
         commit("SET_RECENTRELEASES", res.data);
       }).catch((err) => {
         console.log(err)
       })
     },
     setMediaPlayer({ commit },boolean){
-      // console.log(boolean)
       commit("SET_MEDIAPLAYER",boolean)
     },
     hideSideBar({ commit,state }){
-      console.log(state.sideBarShow)
       commit("SET_SIDEBARSHOW",!state.sideBarShow)
     },
     setTopOne({commit},boolean){

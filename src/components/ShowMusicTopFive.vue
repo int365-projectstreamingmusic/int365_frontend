@@ -11,8 +11,8 @@
         <div class="2xl:w-56 w-44 flex flex-col font-sansation-regular text-sm 2xl:tracking-widest text-blackcoal opacity-100">
           <div v-if="musicDes && musicDes.trackName" ><p class="truncate">Name: {{musicDes.trackName}}</p></div>
           <div v-if="musicDes && musicDes.artistTracks[0]">Artist: {{musicDes.artistTracks[0].artistsModel.artistName}}</div>
-          <div>Album: you name</div>
-          <div v-if="musicDes && musicDes.artistTracks[0]">Released: {{musicDes.timestamp}}</div>
+          <div v-if="musicDes && musicDes.albums">Album: {{musicDes.albums.albumName}}</div>
+          <div v-if="musicDes && musicDes.timestamp">Released: {{musicDes.timestamp}}</div>
           <div v-if="musicDes && musicDes.viewCount">Views: {{musicDes.viewCount}}</div>
         </div>  
         <div class="text-white w-10 h-10 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
@@ -34,9 +34,6 @@
       <div v-else class="sm:pl-20 pl-6 pr-3 md:pb-3 pb-1 bg-neutral-100 bg-opacity-80 absolute justify-self-start z-10 flex flex-row md:items-end items-center justify-between  md:w-698 sm:w-466 w-80 md:h-15 h-12" >
         <div class="w-56 flex flex-col font-sansation-regular sm:text-sm text-xs sm:tracking-widest text-blackcoal opacity-100">
           <div v-if="musicDes && musicDes.trackName" ><p class="truncate">Name: {{musicDes.trackName}}</p></div>
-          <!-- <div>Artist: {{musicDes.userAccountModel.username}}</div> -->
-          <!-- <div>Album: you name</div> -->
-          <!-- <div>Released: {{musicDes.timestamp}}</div> -->
           <div v-if="musicDes && musicDes.viewCount">Views: {{musicDes.viewCount}}</div>
         </div>  
         <div class="mr-5 text-white md:w-10 md:h-10 sm:w-8 sm:h-8 w-6 h-6 item-center bg-blackcoal rounded-full shadow-lg hover:bg-violetdark transition duration-500 ">
@@ -75,15 +72,3 @@ export default {
   }
 } 
 </script>
-<style >
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.7s 
-  /* ease; */
-  /* transition-duration: 0.2s;
-  transition-timing-function: linear; */
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0
-}
-</style>

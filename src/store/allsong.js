@@ -43,12 +43,8 @@ export default {
   actions: {
     async getAllSong({commit},pagenum = 0){
       commit("SET_ALLSONG",'')
-      console.log(pagenum)
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track?page=${pagenum}&pageSize=18`)
       .then((res) =>{
-        console.log(res.data.totalPages)
-        // console.log(res.data.content)
-        // console.log(res.data.content.length)
         commit("SET_TOTALPAGE",res.data.totalPages)
         commit("SET_TOTALSONG", res.data.totalElements);
         commit("SET_NOTFOUND", false);
@@ -61,6 +57,20 @@ export default {
         }
         console.log(err)
       })
+    },
+    async addHisAndView({rootGetters},musicfilename){
+      await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/entrance/${musicfilename}`,
+        {         
+          headers: {
+            'Authorization': 'Bearer ' + rootGetters['authentication/token']
+          }
+        }
+      )
+      .then((res) =>{
+      }).catch((err) => {
+        console.log(err)
+      })
     }
+
   }
 }

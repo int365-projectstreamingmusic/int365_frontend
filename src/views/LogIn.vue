@@ -1,28 +1,15 @@
 <template>
-  <div
-    class="h-screen flex item-center flex-col font-sansation-light"
-    :class="sideBarShow ? 'xl:ml-75' : ''"
-  >
-    <div
-      class="lg:w-2/6 h-5/6 p-12 flex flex-col justify-center item-center cursor-pointer transition duration-200"
-    >
+  <div class="h-screen flex item-center flex-col font-sansation-light" :class="sideBarShow ? 'xl:ml-75' : ''">
+    <div class="lg:w-2/6 h-5/6 p-12 flex flex-col justify-center item-center cursor-pointer transition duration-200">
       <div class="flex flex-row items-center space-x-2 text-3xl">
-        <div
-          @click="click('1')"
-          class="cursor-pointer hover:text-violetlight transition duration-300"
-          key=""
-          :class="this.localbox == 1 ? 'text-violetlight' : ''"
-        >
+        <div @click="click('1')" class="cursor-pointer hover:text-violetlight transition duration-300" key=""
+          :class="this.localbox == 1 ? 'text-violetlight' : ''">
           <p v-if="isChange">Reset Password</p>
-          <p v-else>Sign in</p>
+          <p v-else>Log in</p>
         </div>
         <p v-if="!isChange">|</p>
-        <p
-          v-if="!isChange"
-          @click="click('2')"
-          class="cursor-pointer hover:text-violetlight transition duration-300"
-          :class="this.localbox == 2 ? 'text-violetlight' : ''"
-        >
+        <p v-if="!isChange" @click="click('2')" class="cursor-pointer hover:text-violetlight transition duration-300"
+          :class="this.localbox == 2 ? 'text-violetlight' : ''">
           Register
         </p>
       </div>
@@ -32,59 +19,41 @@
             <div class="my-2">
               <p class="text-md my-2 mx-5">Username or Email:</p>
 
-              <input
-                v-model="passwordForm.Username"
-                type="text"
-                name="Username"
-                placeholder="Username or Email"
+              <input v-model="passwordForm.Username" type="text" name="Username" placeholder="Username or Email"
                 required
                 class="w-full h-12 pl-6 cursor-pointer duration-200 hover-focus-input focus:border-violetlight rounded-md border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-                "
-              />
+                " />
             </div>
             <div class="my-2">
               <p class="text-md my-2 mx-5">New Password :</p>
-              <input
-                v-model="passwordForm.newPassword"
-                type="password"
-                name="NewPassword"
-                placeholder="New Password"
+              <input v-model="passwordForm.newPassword" type="password" name="NewPassword" placeholder="New Password"
                 required
                 class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-                "
-              />
+                " />
             </div>
             <div class="my-2">
               <p class="text-md my-2 mx-5">Confrim Password :</p>
-              <input
-                v-model="passwordForm.confirmationPassword"
-                type="password"
-                name="confirmationPassword"
-                placeholder="Confrim Password"
-                required
+              <input v-model="passwordForm.confirmationPassword" type="password" name="confirmationPassword"
+                placeholder="Confrim Password" required
                 class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-                "
-              />
+                " />
             </div>
             <div class="text-red-500 text-sm font-mono mx-5">
               {{ this.invalid.duplicated.errorMessage }}
             </div>
             <div class="flex flex-row space-x-3">
               <button
-                class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-violetlight text-white flex justify-center item-center"
-              >
+                class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-violetlight text-white flex justify-center item-center">
                 save
               </button>
-              <button
-                @click="editClose"
-                class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center"
-              >
+              <button @click="editClose"
+                class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center">
                 cancel
               </button>
             </div>
@@ -94,43 +63,28 @@
           <form action="" @submit.prevent="doLogin">
             <div class="my-2">
               <p class="text-md my-2 mx-5">Username</p>
-              <input
-                v-model="logform.userName"
-                type="text"
-                name="userName"
-                placeholder="USERNAME OR EMAIL "
-                required
+              <input v-model="logform.userName" type="text" name="userName" placeholder="USERNAME OR EMAIL " required
                 class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : 'focus:border-violetlight'
-                "
-              />
+                " />
             </div>
             <div class="my-2">
               <p class="text-md my-2 mx-5">Password</p>
-              <input
-                v-model="logform.password"
-                type="password"
-                name="password"
-                placeholder="PASSWORD"
-                required
+              <input v-model="logform.password" type="password" name="password" placeholder="PASSWORD" required
                 class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md hover-focus-input focus:border-violetlight border-2 text-xs md:text-base"
                 :class="
                   this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-                "
-              />
+                " />
             </div>
             <div class="text-red-500 text-sm font-mono">
               {{ this.invalid.duplicated.errorMessage }}
             </div>
             <div class="my-4 flex justify-center item-center">
               <button
-                class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center"
-              >
+                class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center">
                 LOGIN
-                <span class="material-icons text-violetlight"
-                  >chevron_right</span
-                >
+                <span class="material-icons text-violetlight">chevron_right</span>
               </button>
             </div>
             <div @click="changePass">Forgot password</div>
@@ -141,66 +95,39 @@
         <form action="" @submit.prevent="doRegister">
           <div class="my-2">
             <p class="text-md my-2 mx-5">Username</p>
-            <input
-              v-model="regisform.username"
-              type="text"
-              name="username"
-              placeholder="USERNAME OR EMAIL "
-              required
+            <input v-model="regisform.username" type="text" name="username" placeholder="USERNAME OR EMAIL " required
               class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-              "
-            />
+              " />
           </div>
           <div class="my-2">
             <p class="text-md my-2 mx-5">Email</p>
-            <input
-              v-model="regisform.email"
-              type="text"
-              name="email"
-              placeholder="EMAIL ADDRESS "
-              required
+            <input v-model="regisform.email" type="text" name="email" placeholder="EMAIL ADDRESS " required
               class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
               :class="
                 this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-              "
-            />
+              " />
           </div>
           <div class="my-2">
             <p class="text-md my-2 mx-5">Password</p>
-            <input
-              v-model="regisform.user_passcode"
-              type="password"
-              name="user_passcode"
-              placeholder="PASSWORD"
+            <input v-model="regisform.user_passcode" type="password" name="user_passcode" placeholder="PASSWORD"
               required
               class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
-              :class="
-                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-              "
-            />
+              :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
+              " />
           </div>
           <div class="my-2">
-            <input
-              v-model="confirmPass"
-              type="password"
-              name="confirmPass"
-              placeholder="CONFIRM PASSWORD"
-              required
+            <input v-model="confirmPass" type="password" name="confirmPass" placeholder="CONFIRM PASSWORD" required
               class="w-full h-12 pl-6 cursor-pointer transition duration-200 rounded-md border-2 hover-focus-input focus:border-violetlight text-xs md:text-base"
-              :class="
-                this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''
-              "
-            />
+              :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
           </div>
           <div class="text-red-500 text-sm font-mono">
             {{ this.invalid.duplicated.errorMessage }}
           </div>
           <div class="my-4 flex justify-center item-center">
             <button
-              class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center"
-            >
+              class="w-full h-12 cursor-pointer transition duration-200 rounded-md bg-gray-600 text-white flex justify-center item-center">
               Register
               <span class="material-icons text-violetlight">chevron_right</span>
             </button>
@@ -211,7 +138,7 @@
   </div>
 </template>
 <script>
-import { mapActions,mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -245,7 +172,7 @@ export default {
       isChange: false,
     };
   },
-  mounted() {
+  created() {
     this.localbox = localStorage.getItem("logInActive");
     this.localbox == 1 ? (this.logIn = true) : (this.logIn = false);
   },
@@ -313,11 +240,6 @@ export default {
     },
     editClose() {
       this.isChange = false;
-      passwordForm = {
-        oldPassword: null,
-        newPassword: null,
-        confirmationPassword: null,
-      };
     },
     async doLogin() {
       let response = await this.signIn(JSON.stringify(this.logform));
@@ -362,32 +284,48 @@ export default {
             errorCode = 0;
           })
           .catch((error) => {
-            errorCode = error.response.data.exceptionCode;
-            this.invalid.duplicated.showErrorBox = true;
+            if (error.response.data.exceptionCode != null) {
+              errorCode = error.response.data.exceptionCode;
+              this.invalid.duplicated.showErrorBox = true;
+              switch (errorCode) {
+                case 3002:
+                  this.invalid.duplicated.errorMessage =
+                    "This username is taken by another user.";
+                  break;
+                case 3009:
+                  this.invalid.duplicated.errorMessage =
+                    "This email is taken by another user.";
+                  break;
+                case 10001:
+                  this.invalid.duplicated.errorMessage = "This is not a valid email format";
+                  break;
+                case 10002:
+                  this.invalid.duplicated.errorMessage = "This password has less than 8 characters and is not strong enough. The password should have capital and small letter, and a number. For example '123acbABC'";
+                  break;
+                case 10005:
+                  this.invalid.duplicated.errorMessage = "This usename is in use";
+                  break;
+                default:
+                  this.invalid.duplicated.errorMessage =
+                    "An unknown error occures at API.";
+                  break;
+              }
+            }
           });
-        switch (errorCode) {
-          case 3002:
-            this.invalid.duplicated.errorMessage =
-              "This username is taken by another user.";
-            break;
-          case 3009:
-            this.invalid.duplicated.errorMessage =
-              "This email is taken by another user.";
-            break;
-          default:
-            this.invalid.duplicated.errorMessage =
-              "An unknown error occures at API.";
-            break;
+        if (errorCode === 0) {
+          this.logform.userName = this.regisform.username;
+          this.logform.password = this.regisform.user_passcode;
+          this.doLogin();
         }
       } else {
         this.invalid.duplicated.errorMessage = "Passwords do NOT match.";
       }
     },
     computed: {
-    ...mapGetters({
-      sideBarShow: "homepage/sideBarShow",
-    }),
-  },
+      ...mapGetters({
+        sideBarShow: "homepage/sideBarShow",
+      }),
+    },
   },
 };
 </script>
