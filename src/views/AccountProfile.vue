@@ -57,7 +57,6 @@
                   class="cursor-pointer text-sm w-24 h-6 flex items-center justify-center rounded-lg bg-neutral-100 text-black text-center">
                   edit profile
                 </div>
-
                 <div @click="changePass" v-if="!isChange && !isEdit"
                   class="cursor-pointer text-sm w-36 h-6 flex items-center justify-center rounded-lg bg-violetlight text-white text-center">
                   chagne password
@@ -78,22 +77,14 @@
                       <input v-model="passwordForm.oldPassword" type="password" name="Current Password"
                         placeholder="Current Password" required
                         class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        " />
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
                     </div>
                     <div class="my-2 flex flex-row">
                       <p class="text-md my-2 md:mx-5 mx-2 w-32">New Password :</p>
                       <input v-model="passwordForm.newPassword" type="password" name="NewPassword"
                         placeholder="New Password" required
                         class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        " />
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
                     </div>
                     <div class="my-2 flex flex-row">
                       <p class="text-md my-2 md:mx-5 mx-2 w-32">
@@ -102,11 +93,7 @@
                       <input v-model="passwordForm.confirmationPassword" type="password" name="confirmationPassword"
                         placeholder="Confrim Password" required
                         class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        " />
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
                     </div>
                     <div class="text-red-500 text-sm font-mono mx-5">
                       {{ this.invalid.duplicated.errorMessage }}
@@ -136,11 +123,7 @@
                       </p>
                       <input v-model="profileForm.profileName" type="text" name="profileName" placeholder="ProfileName"
                         class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        " />
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
                     </div>
                     <div class="my-2 flex flex-row">
                       <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
@@ -148,11 +131,7 @@
                       </p>
                       <input v-model="profileForm.firstName" type="text" name="firstName" placeholder="Firstname"
                         class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        " />
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
                     </div>
                     <div class="my-2 flex flex-row">
                       <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">
@@ -160,21 +139,13 @@
                       </p>
                       <input v-model="profileForm.lastName" type="text" name="lastName" placeholder="Lastname"
                         class="w-48 h-8 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        " />
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''" />
                     </div>
                     <div class="my-2 flex flex-row">
                       <p class="text-md my-2 md:mx-5 mx-2 md:w-32 w-24">Bio :</p>
                       <textarea v-model="profileForm.userBios" type="text" name="userBios" placeholder="userBios"
                         class="w-48 h-24 pl-5 cursor-pointer border-2 transition duration-200 rounded-md bg-zinc-100 text-xs md:text-sm"
-                        :class="
-                          this.invalid.duplicated.showErrorBox
-                            ? 'border-red-500'
-                            : ''
-                        ">
+                        :class="this.invalid.duplicated.showErrorBox ? 'border-red-500' : ''">
                   </textarea>
                     </div>
                     <div class="text-red-500 text-sm font-mono mx-5">
@@ -210,9 +181,8 @@
           </div>
           <div class="text-sm">filter</div>
         </div>
-
         <div class="font-sansation-light md:px-10 px-3 py-7 bg-gray-50 rounded-lg mt-5 md:mx-36 mx-3">
-          <loading v-if="mySong == ''&& this.notfoundMySong==''" class="flex items-center justify-center"></loading>
+          <loading v-if="mySong == '' && this.notfoundMySong == ''" class="flex items-center justify-center"></loading>
           <div v-if="mySong != ''" class="sm:my-4 my-2 ">
             <div
               class="lg:text-lg md:text-base sm:text-sm text-ss flex flex-row font-sansation-regular tracking-wider border-b-2 border-violetdark text-center select-none  pb-1 space-x-1">
@@ -264,7 +234,6 @@
         </div>
         <!-- My song -->
         <!-- History -->
-
         <div class="flex flex-row items-end font-sansation-light mt-10 md:mx-36 mx-3">
           <div class="flex flex-row items-end">
             <div class="md:text-2xl text-lg font-sansation-bold flex justify-center lg:justify-start my-7">History
@@ -285,7 +254,6 @@
               <p class="w-3/12 md:w-2/6">album</p>
               <p class="w-2/12 md:w-1/6">release</p>
             </div>
-
             <div v-for="(item, index) in myHistory" :key="index"
               class="space-x-1 flex flex-row items-center font-sansation-regular tracking-wider text-center cursor-pointer 2xl:pl-10 2xl:pr-10 sm:pl-5 sm:pr-5 pl-1 pr-3 sm:py-2 py-1 my-1 rounded-full hover:bg-slate-100 hover:text-violetdark transition duration-500">
               <p class="w-1/12 md:w-1/6 sm:text-sm text-xs">{{ index + 1 }}</p>
@@ -301,7 +269,6 @@
               </p>
             </div>
           </div>
-
           <div v-if="this.notfoundMyHistory === 500"
             class="flex justify-center items-center font-sansation-light xgl:text-2xl md:text-xl text-lg">
             " Now this feature with a problem. The team is working to fix it. "
@@ -566,6 +533,3 @@ export default {
   }
 };
 </script>
-<style>
-
-</style>

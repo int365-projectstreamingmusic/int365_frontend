@@ -118,12 +118,7 @@
               </div>
             </div>
           </div>
-          <!-- <div @click="closeSearch()"
-                  class="md:w-20 sm:w-17 w-13 sm:h-6 h-5 text-center items-center justify-center lg:text-base sm:text-sm text-xxs  bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
-                  cancel
-                </div> -->
         </div>
-        <!-- v-if="this.music != null" -->
         <div v-if="authenticated" class="flex flex-row bg-white 2xl:w-1200 sm:space-x-3 space-x-1 w-full">
           <div
             class="space-x-1 sm:w-32 w-20 sm:h-6 h-5 text-center lg:text-base sm:text-sm text-xxs items-center justify-center bg-violet-500 font-sansation-light text-white rounded-full cursor-pointer flex flex-row">
@@ -142,9 +137,6 @@
               <option v-for="(item, index) in this.playList" :key="index" :value="item.id">
                 {{ item.playlistName }}
               </option>
-              <!-- <option>Counted: min > max</option>
-            <option>Counted: max > min</option>
-            <option>Latest</option> -->
             </select>
           </div>
           <div @click="sendData()"

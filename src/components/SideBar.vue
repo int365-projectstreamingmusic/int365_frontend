@@ -3,34 +3,44 @@
   <div v-show="sideBarShow" class=" bg-neutral-50 fixed inset-y-0 left-0 w-75 no-scrollbar overflow-y-scroll   z-50">
     <div class="sticky top-0 z-20">
       <div class="flex flex-row items-center justify-center space-x-5 bg-neutral-50">
-        <span @click="hideSideBar()" class="material-icons text-3xl mt-7 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
-        <div class="font-sansation-light text-3xl text-center mt-7 bg-neutral-50 text-black  pb-0  sticky top-0">GARDEN</div>
+        <span @click="hideSideBar()"
+          class="material-icons text-3xl mt-7 pb-0 cursor-pointer hover:text-violetdark transition delay-75 select-none">menu</span>
+        <div class="font-sansation-light text-3xl text-center mt-7 bg-neutral-50 text-black  pb-0  sticky top-0">GARDEN
+        </div>
       </div>
       <div class="h-8 bg-gradient-to-b from-neutral-50 "></div>
     </div>
     <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">menu</div>
     <div class="py-7">
       <router-link to="/" @click="pathPage('/')">
-        <div class="mb-4 pl-10 border-x-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
-          <div class="flex flex-row space-x-2 "  >
-              <span class="material-icons" v-bind:class="(this.path == '/')?'text-violetlight':'text-blackcoal'">home</span>
-              <div class="font-sansation-regular grid content-center text-base" v-bind:class="(this.path == '/')?'text-violetlight ':'text-blackcoal'" >Home</div>
+        <div
+          class="mb-4 pl-10 border-x-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
+          <div class="flex flex-row space-x-2 ">
+            <span class="material-icons"
+              v-bind:class="(this.path == '/') ? 'text-violetlight' : 'text-blackcoal'">home</span>
+            <div class="font-sansation-regular grid content-center text-base"
+              v-bind:class="(this.path == '/') ? 'text-violetlight ' : 'text-blackcoal'">Home</div>
           </div>
         </div>
       </router-link>
-      <router-link to="/playlist"  @click="pathPage('/playlist')">
-        <div class="mb-4 pl-10 border-x-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
-          <div class="flex flex-row space-x-2"  >
-              <span class="material-icons" v-bind:class="(this.path == '/playlist')?'text-violetlight':'text-blackcoal'">playlist_play</span>
-              <div class="font-sansation-regular grid content-center text-base" v-bind:class="(this.path == '/playlist')?'text-violetlight':'text-blackcoal'">Playlist</div>
+      <router-link to="/playlist" @click="pathPage('/playlist')">
+        <div
+          class="mb-4 pl-10 border-x-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
+          <div class="flex flex-row space-x-2">
+            <span class="material-icons"
+              v-bind:class="(this.path == '/playlist') ? 'text-violetlight' : 'text-blackcoal'">playlist_play</span>
+            <div class="font-sansation-regular grid content-center text-base"
+              v-bind:class="(this.path == '/playlist') ? 'text-violetlight' : 'text-blackcoal'">Playlist</div>
           </div>
         </div>
       </router-link>
-      <router-link to="/favorite"  @click="pathPage('/favorite')" v-if="authenticated">
+      <router-link to="/favorite" @click="pathPage('/favorite')" v-if="authenticated">
         <div class=" pl-10 border-l-8 border-neutral-50 hover:border-x-8 transition delay-75 hover:border-violetlight">
-          <div class="flex flex-row space-x-2"  >
-              <span class="material-icons" v-bind:class="(this.path == '/favorite')?'text-violetlight':'text-blackcoal'">grade</span>
-              <div class="font-sansation-regular grid content-center text-base" v-bind:class="(this.path == '/favorite')?'text-violetlight':'text-blackcoal'">Favorite</div>
+          <div class="flex flex-row space-x-2">
+            <span class="material-icons"
+              v-bind:class="(this.path == '/favorite') ? 'text-violetlight' : 'text-blackcoal'">grade</span>
+            <div class="font-sansation-regular grid content-center text-base"
+              v-bind:class="(this.path == '/favorite') ? 'text-violetlight' : 'text-blackcoal'">Favorite</div>
           </div>
         </div>
       </router-link>
@@ -39,156 +49,156 @@
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">now playing</div>
       <div class="flex flex-row justify-center pt-8">
         <div class="bg-neutral-50 rounded-full h-8 w-8 z-10 self-center absolute"></div>
-        <img :src="url+'api/streaming/image/'+playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse" style="object-fit: cover;"/>
+        <img :src="url + 'api/streaming/image/' + playImage" class="rounded-full h-44 w-44 drop-shadow-xl animate-pulse"
+          style="object-fit: cover;" />
       </div>
-      <div v-for="nameMusics in nameMusic" :key="nameMusics" class="font-sansation-bold text-blackcoal px-7 py-5 text-sm text-center text-shadow-xl">{{nameMusics}}</div>
-      <!-- <div class="font-sansation-regular text-black py-3 text-sm text-center tracking-wide">My Dress-Up Darling</div> -->
+      <div v-for="nameMusics in nameMusic" :key="nameMusics"
+        class="font-sansation-bold text-blackcoal px-7 py-5 text-sm text-center text-shadow-xl">{{ nameMusics }}</div>
       <div class="px-7 w-75">
         <div @click="seek($event)" ref="progress" class="h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-400">
-          <div class="flex w-full justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-700 rounded-full " :style="{'width' : step + '%'}"></div>
+          <div class="flex w-full justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-700 rounded-full "
+            :style="{ 'width': step + '%' }"></div>
         </div>
-        <div class="flex justify-end h-1 rounded-full ml-3" :style="{'width' : step + '%'}">
-          <span class="w-4 h-4 bg-gradient-to-r from-violet-500 to-violet-700 absolute -mt-2.5 rounded-full shadow"></span>
+        <div class="flex justify-end h-1 rounded-full ml-3" :style="{ 'width': step + '%' }">
+          <span
+            class="w-4 h-4 bg-gradient-to-r from-violet-500 to-violet-700 absolute -mt-2.5 rounded-full shadow"></span>
         </div>
       </div>
       <div class="flex justify-between px-7 py-2 font-sansation-regular text-sm text-black">
         <div>
-          <p>{{timer}}</p>
-        </div>    
+          <p>{{ timer }}</p>
+        </div>
         <div>
-          <p>{{duration}}</p>
+          <p>{{ duration }}</p>
         </div>
       </div>
       <div class="flex flex-row justify-between items-center px-9 text-blackcoal cursor-pointer select-none">
         <span @click="shuffle()" class="material-icons hover:text-violetdark transition delay-75">shuffle</span>
         <div class="item-center">
           <span v-if="emptyPlayed" class="material-icons text-gray-400 cursor-not-allowed">fast_rewind</span>
-          <span v-else @click="previous()" class="material-icons hover:text-violetdark transition delay-75 ">fast_rewind</span>
+          <span v-else @click="previous()"
+            class="material-icons hover:text-violetdark transition delay-75 ">fast_rewind</span>
         </div>
         <span @click="seek(-10)" class="material-icons hover:text-violetdark transition delay-75">replay_10</span>
-        <div class="text-white w-10 h-10 item-center bg-gray-500 rounded-full shadow-lg hover:bg-violetdark transition delay-75">
+        <div
+          class="text-white w-10 h-10 item-center bg-gray-500 rounded-full shadow-lg hover:bg-violetdark transition delay-75">
           <span v-if="!pauseTrack" @click="playTest()" class="material-icons text-3xl">play_arrow</span>
           <span v-else @click="pause()" class="material-icons text-3xl">pause</span>
         </div>
         <span @click="seek(10)" class="material-icons hover:text-violetdark transition delay-75">forward_10</span>
         <span @click="next('NEXT')" class="material-icons hover:text-violetdark transition delay-75">fast_forward</span>
         <div class="item-center w-6 place-content-center">
-          <span v-if="loopType == 'NOTLOOP' "  @click="loop('ONLYONE')" class="material-icons hover:text-violetdark transition delay-75">all_inclusive</span>
-          <span v-else-if="loopType == 'ONLYONE'" @click="loop('LOOPALL')" class="text-base place-items-center font-sansation-bold text-violetdark">one</span>
-          <span v-else-if="loopType == 'LOOPALL'" @click="loop('NOTLOOP')" class="text-base place-items-center font-sansation-bold text-violetdark">All</span>
+          <span v-if="loopType == 'NOTLOOP'" @click="loop('ONLYONE')"
+            class="material-icons hover:text-violetdark transition delay-75">all_inclusive</span>
+          <span v-else-if="loopType == 'ONLYONE'" @click="loop('LOOPALL')"
+            class="text-base place-items-center font-sansation-bold text-violetdark">one</span>
+          <span v-else-if="loopType == 'LOOPALL'" @click="loop('NOTLOOP')"
+            class="text-base place-items-center font-sansation-bold text-violetdark">All</span>
         </div>
       </div>
       <div class="flex flex-row items-center space-x-2">
         <div class="font-sansation-bold text-zinc-500 pl-7 text-sm py-3">next play</div>
-        <div class="flex flex-row items-center space-x-2" @mouseover="showVolBar = true" @mouseleave="showVolBar = false">
+        <div class="flex flex-row items-center space-x-2" @mouseover="showVolBar = true"
+          @mouseleave="showVolBar = false">
           <div class="cursor-pointer pt-2" @click="mute()">
-            <span v-if="mutePlayer" class="material-icons text-xl text-red-600" @mouseover="showVolBar = false">volume_mute</span>
-            <span v-else class="material-icons text-xl text-violet-600" >volume_up</span>
+            <span v-if="mutePlayer" class="material-icons text-xl text-red-600"
+              @mouseover="showVolBar = false">volume_mute</span>
+            <span v-else class="material-icons text-xl text-violet-600">volume_up</span>
           </div>
-          <div class="w-28" v-show="showVolBar" >
-            <div @click="volume($event)" ref="volBar" class=" mt-1 h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-500 relative" >
-              <div class="flex justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-600 rounded-full relative" :style="{'width' : volumeProgress + '%'}"></div>
+          <div class="w-28" v-show="showVolBar">
+            <div @click="volume($event)" ref="volBar"
+              class=" mt-1 h-1 bg-grey-dark cursor-pointer rounded-full bg-gray-500 relative">
+              <div class="flex justify-end h-1 bg-gradient-to-r from-violet-500 to-violet-600 rounded-full relative"
+                :style="{ 'width': volumeProgress + '%' }"></div>
             </div>
-            <div class="flex justify-end h-1 mb-1 rounded-full -mt-2" :style="{'width' : volumeProgress + '%'}">
-              <span id="progressButtonVolume" class="w-3 h-3 bg-gradient-to-r from-violet-500 to-violet-600 absolute rounded-full shadow"></span>
+            <div class="flex justify-end h-1 mb-1 rounded-full -mt-2" :style="{ 'width': volumeProgress + '%' }">
+              <span id="progressButtonVolume"
+                class="w-3 h-3 bg-gradient-to-r from-violet-500 to-violet-600 absolute rounded-full shadow"></span>
             </div>
           </div>
         </div>
       </div>
       <div class="px-10 mb-10 tracking-wide space-y-1 cursor-pointer">
-        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2" v-for="(value,index) in playApi" :key="index" >
-          <div v-if="(index+1)==1" class="flex flex-row space-x-2 items-center" >
-            <div>{{index+1}}</div>
-            <div class="truncate w-48 " @click="next(index)">{{value.nameShow}}</div>
-            <span class="material-icons text-sm text-neutral-50 hover:text-red-500"  @click="deleteMusic(index)">close</span>
+        <div class=" flex flex-row text-ss hover:text-violetdark font-sansation-regular space-x-2"
+          v-for="(value, index) in playApi" :key="index">
+          <div v-if="(index + 1) == 1" class="flex flex-row space-x-2 items-center">
+            <div>{{ index + 1 }}</div>
+            <div class="truncate w-48 " @click="next(index)">{{ value.nameShow }}</div>
+            <span class="material-icons text-sm text-neutral-50 hover:text-red-500"
+              @click="deleteMusic(index)">close</span>
           </div>
-          <div v-else class="flex flex-row space-x-2" >
-            <div>{{index+1}}</div>
-            <div class="truncate w-48" @click="next(index)">{{value.nameShow}}</div>
-            <span class="material-icons text-sm text-neutral-50 hover:text-red-500" @click="deleteMusic(index)">close</span>
+          <div v-else class="flex flex-row space-x-2">
+            <div>{{ index + 1 }}</div>
+            <div class="truncate w-48" @click="next(index)">{{ value.nameShow }}</div>
+            <span class="material-icons text-sm text-neutral-50 hover:text-red-500"
+              @click="deleteMusic(index)">close</span>
           </div>
         </div>
       </div>
     </div>
     <div v-show="!mediaPlayer">
       <div class="font-sansation-bold text-zinc-500 pl-7 text-sm">play now</div>
-      <div class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">Click music And <br> i will play music for you! </div>
+      <div
+        class="font-sansation-bold text-zinc-400 border-zinc-300 border border-dashed mx-9 my-5 py-7 text-center text-ss ">
+        Click music And <br> i will play music for you! </div>
     </div>
- </div>
+  </div>
 </template>
 
 <script>
-// var cursor = document.getElementById('cursor');
-//           document.addEventListener('mousemove',function(e){ 
-//             cursor.style.left = e.clientX + "px";
-//             cursor.style.top = e.clientX + "px";})
-//           ;
-import { mapGetters, mapActions, useStore} from "vuex";
+
+import { mapGetters, mapActions, useStore } from "vuex";
 import {
   ref,
-  // ,reactive
-  // computed
 } from "vue";
-// import {useRoute} from 'vue-router'
 import {
   Howl,
   Howler
 } from "howler";
 export default {
-  props:{
-    music: {type:Object, required: false},
-    playlist: {type:Array, require: false},
-    addQueue: {type:Object, required: false},
-    // pathC:{type:String, required:false}
+  props: {
+    music: { type: Object, required: false },
+    playlist: { type: Array, require: false },
+    addQueue: { type: Object, required: false },
   },
-  watch: { 
-    playlist: function(newVal) {
-      if(this.checkPlayer()){
-        this.$store.dispatch('homepage/setMediaPlayer',true)
-        this.playApi.splice(0, 0,newVal[0])
+  watch: {
+    playlist: function (newVal) {
+      if (this.checkPlayer()) {
+        this.$store.dispatch('homepage/setMediaPlayer', true)
+        this.playApi.splice(0, 0, newVal[0])
         this.fristPlayed = true
         this.stopPlayer()
         for (let index = 0; index < newVal.length; index++) {
-          if(index != 0){
+          if (index != 0) {
             this.playApi.push(newVal[index])
           }
         }
-      }else{
+      } else {
         for (let index = 0; index < newVal.length; index++) {
-         this.playApi.push(newVal[index])
+          this.playApi.push(newVal[index])
         }
-        
+
       }
     },
-    music: function(newVal) { // watch it
-      // if(this.music != null){
-      // console.log("thsoundis.")
-      // // this.sound == undefined ? console.log(this.sound) : this.sound.playing() ? this.sound.stop() : console.log('asd')
-      // // this.sound.value.pause()
-      // this.mediaPlayer = true
-      // this.playApi.splice(0, 0,newVal)
-      // // this.playApi.push(newVal)
-      // this.fristPlayed = true
-      // this.stopPlayer()
-      // }
-      if(this.checkPlayer()){
-        this.$store.dispatch('homepage/setMediaPlayer',true)
-        this.playApi.splice(0, 0,newVal)
+    music: function (newVal) {
+      if (this.checkPlayer()) {
+        this.$store.dispatch('homepage/setMediaPlayer', true)
+        this.playApi.splice(0, 0, newVal)
         this.fristPlayed = true
         this.stopPlayer()
-        
-      }else{
+
+      } else {
         this.playApi.push(newVal)
-        
+
       }
     },
-    addQueue: function(newVal) { // watch it
-      if(this.checkPlayer()){
-        this.$store.dispatch('homepage/setMediaPlayer',true)
-        this.playApi.splice(0, 0,newVal)
+    addQueue: function (newVal) {
+      if (this.checkPlayer()) {
+        this.$store.dispatch('homepage/setMediaPlayer', true)
+        this.playApi.splice(0, 0, newVal)
         this.fristPlayed = true
         this.stopPlayer()
-      }else{
+      } else {
         this.playApi.push(newVal)
       }
     }
@@ -203,77 +213,45 @@ export default {
   },
   data() {
     return {
-      // path:'',
-      showVolBar:false,
-      // mediaPlayer:false,
-      url:`${process.env.VUE_APP_MY_ENV_VARIABLE}`
-      // url:process.env.VUE_APP_URL
-      // playApi:[],
-      // playNow:''
+      showVolBar: false,
+      url: `${process.env.VUE_APP_MY_ENV_VARIABLE}`
     }
   },
-  methods:{
+  methods: {
     ...mapActions({
-      hideSideBar: 'homepage/hideSideBar' // map `this.add()` to `this.$store.dispatch('increment')`
+      hideSideBar: 'homepage/hideSideBar'
     }),
-    pathPage(path){
-      this.$store.commit('homepage/SET_PATH',path )
+    pathPage(path) {
+      this.$store.commit('homepage/SET_PATH', path)
     }
-
   },
-  mounted(){
-    // const route=useRoute();
+  mounted() {
     this.$store.commit('homepage/SET_PATH', window.location.pathname)
-    // this.path = window.location.pathname
-    // console.log()
-    
-    // if(this.music != null && this.music != undefined){
-    //   this.playApi.value.push(this.music)
-    // } 
-    
-    // var barWidth = (0.9 * 100) / 100;
-    // this.sliderBtnVol = (this.volBar.offsetWidth * barWidth + this.volBar.offsetWidth * 0.05 - 25);
-  },
-  created(){
-    // this.playApi.push({name:'audio1.mp3'},{name:'audio2.mp3'},{name:'audio3.mp3'})
   },
   setup() {
- 
-     
-    // netstat -ano | findstr 8080
-    // taskkill /F /PID 8080
-    // const posx = ref(null);
-        const step =  ref(0);
-        const nextButton = ref(true);
-        const prevButton = ref(true);
-        // const random = ref(false);
-        // const repeat = ref(false);
-        // const index = ref(0);
-        const duration = ref('00:00');
-        const timer = ref('00:00');
-        const pauseTrack = ref(false);
-        const progress = ref(null);
-        const sound = ref(null)
-        const volBar = ref(null);
-        // const sliderBtn = ref(0);
-        const sliderBtnVol = ref(null);
-        const volumeProgress = ref(60);
-        const mutePlayer = ref(false);
-        const playNow = ref(null)
-        const playImage = ref(null)
-        const playApi = ref([])
-        const played = ref([])
-        const fristPlayed = ref(true)
-        const emptyPlayed = ref(true)
-        const loopType = ref('NOTLOOP')
-        const nameMusic = ref([])
-        const hisAndView = ref(true)
-        const store = useStore();
-        // const state = reactive({
-        //     audioPlaying: []
-        // })
-        const audios = ref([]);
-    // const sliderBtn = ref(0);
+    const step = ref(0);
+    const nextButton = ref(true);
+    const prevButton = ref(true);
+    const duration = ref('00:00');
+    const timer = ref('00:00');
+    const pauseTrack = ref(false);
+    const progress = ref(null);
+    const sound = ref(null)
+    const volBar = ref(null);
+    const sliderBtnVol = ref(null);
+    const volumeProgress = ref(60);
+    const mutePlayer = ref(false);
+    const playNow = ref(null)
+    const playImage = ref(null)
+    const playApi = ref([])
+    const played = ref([])
+    const fristPlayed = ref(true)
+    const emptyPlayed = ref(true)
+    const loopType = ref('NOTLOOP')
+    const nameMusic = ref([])
+    const hisAndView = ref(true)
+    const store = useStore();
+    const audios = ref([]);
     function stepFunction() {
       var seek = sound.value.seek();
       timer.value = formatTime(Math.round(seek));
@@ -293,36 +271,29 @@ export default {
         seconds
       );
     }
-    function loop(param){
-      // console.log(param)
-      // console.log(loopType.value)
-      if(param == 'ONLYONE'){
+    function loop(param) {
+      if (param == 'ONLYONE') {
         loopType.value = 'ONLYONE'
-      } else if(param == 'LOOPALL'){
+      } else if (param == 'LOOPALL') {
         loopType.value = 'LOOPALL'
-      } else if(param == 'NOTLOOP'){
+      } else if (param == 'NOTLOOP') {
         loopType.value = 'NOTLOOP'
       }
     }
-     
-    function checkPlayer(){
+
+    function checkPlayer() {
       return sound.value == null ? true : false
     }
     function stopPlayer() {
-      if(sound.value != null){
-      sound.value.stop()
-      sound.value = null        
+      if (sound.value != null) {
+        sound.value.stop()
+        sound.value = null
       }
       playTest()
     }
     function playTest() {
-      // console.log(playApi.value)
-      
-      // var audio = audios.value[index.value];
       if (sound.value == null) {
-        if(fristPlayed.value == true && sound.value == null){
-          // console.log(`ใน play ${playApi.value.length}`) 
-          // console.log('1sttime')
+        if (fristPlayed.value == true && sound.value == null) {
           nameMusic.value[0] = playApi.value[0].nameShow
           playNow.value = playApi.value[0].name ? playApi.value[0].name : ''
           playImage.value = playApi.value[0].image
@@ -330,124 +301,94 @@ export default {
           playApi.value = playApi.value.filter((m) => m != playApi.value[0])
           fristPlayed.value = false
           played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
-          // console.log(playApi.value) 
         }
-        if(hisAndView.value == true){
+        if (hisAndView.value == true) {
           hisAndView.value = false
           let name = playNow.value
-          store.dispatch("allsong/addHisAndView",name);
-          // this.$store.dispatch('',)
+          store.dispatch("allsong/addHisAndView", name);
         }
-      // console.log(`ใน paly ${playNow.value}`) 
-      sound.value = new Howl({
-        src:[`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/getContent/${playNow.value}`],
-        html5: true,
-        onplay: function () {
-          pauseTrack.value = true;
-          nextButton.value = true;
-          prevButton.value = true;
-          //แค่นำมาเทสยังไม่ได้ประกอบร่าง
-          duration.value = formatTime(sound.value.duration());
-          window.requestAnimationFrame(stepFunction.bind(this));
-        },
-        onpause: function () {
-          pauseTrack.value = false;
-        },
-        onseek: function () {
-          sound.value.seek();
-          window.requestAnimationFrame(stepFunction.bind(this));
-        },
-        onend: function() {
-          next();
-        },
+        sound.value = new Howl({
+          src: [`${process.env.VUE_APP_MY_ENV_VARIABLE}api/streaming/getContent/${playNow.value}`],
+          html5: true,
+          onplay: function () {
+            pauseTrack.value = true;
+            nextButton.value = true;
+            prevButton.value = true;
+            duration.value = formatTime(sound.value.duration());
+            window.requestAnimationFrame(stepFunction.bind(this));
+          },
+          onpause: function () {
+            pauseTrack.value = false;
+          },
+          onseek: function () {
+            sound.value.seek();
+            window.requestAnimationFrame(stepFunction.bind(this));
+          },
+          onend: function () {
+            next();
+          },
         });
-      }else{
-      // state.audioPlaying[index.value] = false;   
-      // http://localhost:8080/audiovideo/audios/audio1.mp3
-      // console.log("เข้า")
-      // console.log(`ใน playtest ${playApi.value.length}`) 
-      //  console.log(sound.value )
       }
       sound.value.play();
-      // state.audioPlaying[index.value] = true;
     }
     function pause() {
       if (sound.value) {
         sound.value.pause();
         pauseTrack.value = false;
-        // state.audioPlaying[index.value] = false;   
       }
     }
-    
-    function shuffle(){
-      // console.log(playApi.value)
-      // playApi.value[Math.floor(Math.random()*items.length)]
+
+    function shuffle() {
       var round = playApi.value.length
       var oldPlay = playApi.value
       var random = []
-      // var gap 
-      // console.log(oldPlay[Math.floor(Math.random()*oldPlay.length)])
       for (let index = 0; index < round; index++) {
-        // gap = 
-        // console.log(gap)
-        random.push(oldPlay[Math.floor(Math.random()*oldPlay.length)]) 
-        // playApi.value[index] = random 
-        // console.log(random)
-        oldPlay = oldPlay.filter((m) => m != random[index]  )
-        // console.log(oldPlay)
+        random.push(oldPlay[Math.floor(Math.random() * oldPlay.length)])
+        oldPlay = oldPlay.filter((m) => m != random[index])
       }
       playApi.value = random
-      // console.log(playApi.value)
-      // console.log(oldPlay)
     }
-    function deleteMusic(index){
+    function deleteMusic(index) {
       playApi.value = playApi.value.filter((m) => m != playApi.value[index])
     }
-    function previous(){
-      if(played.value.length != 0){
-          // console.log(played.value)
-          // console.log(played.value[played.value.length-1].nameShow)
-          // console.log(played.value[played.value.length-2].image)
-          
-          playApi.value.splice(0, 0,{name:playNow.value,nameShow:played.value[played.value.length-1].nameShow,image:played.value[played.value.length-1].image})
-          store.dispatch("allsong/addHisAndView",playNow.value);
-          playNow.value = played.value[played.value.length-2].name
-          playImage.value = played.value[played.value.length-2].image
-          nameMusic.value[0] = played.value[played.value.length-2].nameShow
-          played.value = played.value.filter((m) => m != played.value[played.value.length-1]  )
-        //  && m != played.value[played.value.length-2]
-          // console.log(playApi.value)
-          played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
-          loopType.value = 'NOTLOOP'
-          // next()
-        }
+    function previous() {
+      if (played.value.length != 0) {
+        playApi.value.splice(0, 0, { name: playNow.value, nameShow: played.value[played.value.length - 1].nameShow, image: played.value[played.value.length - 1].image })
+        store.dispatch("allsong/addHisAndView", playNow.value);
+        playNow.value = played.value[played.value.length - 2].name
+        playImage.value = played.value[played.value.length - 2].image
+        nameMusic.value[0] = played.value[played.value.length - 2].nameShow
+        played.value = played.value.filter((m) => m != played.value[played.value.length - 1])
+        played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
+        loopType.value = 'NOTLOOP'
+      }
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
       playTest();
     }
     function next(index) {
-      if(index == 'NEXT'){
-        loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL': loopType.value = 'NOTLOOP'
+      if (index == 'NEXT') {
+        loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' : loopType.value = 'NOTLOOP'
         next()
       } else {
-        if(sound.value && index == undefined ){
-          if(playApi.value.length != 0){
-            if(loopType.value != 'ONLYONE'){
+        if (sound.value && index == undefined) {
+          if (playApi.value.length != 0) {
+            if (loopType.value != 'ONLYONE') {
               nameMusic.value[0] = playApi.value[0].nameShow
               playNow.value = playApi.value[0].name
               playImage.value = playApi.value[0].image
               played.value.push(playApi.value[0])
               playApi.value = playApi.value.filter((m) => m != playApi.value[0])
             }
-          }else{
-            loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null ;
-            if(loopType.value != 'ONLYONE'){
+          } else {
+            loopType.value == 'LOOPALL' ? playApi.value = played.value : playNow.value = null;
+            if (loopType.value != 'ONLYONE') {
               played.value = []
-              next(0)              
+              next(0)
             }
-          }  
-        }else{
-          loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' :  loopType.value = 'NOTLOOP'
+          }
+        } else {
+          loopType.value == 'LOOPALL' ? loopType.value = 'LOOPALL' : loopType.value = 'NOTLOOP'
           nameMusic.value[0] = playApi.value[index].nameShow
           playNow.value = playApi.value[index].name
           playImage.value = playApi.value[index].image
@@ -458,22 +399,20 @@ export default {
       }
       sound.value == null ? '' : sound.value.stop()
       sound.value = null
-      
+
       played.value.length == 1 ? emptyPlayed.value = true : emptyPlayed.value = false
       playNow.value == null ? null : playTest();
-    }   
+    }
     function seek(event) {
-      // var sound = audios.value[index.value].howl;
       if (sound.value) {
-        var jumptime; 
-        event.type == 'click'? 
+        var jumptime;
+        event.type == 'click' ?
           jumptime = sound.value.duration() * (event.offsetX / progress.value.clientWidth) :
           jumptime = sound.value.seek() + event;
-        // console.log(jumptime);
         if (sound.value.playing()) {
           sound.value.pause();
           jumptime <= 0 ? sound.value.seek(0) : sound.value.seek(jumptime);
-          jumptime >= sound.value.duration() ? sound.value.seek(sound.value.duration()-1) : sound.value.seek(jumptime);
+          jumptime >= sound.value.duration() ? sound.value.seek(sound.value.duration() - 1) : sound.value.seek(jumptime);
           sound.value.play();
         } else {
           jumptime <= 0 ? sound.value.seek(0) : sound.value.seek(jumptime);
@@ -482,18 +421,16 @@ export default {
       }
     }
     const posx = ref(null)
-    function test(){
-      // console.log(event.clientX,event.clientY,event.clientWidth);
-      posx.value =  posx.value+ 1;
+    function test() {
+      posx.value = posx.value + 1;
     }
-    function move(event){
-      // console.log(event.clientX,event.clientY)
+    function move(event) {
       var cursor = document.getElementById('cursor')
       cursor.style.left = event.clientX + "px";
       cursor.style.top = event.clientY + "px";
-     
+
     }
-    function volume(event){
+    function volume(event) {
       var per = event.layerX / parseFloat(volBar.value.scrollWidth);
       var barWidth = (per * 100) / 100;
       volumeProgress.value = barWidth * 100;
@@ -501,30 +438,19 @@ export default {
       Howler.volume(per);
     }
     function mute() {
-      // console.log('mute')
       var audio = sound.value;
       if (audio) {
-      mutePlayer.value  = !mutePlayer.value;
-      mutePlayer.value ? audio.mute(true) : audio.mute(false)
-      }            
+        mutePlayer.value = !mutePlayer.value;
+        mutePlayer.value ? audio.mute(true) : audio.mute(false)
+      }
     }
-    return { playTest,pause,duration,formatTime,audios,pauseTrack,
-            timer,step,stepFunction,seek,progress
-            ,test,posx,move,mute,mutePlayer,volBar,sliderBtnVol,volumeProgress,volume,playNow,next
-            ,playApi,fristPlayed,previous,emptyPlayed,shuffle,loop,loopType,stopPlayer,checkPlayer,deleteMusic,nameMusic,playImage
-            ,hisAndView};
+    return {
+      playTest, pause, duration, formatTime, audios, pauseTrack,
+      timer, step, stepFunction, seek, progress
+      , test, posx, move, mute, mutePlayer, volBar, sliderBtnVol, volumeProgress, volume, playNow, next
+      , playApi, fristPlayed, previous, emptyPlayed, shuffle, loop, loopType, stopPlayer, checkPlayer, deleteMusic, nameMusic, playImage
+      , hisAndView
+    };
   },
-  // methods:{
-  //   ...mapActions({
-  //     hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
-  //     handleView: 'homepage/handleView',
-  //     setTopOne: 'homepage/setTopOne'
-  // }),
-  // }
-
 };
 </script>
-
-<style>
-
-</style>

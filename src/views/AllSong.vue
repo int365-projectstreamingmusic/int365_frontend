@@ -27,7 +27,6 @@
         <div class="lg:mx-10 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80 mt-3 my-6 space-y-3">
           <div class="flex flex-row justify-between items-end 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
            <div class="font-sansation-light xgl:text-2xl md:text-xl text-lg">All Song</div>
-           <!-- <div class="font-sansation-light text-blackcoal hover:text-violetdark transition duration-200 cursor-pointer hover:text-shadow-xl md:text-base text-ss">filter</div>                -->
           </div>
           <loading v-if="allSong == ''"></loading>
           <div v-if="allSong != ''" class="grid 2xl:grid-cols-6 xgl:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-3.6 gap-2 justify-items-center 2xl:w-1200 xgl:w-962 md:w-698 sm:w-466 w-80">
@@ -78,7 +77,7 @@ export default {
   },
   methods:{
     ...mapActions({
-      hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+      hideSideBar: 'homepage/hideSideBar',
       handleView: 'homepage/handleView',
       setTopOne: 'homepage/setTopOne'
     }),
@@ -111,9 +110,5 @@ export default {
     this.handleView();
     window.addEventListener("resize", this.handleView);
  }
-
 }
 </script>
-<style>
-
-</style>

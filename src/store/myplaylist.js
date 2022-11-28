@@ -90,7 +90,6 @@ export default {
         }
       })
       .then((res) =>{
-        // console.log(res.data)
         commit("SET_TOTALPAGEPL",res.data.totalPages)
         commit("SET_TOTALPL", res.data.totalElements);
         commit("SET_NOTFOUNDPL", false);
@@ -106,14 +105,12 @@ export default {
     async getAllPlayground({commit,rootGetters,state},params){
       let pagenum = 0
       let pagesize = 18
-      console.log(params)
       if(params != undefined){
         pagenum = params.pagenum
       }
       if(params != undefined){
         pagesize = params.pagesize
       }
-      // console.log(params.pagenum)
       commit("SET_PLAYGROUND", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/Playground?page=${pagenum}&pageSize=${pagesize}`,
       {    
@@ -126,7 +123,6 @@ export default {
         commit("SET_TOTALPG", res.data.totalElements);
         commit("SET_NOTFOUNDPG", false);
         commit("SET_PLAYGROUND", res.data.content);
-        console.log(state.totalPG+' '+state.totalPagePG)
       }).catch((err) => {
         console.log(err)
         if(err.response.status == 404){
@@ -163,10 +159,7 @@ export default {
       })
     },
     async addMusicToPalylist({rootGetters},data){
-      console.log(data)
-      
       let body = JSON.stringify({id:data.id,trackIdList:data.trackIdList})
-      console.log(body)
       return await axios.put(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/user/playlist/add-track`,
         body,
         { headers: { 'Authorization': 'Bearer ' + rootGetters['authentication/token'],
@@ -174,7 +167,6 @@ export default {
           }
         }
       ).then((res) =>{
-        console.log(res)
         if(res.status == 200){
           return true 
         }

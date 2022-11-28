@@ -28,8 +28,8 @@
     </transition>   
     <img :src="url+'api/streaming/image/'+musicDes.trackThumbnail" v-bind:class="upHere?'transition delay-95 duration-700 scale-125 md:w-52 md:h-52.5 w-36 h-40':'md:w-52 md:h-52.5 w-36 h-40'" style="object-fit: cover;"/>
   </div>
-  
 </template>
+
 <script>
 import { mapGetters,mapActions } from "vuex";
 export default {
@@ -50,10 +50,9 @@ export default {
   },
   methods:{
     ...mapActions({
-      addReport: 'oneplaylist/addReport', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+      addReport: 'oneplaylist/addReport', 
     }),
     addReportTrack(data){
-      console.log(data)
       this.addReport({
         reportMsg: 'This music copyright infringement',
         reportGroupId: 0,
@@ -74,11 +73,3 @@ export default {
   }
 } 
 </script>
-<style >
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.5s  ease;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0
-}
-</style>

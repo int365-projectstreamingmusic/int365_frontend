@@ -103,8 +103,6 @@ export default {
     async getTopFive({ commit },num){
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/topall?numberOfTracks=${num}`)
       .then((res) =>{
-        // console.log(res.data)
-        // console.log(res.data[0])
         commit("SET_TOPFRIST", res.data[0])
         res.data.splice(0,1)
         commit("SET_TOPFIVE", res.data);
@@ -114,7 +112,6 @@ export default {
       })
     },
     async getTopFiveInSevenDays({ commit },params){
-      // console.log(params)
       commit("SET_TOPFIVESEVENDAYS", '');
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/track/top?days=${params.day}&numberOfTracks=${params.num}`)
       .then((res) =>{
@@ -134,7 +131,6 @@ export default {
       })
       .then((res) =>{
         commit("SET_RECENTPLAYED", res.data);
-        // console.log(state.recentplayed)
       }).catch((err) => {
         console.log(err)
         commit("SET_RECENTPLAYED", 'NOTFOUNDRP');
@@ -166,7 +162,6 @@ export default {
       })
     },
     setMediaPlayer({ commit },boolean){
-      // console.log(boolean)
       commit("SET_MEDIAPLAYER",boolean)
     },
     hideSideBar({ commit,state }){

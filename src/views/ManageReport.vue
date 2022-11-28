@@ -13,8 +13,6 @@
             <!-- head -->
             <div class="flex sm:flex-row flex-col justify-between space-y-3">
               <div class="flex flex-row space-x-3 font-sansation-light text-blackcoal items-end">
-                <!-- <div class="cursor-pointer">All Reports</div>
-                <div >|</div> -->
                 <div @click="getReportComment()"
                   :class="reportComment ? 'font-sansation-bold md:text-2xl text-lg text-violetdark' : 'md:text-base text-sm'"
                   class=" cursor-pointer">Report Comment</div>
@@ -148,7 +146,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      hideSideBar: 'homepage/hideSideBar', // map `this.hideSideBar()` to `this.$store.dispatch('homepage/hideSideBar')`
+      hideSideBar: 'homepage/hideSideBar',
       handleView: 'homepage/handleView',
       getReportComment: 'managereport/getReportComment',
       getReportLicense: 'managereport/getReportLicense',

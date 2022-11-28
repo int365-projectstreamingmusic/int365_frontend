@@ -67,7 +67,6 @@ export default {
       })
     },
     async getPlaylist({commit},id){
-      // ต้องมี check ว่า login ไหม ถึง playlist ส่วนตัว
       commit("SET_PLAYLIST",'')
       await axios.get(`${process.env.VUE_APP_MY_ENV_VARIABLE}api/public/playlist/${id}`)
       .then((res) =>{
